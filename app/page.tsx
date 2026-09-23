@@ -17,13 +17,15 @@ export default function Home() {
             Start writing better code today
           </h2>
           <p className="text-text-secondary mb-8">
-            No account. No subscription. No friction. Just open the editor and go.
+            No account. No subscription. No friction. Download noah and go.
           </p>
           <a
-            href="/ide"
+            href="https://github.com/shep95/noah"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-accent hover:bg-accent-hover text-text-primary font-medium transition-all duration-200 hover:shadow-[0_0_40px_rgba(58,100,73,0.5)]"
           >
-            Open the IDE
+            Get noah
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M3 7H11M8 4L11 7L8 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>

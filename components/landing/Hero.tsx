@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 const DEMO_LINES = [
@@ -60,12 +59,14 @@ export default function Hero() {
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center animate-fade-up delay-200">
-          <Link
-            href="/ide"
+          <a
+            href="https://github.com/shep95/noah"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-7 py-3.5 rounded-xl bg-accent hover:bg-accent-hover text-text-primary font-medium transition-all duration-200 hover:shadow-[0_0_30px_rgba(58,100,73,0.5)] text-sm"
           >
-            Start Writing Code
-          </Link>
+            Get noah
+          </a>
           <a
             href="https://discord.gg/M9hnebRwvk"
             target="_blank"

@@ -29,9 +29,14 @@ export default function Footer() {
           >
             asherin.com
           </a>
-          <Link href="/ide" className="hover:text-text-primary transition-colors">
-            IDE
-          </Link>
+          <a
+            href="https://github.com/shep95/noah"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-text-primary transition-colors"
+          >
+            Get noah
+          </a>
         </div>
 
         <p className="text-text-muted text-xs text-center md:text-right">

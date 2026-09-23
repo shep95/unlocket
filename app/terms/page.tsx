@@ -21,30 +21,31 @@ export default function TermsPage() {
           <section>
             <h2 className="text-text-primary font-medium mb-3 text-base">Your projects are yours</h2>
             <p>
-              We do not own your projects. We do not store your projects. We do not have access
-              to your code, your files, or anything you create inside unlocket. Your work exists
-              in your browser and nowhere else.
+              We do not own your projects, and we keep no records of them. We do not store your
+              projects. We do not have access to your code, your files, or anything you create
+              inside noah. Your work exists on your machine and nowhere else.
             </p>
           </section>
 
           <section>
             <h2 className="text-text-primary font-medium mb-3 text-base">API models and your data</h2>
             <p className="mb-3">
-              Unlocket connects to AI models through your own API key — we do not hold a master
+              noah connects to AI models through your own API key — we do not hold a master
               key and we are not a middleman between you and the model provider. When you send a
-              prompt, it goes from your browser to the model provider directly (Venice AI, or
-              whatever provider their API routes to).
+              prompt, it goes from noah on your machine to the model provider directly (Venice AI,
+              or whatever provider you configure).
             </p>
             <p className="mb-3">
-              The models you connect may send your prompts and generated code back to their
-              own infrastructure. We have no control over this. When you select a model in the
-              IDE, we show you exactly what data-handling policy applies to that model so you
-              can make an informed choice before you type anything.
+              The models you connect may send your prompts and generated code back to their own
+              infrastructure. We have no control over this. noah shows you which provider each
+              model routes to so you can check that provider&apos;s data-and-prompt policy and make
+              an informed choice before you type anything. Venice, for example, states it does not
+              store prompts; other providers you add may differ — confirm with them.
             </p>
             <p>
-              We do not log your prompts. We do not read your prompts. Your prompts are sent
-              by your browser to the model provider under your API key — they are yours from
-              start to finish.
+              We do not provide prompts to any model. We never inject our own prompts on your
+              behalf, and we do not log or read your prompts. Your prompts are sent by noah to the
+              model provider under your API key — they are yours from start to finish.
             </p>
           </section>
 
@@ -56,7 +57,7 @@ export default function TermsPage() {
             </p>
             <p>
               The pattern learning system that makes shepherd smarter over time runs entirely
-              in your browser using IndexedDB. Those patterns are yours. They are never
+              on your machine in noah&apos;s local storage. Those patterns are yours. They are never
               transmitted anywhere.
             </p>
           </section>
@@ -64,10 +65,10 @@ export default function TermsPage() {
           <section>
             <h2 className="text-text-primary font-medium mb-3 text-base">API keys</h2>
             <p>
-              Your Venice API key and GitHub token are stored in your browser&apos;s localStorage.
-              They are never sent to our servers. They go only to the services they belong to —
-              Venice AI and GitHub respectively — when you perform an action that requires them.
-              Do not share unlocket sessions or browsers with people you would not share API
+              Your Venice API key and any other credentials are stored locally on your machine by
+              noah. They are never sent to our servers. They go only to the services they belong to
+              — Venice AI, and any provider you configure — when you perform an action that requires
+              them. Do not share your machine or noah profile with people you would not share API
               keys with.
             </p>
           </section>
@@ -75,10 +76,10 @@ export default function TermsPage() {
           <section>
             <h2 className="text-text-primary font-medium mb-3 text-base">No warranties</h2>
             <p>
-              Unlocket is provided as-is, free of charge, with no guarantees of uptime,
+              noah is provided as-is, free of charge, with no guarantees of uptime,
               accuracy, or fitness for any particular purpose. We are not liable for any
               consequences of code written with the assistance of the AI models connected
-              through unlocket.
+              through noah.
             </p>
           </section>
 

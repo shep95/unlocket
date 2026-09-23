@@ -76,7 +76,7 @@ const FEATURES = [
       </svg>
     ),
     title: 'Zero Friction',
-    body: 'No account. No signup. No paywall. Open the editor and start. Settings persist in your browser. Your work stays yours.',
+    body: 'No account. No signup. No paywall. Download noah and start. Settings persist globally on your machine. Your work stays yours.',
   },
 ]
 
