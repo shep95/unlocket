@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
-const BASE = process.env.NEXT_PUBLIC_APP_URL || 'https://unlocket.vercel.app'
+const BASE = process.env.NEXT_PUBLIC_APP_URL || 'https://noah.asherin.com'
 
 export const metadata: Metadata = {
   title: {
-    default: 'unlocket — ai code editor by #houseofasher',
-    template: '%s | unlocket',
+    default: 'noah — ai code editor by #houseofasher',
+    template: '%s | noah',
   },
   description:
     'an open, free ai-powered code editor. powered by shepherd — a pattern-reading intelligence that learns your codebase, matches your aesthetic, and codes with you. no sign-up. no paywall.',
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: '/',
-    siteName: 'unlocket',
-    title: 'unlocket — ai code editor',
+    siteName: 'noah',
+    title: 'noah — ai code editor',
     description:
       'a free, open ai code editor powered by shepherd intelligence. no sign-up. no paywall.',
     images: [
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1674,
         height: 939,
-        alt: 'unlocket — ai code editor by #houseofasher',
+        alt: 'noah — ai code editor by #houseofasher',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'unlocket — ai code editor',
+    title: 'noah — ai code editor',
     description:
       'a free, open ai code editor powered by shepherd intelligence. no sign-up. no paywall.',
     creator: '@houseofasher',
@@ -84,7 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: JSON.stringify({
               '@context': 'https://schema.org',
               '@type': 'SoftwareApplication',
-              name: 'unlocket',
+              name: 'noah',
               applicationCategory: 'DeveloperApplication',
               offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
               operatingSystem: 'Web',

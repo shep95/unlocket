@@ -31,7 +31,7 @@ export default function Nav() {
               <circle cx="7" cy="7" r="1.5" fill="#c4d4bc" />
             </svg>
           </div>
-          <span className="text-text-primary font-medium tracking-wide text-sm">unlocket</span>
+          <span className="text-text-primary font-medium tracking-wide text-sm">noah</span>
         </Link>
 
         <div className="flex items-center gap-6">

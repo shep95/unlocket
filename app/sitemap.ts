@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-const BASE = process.env.NEXT_PUBLIC_APP_URL || 'https://unlocket.vercel.app'
+const BASE = process.env.NEXT_PUBLIC_APP_URL || 'https://noah.asherin.com'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

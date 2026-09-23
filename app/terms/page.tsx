@@ -3,8 +3,8 @@ import Footer from '@/components/landing/Footer'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — unlocket',
-  description: 'What we own, what we do not, and how your data is handled when using unlocket.',
+  title: 'Terms of Service — noah',
+  description: 'What we own, what we do not, and how your data is handled when using noah.',
 }
 
 export default function TermsPage() {
