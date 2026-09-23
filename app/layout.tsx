@@ -87,8 +87,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               name: 'noah',
               applicationCategory: 'DeveloperApplication',
               offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-              operatingSystem: 'Web',
-              description: 'free ai-powered code editor with shepherd intelligence',
+              operatingSystem: 'macOS, Windows, Linux',
+              description: 'free native ai-powered code editor with shepherd intelligence',
               author: {
                 '@type': 'Organization',
                 name: '#houseofasher',
