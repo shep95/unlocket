@@ -10,24 +10,24 @@ const config: Config = {
     extend: {
       colors: {
         bg: {
-          base: '#080c08',
-          surface: '#0e130e',
-          elevated: '#141a14',
-          hover: '#1a231a'
+          base: 'var(--color-bg-base)',
+          surface: 'var(--color-bg-surface)',
+          elevated: 'var(--color-bg-elevated)',
+          hover: 'var(--bg-hover)',
         },
         border: {
-          DEFAULT: '#1a2a1a',
-          subtle: '#111811'
+          DEFAULT: 'var(--color-border)',
+          subtle: 'var(--border-subtle)',
         },
         text: {
-          primary: '#c4d4bc',
-          secondary: '#72876c',
-          muted: '#445240'
+          primary: 'var(--color-text-primary)',
+          secondary: 'var(--color-text-secondary)',
+          muted: 'var(--color-text-muted)',
         },
         accent: {
-          DEFAULT: '#3a6449',
-          hover: '#47785a',
-          glow: '#2a4e39'
+          DEFAULT: 'var(--color-accent)',
+          hover: 'var(--accent-hover)',
+          glow: 'var(--accent-glow)',
         },
         fog: {
           light: '#d8e4d4',

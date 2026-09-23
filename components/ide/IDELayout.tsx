@@ -6,18 +6,17 @@ import FileTree, { type FileNode } from './FileTree'
 import AIPanel from './AIPanel'
 import StatusBar from './StatusBar'
 import Settings from './Settings'
-import { loadSettings } from '@/lib/settings'
+import { loadSettings, type GlobalSettings } from '@/lib/settings'
 import { buildProjectProfile, buildProjectContextString, type FileNode as AnalyzerFile } from '@/lib/project-analyzer'
 import { saveProjectProfile } from '@/lib/pattern-store'
 import { detectLanguage } from '@/lib/project-analyzer'
 import { readCleanText } from '@/lib/strip-metadata'
+import { extractPaletteFromImage, applyPalette } from '@/lib/color-extract'
 
 const Editor = dynamic(() => import('./Editor'), { ssr: false })
 
-interface IDELayoutProps {
-  wallpaperUrl: string
-  wallpaperBrightness: number
-}
+// IDELayout takes no props — settings are read reactively from localStorage
+// and updated whenever the user saves in the Settings panel.
 
 const STARTER_FILE = `// Welcome to unlocket
 // shepherd is ready — open a file or ask anything below
@@ -29,8 +28,8 @@ function greet(name: string): string {
 console.log(greet('world'))
 `
 
-export default function IDELayout({ wallpaperUrl, wallpaperBrightness }: IDELayoutProps) {
-  const settings = loadSettings()
+export default function IDELayout(_props: Record<string, never>) {
+  const [settings, setSettings] = useState<GlobalSettings>(loadSettings)
 
   const [files, setFiles] = useState<FileNode[]>([
     { name: 'index.ts', path: 'index.ts', type: 'file', content: STARTER_FILE },
@@ -50,11 +49,35 @@ export default function IDELayout({ wallpaperUrl, wallpaperBrightness }: IDELayo
   const [ghOwner, setGhOwner] = useState('')
   const [ghRepo, setGhRepo] = useState('')
   const autoSaveRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const currentSettings = useRef(settings)
+  const lastWallpaperRef = useRef<string>('')
 
+  // Re-read settings whenever the Settings panel saves (same-tab custom event)
+  // and whenever localStorage changes in another tab (storage event).
   useEffect(() => {
-    currentSettings.current = loadSettings()
-  }, [showSettings])
+    const refresh = () => setSettings(loadSettings())
+    window.addEventListener('unlocket:settings-updated', refresh)
+    window.addEventListener('storage', refresh)
+    return () => {
+      window.removeEventListener('unlocket:settings-updated', refresh)
+      window.removeEventListener('storage', refresh)
+    }
+  }, [])
+
+  // Extract palette from wallpaper and apply as CSS vars whenever it changes.
+  useEffect(() => {
+    const url = settings.wallpaperUrl
+    if (url === lastWallpaperRef.current) return
+    lastWallpaperRef.current = url
+
+    if (!url || url === '/wallpaper.jpg') {
+      applyPalette(null) // reset to default Shepherd palette
+      return
+    }
+
+    extractPaletteFromImage(url)
+      .then((palette) => applyPalette(palette))
+      .catch(() => applyPalette(null)) // never break the IDE on a bad image
+  }, [settings.wallpaperUrl])
 
   const handleSelectFile = useCallback((path: string, content: string, language: string) => {
     setActiveFile(path)
@@ -68,12 +91,13 @@ export default function IDELayout({ wallpaperUrl, wallpaperBrightness }: IDELayo
       updateFileContent(prev, activeFile || '', val)
     )
     // Auto-save debounce
-    if (currentSettings.current.autoSave) {
+    if (settings.autoSave) {
       if (autoSaveRef.current) clearTimeout(autoSaveRef.current)
       autoSaveRef.current = setTimeout(() => {
         // Files are stored in state — in a real app would persist here
       }, 1500)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeFile])
 
   const handleApplyCode = useCallback((code: string) => {
@@ -156,16 +180,14 @@ export default function IDELayout({ wallpaperUrl, wallpaperBrightness }: IDELayo
     e.target.value = ''
   }
 
-  const s = loadSettings()
-
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-bg-base">
-      {/* Wallpaper behind entire IDE */}
+      {/* Wallpaper behind entire IDE — sourced from live settings state */}
       <div
         className="fixed inset-0 bg-cover bg-center pointer-events-none z-0"
         style={{
-          backgroundImage: `url(${wallpaperUrl})`,
-          opacity: (wallpaperBrightness / 100) * 0.4,
+          backgroundImage: `url(${settings.wallpaperUrl})`,
+          opacity: (settings.wallpaperBrightness / 100) * 0.4,
           filter: 'blur(2px)',
         }}
         aria-hidden
@@ -255,10 +277,10 @@ export default function IDELayout({ wallpaperUrl, wallpaperBrightness }: IDELayo
             value={activeContent}
             onChange={handleContentChange}
             language={activeLanguage}
-            wallpaperUrl={wallpaperUrl}
-            wallpaperBrightness={wallpaperBrightness}
-            fontSize={s.editorFontSize}
-            tabSize={s.editorTabSize}
+            wallpaperUrl={settings.wallpaperUrl}
+            wallpaperBrightness={settings.wallpaperBrightness}
+            fontSize={settings.editorFontSize}
+            tabSize={settings.editorTabSize}
             isAiEditing={isAiEditing}
           />
         </div>
@@ -285,7 +307,7 @@ export default function IDELayout({ wallpaperUrl, wallpaperBrightness }: IDELayo
           activeFile={activeFile}
           language={activeLanguage}
           lineCount={activeContent.split('\n').length}
-          model={s.selectedModel}
+          model={settings.selectedModel}
           isAiEditing={isAiEditing}
           projectName={projectName}
         />

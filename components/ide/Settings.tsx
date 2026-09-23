@@ -19,6 +19,7 @@ export default function Settings({ onClose }: SettingsProps) {
 
   const handleSave = () => {
     saveSettings(settings)
+    window.dispatchEvent(new CustomEvent('unlocket:settings-updated'))
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }

@@ -5,18 +5,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap');
 
 :root {
-  --bg-base: #080c08;
-  --bg-surface: #0e130e;
-  --bg-elevated: #141a14;
-  --bg-hover: #1a231a;
-  --border: #1a2a1a;
-  --border-subtle: #111811;
-  --text-primary: #c4d4bc;
-  --text-secondary: #72876c;
-  --text-muted: #445240;
-  --accent: #3a6449;
-  --accent-hover: #47785a;
-  --accent-glow: rgba(58, 100, 73, 0.15);
+  /* Default Shepherd palette — overridden at runtime by color-extract.ts */
+  --color-bg-base: #080c08;
+  --color-bg-surface: #0e130e;
+  --color-bg-elevated: #141a14;
+  --color-text-primary: #c4d4bc;
+  --color-text-secondary: #72876c;
+  --color-text-muted: #445240;
+  --color-accent: #3a6449;
+  --color-border: #1a2a1a;
+
+  /* Aliases used in component classes */
+  --bg-base: var(--color-bg-base);
+  --bg-surface: var(--color-bg-surface);
+  --bg-elevated: var(--color-bg-elevated);
+  --bg-hover: color-mix(in srgb, var(--color-bg-elevated) 100%, var(--color-accent) 12%);
+  --border: var(--color-border);
+  --border-subtle: color-mix(in srgb, var(--color-bg-base) 70%, var(--color-border) 30%);
+  --text-primary: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --text-muted: var(--color-text-muted);
+  --accent: var(--color-accent);
+  --accent-hover: color-mix(in srgb, var(--color-accent) 70%, white 30%);
+  --accent-glow: color-mix(in srgb, var(--color-accent) 15%, transparent);
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 }
@@ -65,22 +76,23 @@ body {
   background: var(--text-muted);
 }
 
-/* Wallpaper base layer */
+/* Wallpaper base layer — image set here so it shows on every page */
 .wallpaper {
   position: fixed;
   inset: 0;
   z-index: 0;
+  background-image: url('/wallpaper.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: background-image 0.4s ease;
+  pointer-events: none;
 }
 
 .wallpaper::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--overlay, rgba(8, 12, 8, 0.82));
+  background: rgba(6, 10, 6, 0.78);
 }
 
 /* IDE editor background */
