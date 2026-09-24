@@ -1,19 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { INSTALLERS, type Installer } from '@/lib/site'
 
 // Installers are hosted on this site (public/downloads), so the button pulls
-// the file straight from here. Only platforms with a built installer are
-// offered; the others say so plainly.
-const DOWNLOADS = '/downloads'
+// the file straight from here. The button offers the visitor's own platform
+// when there is a build for it; platforms without one say so plainly.
+type Platform = Installer['platform']
 
-type Platform = 'windows' | 'mac' | 'linux'
-
-const BUILDS: Record<Platform, { file: string; name: string; available: boolean }> = {
-  windows: { file: 'noah-windows-x86_64.exe', name: 'windows', available: true },
-  mac: { file: 'noah-macos.dmg', name: 'mac', available: false },
-  linux: { file: 'noah-linux-x86_64.tar.gz', name: 'linux', available: false },
-}
+const PLATFORM_NAMES: Record<Platform, string> = { windows: 'windows', linux: 'linux', mac: 'mac' }
 
 function detectPlatform(): Platform | null {
   const agent = navigator.userAgent.toLowerCase()
@@ -38,21 +34,26 @@ export default function Download() {
   const [visitor, setVisitor] = useState<Platform | null>(null)
   useEffect(() => setVisitor(detectPlatform()), [])
 
-  const primary = BUILDS.windows
-  const soon = (Object.keys(BUILDS) as Platform[]).filter((platform) => !BUILDS[platform].available)
-  const visitorWaiting = visitor !== null && !BUILDS[visitor].available
+  const forVisitor = INSTALLERS.find((installer) => installer.platform === visitor)
+  const primary = forVisitor ?? INSTALLERS[0]
+  const available = new Set(INSTALLERS.map((installer) => installer.platform))
+  const soon = (Object.keys(PLATFORM_NAMES) as Platform[]).filter((platform) => !available.has(platform))
 
   return (
     <div>
-      {visitorWaiting && (
-        <p className="l-download-note">noah for {BUILDS[visitor].name} is coming soon.</p>
+      {visitor && !forVisitor && (
+        <p className="l-download-note">noah for {PLATFORM_NAMES[visitor]} is coming soon.</p>
       )}
       <div className="l-cta-row">
-        <a href={`${DOWNLOADS}/${primary.file}`} download className="l-btn-primary">
+        <a href={`/downloads/${primary.file}`} download className="l-btn-primary">
           <DownloadIcon />
-          download for {primary.name}
+          download for {PLATFORM_NAMES[primary.platform]}
         </a>
-        <span className="l-btn-ghost">{soon.map((platform) => BUILDS[platform].name).join(' & ')} coming soon</span>
+        <Link href="/download" className="l-btn-ghost">
+          {soon.length > 0
+            ? `${soon.map((platform) => PLATFORM_NAMES[platform]).join(' & ')} coming soon →`
+            : 'all downloads →'}
+        </Link>
       </div>
     </div>
   )
