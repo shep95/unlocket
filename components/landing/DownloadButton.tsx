@@ -2,25 +2,26 @@
 
 import { useEffect, useState } from 'react'
 
-// Direct file downloads only — clicking pulls the installer straight down, the
-// way Cursor/VS Code do. GitHub is just the invisible file host (release assets
-// are served with Content-Disposition: attachment), never a page the visitor sees.
-const REL = 'https://github.com/shep95/noah/releases/latest/download'
+// Installers are hosted on this site (public/downloads), so clicking Download
+// pulls the file straight from here — no GitHub, no extra pages.
+// Only platforms with a built installer are offered; others say so honestly.
+const DL = '/downloads'
 
 type OS = 'mac' | 'windows' | 'linux' | 'unknown'
 
-const ASSET: Record<Exclude<OS, 'unknown'>, { file: string; label: string }> = {
-  mac: { file: 'noah-macos-aarch64.dmg', label: 'Download for macOS' },
-  windows: { file: 'noah-windows-x86_64.exe', label: 'Download for Windows' },
-  linux: { file: 'noah-linux-x86_64.tar.gz', label: 'Download for Linux' },
+type Build = { file: string; label: string; available: boolean }
+
+const BUILDS: Record<Exclude<OS, 'unknown'>, Build> = {
+  windows: { file: 'noah-windows-x86_64.exe', label: 'Download for Windows', available: true },
+  linux: { file: 'noah-linux-x86_64.tar.gz', label: 'Download for Linux', available: false },
+  mac: { file: 'noah-macos.dmg', label: 'Download for macOS', available: false },
 }
 
-const OTHERS: { os: Exclude<OS, 'unknown'>; file: string; label: string }[] = [
-  { os: 'mac', file: 'noah-macos-aarch64.dmg', label: 'macOS · Apple Silicon' },
-  { os: 'mac', file: 'noah-macos-x86_64.dmg', label: 'macOS · Intel' },
-  { os: 'windows', file: 'noah-windows-x86_64.exe', label: 'Windows' },
-  { os: 'linux', file: 'noah-linux-x86_64.tar.gz', label: 'Linux' },
-]
+const PLATFORM_NAME: Record<Exclude<OS, 'unknown'>, string> = {
+  windows: 'Windows',
+  linux: 'Linux',
+  mac: 'macOS',
+}
 
 function detectOS(): OS {
   if (typeof navigator === 'undefined') return 'unknown'
@@ -32,68 +33,73 @@ function detectOS(): OS {
   return 'unknown'
 }
 
+function DownloadIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
+      <path d="M7.5 1.5V10M4 6.5L7.5 10L11 6.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M2.5 12.5H12.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 export default function DownloadButton({
   variant = 'hero',
 }: {
   variant?: 'hero' | 'nav'
 }) {
   const [os, setOs] = useState<OS>('unknown')
-  const [showAll, setShowAll] = useState(false)
   useEffect(() => setOs(detectOS()), [])
 
-  const known = os !== 'unknown'
-  // When we can't detect, default the primary to macOS Apple Silicon but still
-  // give the full direct-download list right below — never route to a page.
-  const primary = known ? ASSET[os] : ASSET.mac
-  const primaryHref = `${REL}/${primary.file}`
+  const available = (Object.keys(BUILDS) as Exclude<OS, 'unknown'>[]).filter(
+    (k) => BUILDS[k].available,
+  )
+  const mine = os !== 'unknown' ? BUILDS[os] : null
+  const primary: Build = mine && mine.available ? mine : BUILDS[available[0] ?? 'windows']
+  const href = `${DL}/${primary.file}`
 
   if (variant === 'nav') {
     return (
-      <a href={primaryHref} download className="btn-primary px-4 py-2 rounded-full text-sm">
+      <a href={href} download className="btn-primary px-4 py-2 rounded-full text-sm">
         Download
       </a>
     )
   }
 
+  const unavailableHere = os !== 'unknown' && !BUILDS[os].available
+
   return (
     <div className="flex flex-col items-center sm:items-start gap-3">
+      {unavailableHere && (
+        <p className="text-text-secondary text-sm">
+          noah for {PLATFORM_NAME[os as Exclude<OS, 'unknown'>]} is coming soon.
+        </p>
+      )}
+
       <a
-        href={primaryHref}
+        href={href}
         download
         className="btn-primary inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-sm tracking-wide"
       >
-        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
-          <path d="M7.5 1.5V10M4 6.5L7.5 10L11 6.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M2.5 12.5H12.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-        </svg>
+        <DownloadIcon />
         {primary.label}
       </a>
 
-      <div className="text-text-muted text-xs flex flex-col items-center sm:items-start gap-2">
-        <button
-          type="button"
-          onClick={() => setShowAll((v) => !v)}
-          className="hover:text-text-secondary transition-colors"
-        >
-          {known ? 'other platforms' : 'choose your platform'} {showAll ? '−' : '+'}
-        </button>
-
-        {showAll && (
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-1">
-            {OTHERS.map((o) => (
-              <a
-                key={o.label}
-                href={`${REL}/${o.file}`}
-                download
-                className="hover:text-text-secondary transition-colors"
-              >
-                {o.label}
+      <div className="text-text-muted text-xs flex flex-wrap items-center justify-center sm:justify-start gap-x-3 gap-y-1">
+        {(Object.keys(BUILDS) as Exclude<OS, 'unknown'>[])
+          .filter((k) => BUILDS[k] !== primary)
+          .map((k) =>
+            BUILDS[k].available ? (
+              <a key={k} href={`${DL}/${BUILDS[k].file}`} download className="hover:text-text-secondary transition-colors">
+                {PLATFORM_NAME[k]}
               </a>
-            ))}
-          </div>
-        )}
-
-        <span className="opacity-80">free · no sign-up</span>
+            ) : (
+              <span key={k} className="opacity-60">
+                {PLATFORM_NAME[k]} · soon
+              </span>
+            ),
+          )}
+        <span className="opacity-40">·</span>
+        <span>free · no sign-up</span>
       </div>
     </div>
   )
