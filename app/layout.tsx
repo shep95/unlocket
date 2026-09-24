@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/og-image.jpg',
-        width: 1674,
-        height: 939,
-        alt: 'noah — ai code editor by #houseofasher',
+        width: 1302,
+        height: 366,
+        alt: 'noah — a native code editor by #houseofasher, over misty green hills',
       },
     ],
   },

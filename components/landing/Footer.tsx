@@ -2,45 +2,44 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border py-10 px-6">
-      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="flex flex-col items-center md:items-start gap-1">
-          <span className="text-text-primary text-sm font-medium">#houseofasher</span>
-          <span className="text-text-muted text-xs">Free, open, yours.</span>
+    <footer className="relative z-10 border-t border-border/50 px-6 py-14">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="flex flex-col items-center md:items-start gap-1.5">
+          <span
+            className="display text-text-primary text-base"
+            style={{ letterSpacing: '0.3em', textIndent: '0.3em' }}
+          >
+            noah
+          </span>
+          <span className="text-text-muted text-xs tracking-wide">
+            #houseofasher · #asherin
+          </span>
         </div>
 
-        <div className="flex items-center gap-6 text-text-secondary text-sm">
-          <Link href="/terms" className="hover:text-text-primary transition-colors">
-            Terms of Service
+        <div className="flex items-center gap-7 text-[0.8rem] text-text-secondary tracking-wide">
+          <Link href="/terms" className="btn-ghost">
+            terms
           </Link>
           <a
             href="https://discord.gg/M9hnebRwvk"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-text-primary transition-colors"
+            className="btn-ghost"
           >
-            Discord
+            discord
           </a>
           <a
             href="https://asherin.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-text-primary transition-colors"
+            className="btn-ghost"
           >
             asherin.com
           </a>
-          <a
-            href="https://github.com/shep95/noah/releases/latest"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-text-primary transition-colors"
-          >
-            Get noah
-          </a>
         </div>
 
-        <p className="text-text-muted text-xs text-center md:text-right">
-          #asherin · {new Date().getFullYear()}
+        <p className="text-text-muted text-xs tracking-wide">
+          free · {new Date().getFullYear()}
         </p>
       </div>
     </footer>
