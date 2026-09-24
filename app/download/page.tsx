@@ -5,7 +5,7 @@ import { INSTALLERS, SITE_URL, type Installer } from '@/lib/site'
 export const metadata: Metadata = {
   title: 'Download noah for Windows and Linux',
   description:
-    'Download noah, the free AI code editor with the shepherd agent. One-click installer for Windows 10 and 11, .deb and .tar.gz for Linux. No account needed.',
+    'Download noah, the free AI code editor with the shepherd agent. One-click installer for Windows 10 and 11, .deb and .tar.xz for Linux. No account needed.',
   alternates: { canonical: '/download' },
 }
 
@@ -41,7 +41,7 @@ function Steps({ installer }: { installer: Installer }) {
       ) : (
         <ol>
           <li>
-            Extract it: <code>tar -xzf {installer.file}</code>
+            Extract it: <code>tar -xf {installer.file}</code>
           </li>
           <li>
             Install for your user: <code>./noah.app/install.sh</code>

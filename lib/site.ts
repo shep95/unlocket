@@ -36,7 +36,23 @@ export const INSTALLERS: Installer[] = [
     file: 'noah-windows-x86_64.exe',
     format: 'installer (.exe)',
     size: '81 MB',
-    sha256: '3e86e5d77ec1497365a0138307a256f1908d9cf5272c551d5785364c0887f4a1',
+    sha256: '5da509a57b98f2d01dceb3198eb516cc7bece61910baa953ca97c5787eade7e4',
+  },
+  {
+    platform: 'linux',
+    label: 'Debian, Ubuntu, Mint, Pop!_OS (64-bit)',
+    file: 'noah-linux-amd64.deb',
+    format: 'package (.deb)',
+    size: '90 MB',
+    sha256: '1689353d4daa1534e29fc7ac045b3ba0fce42c8d41d94e325e34f7a66c9d5dc2',
+  },
+  {
+    platform: 'linux',
+    label: 'Any other Linux (x86_64)',
+    file: 'noah-linux-x86_64.tar.xz',
+    format: 'archive (.tar.xz)',
+    size: '77 MB',
+    sha256: '0ec0f533e2153d8c1f5b438ce555cdd8f90a8f6c732c6b12e9b0952d3ccfc370',
   },
 ]
 

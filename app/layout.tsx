@@ -105,7 +105,7 @@ const STRUCTURED_DATA = {
       description: DESCRIPTION,
       applicationCategory: 'DeveloperApplication',
       applicationSubCategory: 'Code editor',
-      operatingSystem: 'Windows 10, Windows 11',
+      operatingSystem: 'Windows 10, Windows 11, Linux',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
       downloadUrl: `${SITE_URL}/download`,
       image: `${SITE_URL}/og-image.jpg`,

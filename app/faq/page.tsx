@@ -55,7 +55,7 @@ const QUESTIONS: { question: string; answer: string }[] = [
   {
     question: 'Which systems does it run on?',
     answer:
-      'Windows 10 and 11 today, with Linux and macOS builds on the download page as each is ready.',
+      'Windows 10 and 11, and 64-bit Linux (a .deb for Debian and Ubuntu family systems, and a .tar.xz for every other distribution). macOS follows on the download page when its build is ready.',
   },
   {
     question: 'Windows says it protected my PC. Is the installer safe?',
