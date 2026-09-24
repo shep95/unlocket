@@ -20,7 +20,7 @@ export default function Home() {
             No account. No subscription. No friction. Download noah and go.
           </p>
           <a
-            href="https://github.com/shep95/noah"
+            href="https://github.com/shep95/noah/releases/latest"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-accent hover:bg-accent-hover text-text-primary font-medium transition-all duration-200 hover:shadow-[0_0_40px_rgba(58,100,73,0.5)]"

@@ -30,7 +30,7 @@ export default function Footer() {
             asherin.com
           </a>
           <a
-            href="https://github.com/shep95/noah"
+            href="https://github.com/shep95/noah/releases/latest"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-text-primary transition-colors"

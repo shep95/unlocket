@@ -50,7 +50,7 @@ export default function Nav() {
             Discord
           </a>
           <a
-            href="https://github.com/shep95/noah"
+            href="https://github.com/shep95/noah/releases/latest"
             target="_blank"
             rel="noopener noreferrer"
             className="px-4 py-2 rounded-lg bg-accent hover:bg-accent-hover text-text-primary text-sm font-medium transition-all duration-200 hover:shadow-[0_0_20px_rgba(58,100,73,0.4)]"

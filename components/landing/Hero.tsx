@@ -60,7 +60,7 @@ export default function Hero() {
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center animate-fade-up delay-200">
           <a
-            href="https://github.com/shep95/noah"
+            href="https://github.com/shep95/noah/releases/latest"
             target="_blank"
             rel="noopener noreferrer"
             className="px-7 py-3.5 rounded-xl bg-accent hover:bg-accent-hover text-text-primary font-medium transition-all duration-200 hover:shadow-[0_0_30px_rgba(58,100,73,0.5)] text-sm"
