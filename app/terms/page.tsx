@@ -43,9 +43,11 @@ export default function TermsPage() {
               store prompts; other providers you add may differ — confirm with them.
             </p>
             <p>
-              We do not provide prompts to any model. We never inject our own prompts on your
-              behalf, and we do not log or read your prompts. Your prompts are sent by noah to the
-              model provider under your API key — they are yours from start to finish.
+              We do not log or read your prompts, and we do not hand them to anyone. Your prompts
+              are sent by noah to the model provider under your API key — they are yours from
+              start to finish. Alongside them, noah sends shepherd&apos;s brain: the fixed
+              instructions that make the agent behave as shepherd. It ships inside the app, it is
+              the same for everyone, and you can read it in the source.
             </p>
           </section>
 
@@ -56,9 +58,8 @@ export default function TermsPage() {
               traced back to you as an individual.
             </p>
             <p>
-              The pattern learning system that makes shepherd smarter over time runs entirely
-              on your machine in noah&apos;s local storage. Those patterns are yours. They are never
-              transmitted anywhere.
+              When shepherd searches the web, the search words go to DuckDuckGo, which returns
+              the results directly to noah. noah asks you before every search.
             </p>
           </section>
 

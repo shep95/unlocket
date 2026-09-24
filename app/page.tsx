@@ -1,41 +1,205 @@
-import Nav from '@/components/landing/Nav'
-import Hero from '@/components/landing/Hero'
-import Rooms from '@/components/landing/Rooms'
-import Reveal from '@/components/landing/Reveal'
-import Footer from '@/components/landing/Footer'
-import DownloadButton from '@/components/landing/DownloadButton'
+import Link from 'next/link'
+import Download from '@/components/landing/Download'
+import Effects from '@/components/landing/Effects'
+import './landing.css'
+
+const MODELS = [
+  { name: 'venice · qwen3 235b', source: 'your key' },
+  { name: 'venice · deepseek r1 671b', source: 'your key' },
+  { name: 'llama 3.3 70b', source: 'local' },
+  { name: 'qwen 2.5 coder 32b · q4', source: 'local' },
+]
+
+const RESULTS = [
+  { title: 'spawn_blocking in tokio::task', url: 'docs.rs/tokio' },
+  { title: 'Bridging with sync code', url: 'tokio.rs/tokio/topics' },
+  { title: 'When should you use spawn_blocking?', url: 'users.rust-lang.org' },
+]
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen grain">
-      {/* full-page wallpaper base — the fog carries through the whole page */}
-      <div className="wallpaper" aria-hidden />
+    <div className="landing">
+      <Effects />
+      <div className="l-wallpaper" aria-hidden />
+      <div className="l-wallpaper-overlay" aria-hidden />
+      <div className="l-mist" aria-hidden />
+      <div className="l-mist-2" aria-hidden />
 
-      <Nav />
-      <Hero />
-      <Rooms />
+      <div className="l-site">
+        <nav className="l-nav" aria-label="primary">
+          <Link href="/" className="l-nav-logo">
+            noah
+          </Link>
+          <ul className="l-nav-links">
+            <li><a href="#features">features</a></li>
+            <li><a href="#models">models</a></li>
+            <li><a href="#privacy">privacy</a></li>
+            <li><a href="#download" className="l-nav-download">download</a></li>
+          </ul>
+        </nav>
 
-      {/* the last room — the single accent lands here, in silence */}
-      <section className="relative z-10 border-t border-border/40 min-h-[86svh] flex items-center justify-center px-6 text-center">
-        <Reveal>
-          <p className="eyebrow mb-8" style={{ letterSpacing: '0.34em' }}>
-            when you are ready
-          </p>
-          <h2
-            className="display text-text-primary mb-10"
-            style={{ fontSize: 'clamp(2.2rem, 7vw, 5rem)', fontWeight: 320, letterSpacing: '-0.01em' }}
-          >
-            come to the quiet
-            <br />
-            and start.
-          </h2>
-          <div className="flex justify-center">
-            <DownloadButton variant="hero" />
+        <main>
+          <section className="l-hero">
+            <span className="l-hero-eyebrow">#houseofasher</span>
+            <h1 className="l-hero-title">noah</h1>
+            <p className="l-hero-sub">
+              a shepherd for your code. it reads your whole project — the architecture, the
+              patterns, the aesthetic — and writes like it already lived there.
+            </p>
+            <div className="l-hero-cta">
+              <Download />
+            </div>
+            <p className="l-scroll-hint">scroll</p>
+          </section>
+
+          <div className="l-glass" id="features">
+            <div className="l-feature-row l-reveal">
+              <div className="l-feature-copy">
+                <p className="l-feat-num">01 / 05</p>
+                <h2 className="l-feat-title">it reads the whole<br />project first</h2>
+                <p className="l-feat-body">
+                  import a repo or open a folder and shepherd studies it before it writes a
+                  line — the architecture, the naming, the patterns you already chose. then it
+                  matches them, so its code reads like the hand that started the project.
+                </p>
+              </div>
+              <div className="l-feature-visual" aria-hidden>
+                <div className="l-code-block">
+                  <div className="l-c-comment">{'// scanning project structure'}</div>
+                  <div style={{ marginTop: 12 }}><span className="l-c-arrow">→</span> <span className="l-c-label">src/components/</span></div>
+                  <div><span className="l-c-arrow">→</span> <span className="l-c-label">naming convention</span>&nbsp;&nbsp;<span className="l-c-val">camelCase</span></div>
+                  <div><span className="l-c-arrow">→</span> <span className="l-c-label">pattern</span>&nbsp;&nbsp;<span className="l-c-val">functional + hooks</span></div>
+                  <div><span className="l-c-arrow">→</span> <span className="l-c-label">style layer</span>&nbsp;&nbsp;<span className="l-c-val">css modules</span></div>
+                  <div><span className="l-c-arrow">→</span> <span className="l-c-label">test runner</span>&nbsp;&nbsp;<span className="l-c-val">vitest</span></div>
+                  <div style={{ marginTop: 18 }} className="l-c-comment">{'// writing in your voice'}</div>
+                  <div style={{ marginTop: 8 }} className="l-c-base">const <span className="l-c-val">useAuthState</span> = () =&gt; {'{'}</div>
+                  <div className="l-c-base l-indent-1">const [user, setUser] = <span className="l-c-val">useState</span>(null)</div>
+                  <div className="l-c-base l-indent-1"><span className="l-c-val">useEffect</span>(() =&gt; {'{'}</div>
+                  <div className="l-c-base l-indent-2"><span className="l-c-val">checkSession</span>().then(setUser)</div>
+                  <div className="l-c-base l-indent-1">{'}'}, [])</div>
+                  <div className="l-c-base">{'}'}</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="l-feature-row l-reverse l-reveal" id="models">
+              <div className="l-feature-visual" aria-hidden>
+                <div className="l-stack">
+                  <div className="l-panel-label">connected models</div>
+                  {MODELS.map((model) => (
+                    <div key={model.name} className="l-row l-model-row">
+                      <span className="l-model-name">{model.name}</span>
+                      <span className={`l-badge ${model.source === 'local' ? 'l-badge-local' : 'l-badge-key'}`}>
+                        {model.source}
+                      </span>
+                    </div>
+                  ))}
+                  <p className="l-panel-note">nothing metered. nothing phoned home.</p>
+                </div>
+              </div>
+              <div className="l-feature-copy">
+                <p className="l-feat-num">02 / 05</p>
+                <h2 className="l-feat-title">your models.<br />your keys.</h2>
+                <p className="l-feat-body">
+                  bring a venice key for frontier models, or point shepherd at a model running on
+                  your own machine. local models are limited only by your hardware — 7b or 405b,
+                  whatever your memory can hold.
+                </p>
+              </div>
+            </div>
+
+            <div className="l-feature-row l-reveal">
+              <div className="l-feature-copy">
+                <p className="l-feat-num">03 / 05</p>
+                <h2 className="l-feat-title">the editor takes<br />on your image</h2>
+                <p className="l-feat-body">
+                  set any wallpaper and the interface reads its palette. the code stays legible,
+                  calm — always sitting cleanly on top. the environment becomes yours.
+                </p>
+              </div>
+              <div className="l-feature-visual" aria-hidden>
+                <div className="l-editor-mock">
+                  <div className="l-editor-bar">
+                    <div className="l-dot l-dot-r" />
+                    <div className="l-dot l-dot-y" />
+                    <div className="l-dot l-dot-g" />
+                    <span className="l-editor-filename">auth.ts</span>
+                  </div>
+                  <div className="l-editor-body">
+                    <div><span className="l-ed-kw">export async function</span> <span className="l-ed-fn">validateToken</span><span className="l-ed-dim">(</span></div>
+                    <div className="l-indent-1"><span className="l-ed-dim">token: string</span></div>
+                    <div><span className="l-ed-dim">): Promise&lt;</span><span className="l-ed-kw">User | null</span><span className="l-ed-dim">&gt; {'{'}</span></div>
+                    <div className="l-indent-1"><span className="l-ed-dim">const payload = await</span></div>
+                    <div className="l-indent-2"><span className="l-ed-call">verify</span><span className="l-ed-dim">(token, secret)</span></div>
+                    <div className="l-indent-1"><span className="l-ed-kw">if</span><span className="l-ed-dim"> (!payload) </span><span className="l-ed-kw">return</span><span className="l-ed-dim"> null</span></div>
+                    <div className="l-indent-1"><span className="l-ed-kw">return</span> <span className="l-ed-call">findUser</span><span className="l-ed-dim">(payload.sub)</span></div>
+                    <div><span className="l-ed-dim">{'}'}</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="l-feature-row l-reverse l-reveal">
+              <div className="l-feature-visual" aria-hidden>
+                <div className="l-stack">
+                  <div className="l-panel-label">web search · asks first</div>
+                  <div className="l-search-query">tokio spawn_blocking vs spawn</div>
+                  {RESULTS.map((result) => (
+                    <div key={result.url} className="l-row">
+                      <div className="l-result-title">{result.title}</div>
+                      <div className="l-result-url">{result.url}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="l-feature-copy">
+                <p className="l-feat-num">04 / 05</p>
+                <h2 className="l-feat-title">it looks outward<br />when it has to</h2>
+                <p className="l-feat-body">
+                  when the answer is not in your project, shepherd searches the web. no account,
+                  no key. every search asks you first, and the sources sit right under the answer.
+                </p>
+              </div>
+            </div>
           </div>
-        </Reveal>
-      </section>
 
-      <Footer />
-    </main>
+          <section className="l-privacy l-reveal" id="privacy">
+            <p className="l-feat-num">05 / 05</p>
+            <h2 className="l-priv-title">free. private. yours.</h2>
+            <p className="l-priv-body">
+              no account, no paywall, no telemetry. we do not own your projects or keep records
+              of them. the models you connect answer to you, under your key — not to us.
+            </p>
+            <div className="l-stats">
+              <div className="l-stat"><div className="l-stat-num">0</div><div className="l-stat-label">accounts</div></div>
+              <div className="l-stat-divider" />
+              <div className="l-stat"><div className="l-stat-num">0</div><div className="l-stat-label">telemetry</div></div>
+              <div className="l-stat-divider" />
+              <div className="l-stat"><div className="l-stat-num">∞</div><div className="l-stat-label">local models</div></div>
+              <div className="l-stat-divider" />
+              <div className="l-stat"><div className="l-stat-num">0</div><div className="l-stat-label">paywalls</div></div>
+            </div>
+          </section>
+
+          <section className="l-cta" id="download">
+            <p className="l-cta-eyebrow">when you are ready</p>
+            <h2 className="l-cta-title"><span>come to the quiet</span><span>and start.</span></h2>
+            <Download />
+          </section>
+        </main>
+
+        <footer className="l-footer">
+          <div className="l-footer-brand">
+            <span className="l-footer-logo">noah</span>
+            <span className="l-footer-tags">#houseofasher · #asherin</span>
+          </div>
+          <ul className="l-footer-links">
+            <li><Link href="/terms">terms</Link></li>
+            <li><a href="https://discord.gg/M9hnebRwvk" target="_blank" rel="noopener noreferrer">discord</a></li>
+            <li><a href="https://asherin.com/" target="_blank" rel="noopener noreferrer">asherin.com</a></li>
+          </ul>
+        </footer>
+      </div>
+    </div>
   )
 }
