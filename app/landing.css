@@ -444,6 +444,64 @@
 }
 .landing .l-footer-links a:hover { color: rgba(200, 220, 200, 0.4); }
 
+/* document pages: terms, faq, download */
+.landing .l-doc {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 150px 32px 110px;
+}
+.landing .l-doc-card {
+  background: var(--l-surface);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--l-border);
+  border-radius: 6px;
+  padding: 56px 52px;
+}
+.landing .l-doc h1 { font-size: clamp(38px, 6vw, 56px); font-weight: 400; line-height: 1.08; margin-bottom: 14px; }
+.landing .l-doc-lede { font-family: var(--l-sans); font-size: 14px; line-height: 1.85; color: var(--l-fg-muted); margin-bottom: 48px; }
+.landing .l-doc h2 { font-size: 24px; font-weight: 400; line-height: 1.25; margin: 44px 0 14px; color: var(--l-fg); }
+.landing .l-doc h3 { font-family: var(--l-sans); font-size: 14px; font-weight: 500; margin: 26px 0 8px; color: var(--l-fg); }
+.landing .l-doc p,
+.landing .l-doc li { font-family: var(--l-sans); font-size: 14px; line-height: 1.85; color: var(--l-fg-muted); }
+.landing .l-doc p + p { margin-top: 12px; }
+.landing .l-doc ol,
+.landing .l-doc ul { padding-left: 20px; display: grid; gap: 6px; }
+.landing .l-doc ol { list-style: decimal; }
+.landing .l-doc ul { list-style: disc; }
+.landing .l-doc a { color: var(--l-green-bright); text-underline-offset: 3px; }
+.landing .l-doc a.l-btn-primary { color: rgba(5, 8, 6, 0.95); text-decoration: none; }
+.landing .l-installer ol { margin: 16px 0 10px; }
+.landing .l-doc code {
+  font-family: var(--l-mono);
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 1px 6px;
+  border-radius: 2px;
+  word-break: break-all;
+}
+.landing .l-doc-meta { font-family: var(--l-sans); font-size: 11px; letter-spacing: 0.12em; color: var(--l-fg-dim); text-transform: uppercase; }
+.landing .l-faq-item { border-top: 1px solid var(--l-border); padding: 22px 0; }
+.landing .l-faq-item:last-child { border-bottom: 1px solid var(--l-border); }
+.landing .l-faq-item h2 { margin: 0 0 10px; font-size: 20px; }
+.landing .l-installer {
+  border: 1px solid var(--l-border);
+  border-radius: 4px;
+  background: rgba(10, 16, 12, 0.6);
+  padding: 22px 24px;
+  margin-top: 14px;
+}
+.landing .l-installer-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.landing .l-installer-name { font-family: var(--l-sans); font-size: 14px; color: var(--l-fg); }
+.landing .l-installer-meta { font-family: var(--l-sans); font-size: 12px; color: var(--l-fg-dim); margin-top: 4px; }
+.landing .l-installer .l-btn-primary { padding: 10px 20px; font-size: 12px; }
+.landing .l-installer-sum { margin-top: 14px; font-family: var(--l-sans); font-size: 11px; color: var(--l-fg-dim); }
+
+@media (max-width: 560px) {
+  .landing .l-doc { padding: 110px 16px 70px; }
+  .landing .l-doc-card { padding: 36px 22px; }
+}
+
 /* scroll reveal */
 .landing .l-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
 .landing .l-reveal.l-visible { opacity: 1; transform: translateY(0); }

@@ -1,20 +1,17 @@
 import type { MetadataRoute } from 'next'
-
-const BASE = process.env.NEXT_PUBLIC_APP_URL || 'https://noah.asherin.com'
+import { SITE_URL } from '@/lib/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: BASE,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: `${BASE}/terms`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.3,
-    },
+  const pages: { path: string; priority: number; changeFrequency: 'weekly' | 'monthly' | 'yearly' }[] = [
+    { path: '', priority: 1, changeFrequency: 'weekly' },
+    { path: '/download', priority: 0.9, changeFrequency: 'weekly' },
+    { path: '/faq', priority: 0.7, changeFrequency: 'monthly' },
+    { path: '/terms', priority: 0.3, changeFrequency: 'yearly' },
   ]
+  return pages.map(({ path, priority, changeFrequency }) => ({
+    url: `${SITE_URL}${path}`,
+    lastModified: new Date(),
+    changeFrequency,
+    priority,
+  }))
 }

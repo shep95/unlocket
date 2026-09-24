@@ -1,7 +1,10 @@
-import Link from 'next/link'
+import type { Metadata } from 'next'
 import Download from '@/components/landing/Download'
-import Effects from '@/components/landing/Effects'
-import './landing.css'
+import Shell from '@/components/landing/Shell'
+
+export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+}
 
 const MODELS = [
   { name: 'venice · qwen3 235b', source: 'your key' },
@@ -18,26 +21,7 @@ const RESULTS = [
 
 export default function Home() {
   return (
-    <div className="landing">
-      <Effects />
-      <div className="l-wallpaper" aria-hidden />
-      <div className="l-wallpaper-overlay" aria-hidden />
-      <div className="l-mist" aria-hidden />
-      <div className="l-mist-2" aria-hidden />
-
-      <div className="l-site">
-        <nav className="l-nav" aria-label="primary">
-          <Link href="/" className="l-nav-logo">
-            noah
-          </Link>
-          <ul className="l-nav-links">
-            <li><a href="#features">features</a></li>
-            <li><a href="#models">models</a></li>
-            <li><a href="#privacy">privacy</a></li>
-            <li><a href="#download" className="l-nav-download">download</a></li>
-          </ul>
-        </nav>
-
+    <Shell>
         <main>
           <section className="l-hero">
             <span className="l-hero-eyebrow">#houseofasher</span>
@@ -187,19 +171,6 @@ export default function Home() {
             <Download />
           </section>
         </main>
-
-        <footer className="l-footer">
-          <div className="l-footer-brand">
-            <span className="l-footer-logo">noah</span>
-            <span className="l-footer-tags">#houseofasher · #asherin</span>
-          </div>
-          <ul className="l-footer-links">
-            <li><Link href="/terms">terms</Link></li>
-            <li><a href="https://discord.gg/M9hnebRwvk" target="_blank" rel="noopener noreferrer">discord</a></li>
-            <li><a href="https://asherin.com/" target="_blank" rel="noopener noreferrer">asherin.com</a></li>
-          </ul>
-        </footer>
-      </div>
-    </div>
+    </Shell>
   )
 }

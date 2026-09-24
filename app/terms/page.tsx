@@ -1,25 +1,24 @@
-import Nav from '@/components/landing/Nav'
-import Footer from '@/components/landing/Footer'
 import type { Metadata } from 'next'
+import Shell from '@/components/landing/Shell'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — noah',
-  description: 'What we own, what we do not, and how your data is handled when using noah.',
+  title: 'Terms of Service',
+  description:
+    'What noah owns and what it does not: your projects stay yours, nothing is stored, API models answer to your own key, and web searches go to DuckDuckGo.',
+  alternates: { canonical: '/terms' },
 }
 
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-bg-base">
-      <div className="wallpaper opacity-30" aria-hidden />
-      <Nav />
+    <Shell>
+      <main className="l-doc">
+        <div className="l-doc-card">
+          <p className="l-doc-meta">last updated september 2026 · #houseofasher</p>
+          <h1>Terms of Service</h1>
+          <p className="l-doc-lede">Plain terms for a free editor. No account, no records, no middleman.</p>
 
-      <div className="relative z-10 max-w-2xl mx-auto px-6 pt-28 pb-20">
-        <h1 className="text-3xl font-light text-text-primary mb-2">Terms of Service</h1>
-        <p className="text-text-muted text-sm mb-12">Last updated September 2025 · #houseofasher</p>
-
-        <div className="space-y-10 text-text-secondary leading-relaxed text-sm">
           <section>
-            <h2 className="text-text-primary font-medium mb-3 text-base">Your projects are yours</h2>
+            <h2>Your projects are yours</h2>
             <p>
               We do not own your projects, and we keep no records of them. We do not store your
               projects. We do not have access to your code, your files, or anything you create
@@ -28,14 +27,14 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-text-primary font-medium mb-3 text-base">API models and your data</h2>
-            <p className="mb-3">
+            <h2>API models and your data</h2>
+            <p>
               noah connects to AI models through your own API key — we do not hold a master
               key and we are not a middleman between you and the model provider. When you send a
               prompt, it goes from noah on your machine to the model provider directly (Venice AI,
               or whatever provider you configure).
             </p>
-            <p className="mb-3">
+            <p>
               The models you connect may send your prompts and generated code back to their own
               infrastructure. We have no control over this. noah shows you which provider each
               model routes to so you can check that provider&apos;s data-and-prompt policy and make
@@ -52,8 +51,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-text-primary font-medium mb-3 text-base">What we collect</h2>
-            <p className="mb-3">
+            <h2>What we collect</h2>
+            <p>
               Nothing identifiable. No account. No sign-up. No email. No analytics that can be
               traced back to you as an individual.
             </p>
@@ -64,7 +63,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-text-primary font-medium mb-3 text-base">API keys</h2>
+            <h2>API keys</h2>
             <p>
               Your Venice API key and any other credentials are stored locally on your machine by
               noah. They are never sent to our servers. They go only to the services they belong to
@@ -75,7 +74,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-text-primary font-medium mb-3 text-base">No warranties</h2>
+            <h2>No warranties</h2>
             <p>
               noah is provided as-is, free of charge, with no guarantees of uptime,
               accuracy, or fitness for any particular purpose. We are not liable for any
@@ -85,7 +84,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-text-primary font-medium mb-3 text-base">Changes to these terms</h2>
+            <h2>Changes to these terms</h2>
             <p>
               We may update these terms as the product evolves. Material changes will be
               communicated through the Discord community at{' '}
@@ -93,7 +92,6 @@ export default function TermsPage() {
                 href="https://discord.gg/M9hnebRwvk"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent hover:text-accent-hover underline underline-offset-2"
               >
                 discord.gg/M9hnebRwvk
               </a>
@@ -102,14 +100,13 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-text-primary font-medium mb-3 text-base">Contact</h2>
+            <h2>Contact</h2>
             <p>
               Questions, concerns, or feedback: join the Discord or visit{' '}
               <a
                 href="https://asherin.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent hover:text-accent-hover underline underline-offset-2"
               >
                 asherin.com
               </a>
@@ -117,9 +114,7 @@ export default function TermsPage() {
             </p>
           </section>
         </div>
-      </div>
-
-      <Footer />
-    </main>
+      </main>
+    </Shell>
   )
 }

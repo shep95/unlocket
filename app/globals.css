@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Editorial display serif (Fraunces) + clean UI sans (Inter) + mono for code.
-   The serif is what pulls the page away from the generic Inter-everywhere look. */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap');
 
 :root {
   /* misty-hills palette — near-black greens, fog whites, cool muted tones */
@@ -30,9 +27,9 @@
   --accent-hover: color-mix(in srgb, var(--color-accent) 78%, white 22%);
   --accent-glow: color-mix(in srgb, var(--color-accent) 22%, transparent);
 
-  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-display: Georgia, 'Times New Roman', serif;
+  --font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: Menlo, Monaco, Consolas, 'Courier New', monospace;
 
   --fog: rgba(214, 224, 210, 0.06);
 }
