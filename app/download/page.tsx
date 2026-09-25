@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
+import JsonLd from '@/components/JsonLd'
 import Shell from '@/components/landing/Shell'
-import { INSTALLERS, SITE_URL, type Installer } from '@/lib/site'
+import { INSTALLERS, RELEASE_VERSION, type Installer } from '@/lib/site'
+import { breadcrumbs, pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Download noah for Windows and Linux',
-  description:
-    'Download noah, the free AI code editor with the shepherd agent. One-click installer for Windows 10 and 11, .deb and .tar.xz for Linux. No account needed.',
-  alternates: { canonical: '/download' },
-}
+export const metadata: Metadata = pageMetadata({
+  path: '/download',
+  title: 'download noah for windows and linux',
+  description: `download noah ${RELEASE_VERSION}, the free ai code editor with shepherd. an installer for windows 10 and 11, a .deb and a .tar.xz for linux. mac is coming soon.`,
+})
 
 function Steps({ installer }: { installer: Installer }) {
   switch (installer.platform) {
@@ -15,6 +16,11 @@ function Steps({ installer }: { installer: Installer }) {
       return (
         <>
           <ol>
+            <li>
+              If your browser says the file &ldquo;may be dangerous&rdquo; or &ldquo;isn&rsquo;t commonly
+              downloaded&rdquo;, open the downloads list and choose <strong>Keep</strong>. Browsers warn about
+              any new, unsigned program; the SHA-256 below lets you confirm the file is the one published here.
+            </li>
             <li>Open the downloaded <code>{installer.file}</code>.</li>
             <li>
               If Windows shows &ldquo;Windows protected your PC&rdquo;, choose <strong>More info</strong>, then{' '}
@@ -55,21 +61,11 @@ function Steps({ installer }: { installer: Installer }) {
 }
 
 export default function DownloadPage() {
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: 'noah',
-    applicationCategory: 'DeveloperApplication',
-    operatingSystem: Array.from(new Set(INSTALLERS.map((installer) => installer.platform === 'windows' ? 'Windows 10, Windows 11' : 'Linux'))).join(', '),
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    downloadUrl: INSTALLERS.map((installer) => `${SITE_URL}/downloads/${installer.file}`),
-    url: `${SITE_URL}/download`,
-  }
   const hasLinux = INSTALLERS.some((installer) => installer.platform === 'linux')
 
   return (
     <Shell>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <JsonLd data={breadcrumbs([{ name: 'download', path: '/download' }])} />
       <main className="l-doc">
         <div className="l-doc-card">
           <p className="l-doc-meta">free · no account · no telemetry</p>

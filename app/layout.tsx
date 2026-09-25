@@ -1,65 +1,67 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
-import { DESCRIPTION, LINKS, SITE_URL } from '@/lib/site'
+import JsonLd from '@/components/JsonLd'
+import { DESCRIPTION, LINKS, LONG_DESCRIPTION, SITE_URL } from '@/lib/site'
+import { HOME_TITLE, OG_IMAGE, ORGANIZATION_NAME, SITE_NAME, TWITTER_HANDLE, siteGraph } from '@/lib/seo'
 
-const SHARE_DESCRIPTION =
-  'A free AI code editor. shepherd reads your whole project before it writes. Venice or local models, no account, no paywall.'
+// Every page is rendered per request so middleware can give its scripts a
+// fresh CSP nonce; a prerendered page would carry no nonce and could only run
+// under 'unsafe-inline'.
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'noah — free AI code editor with the shepherd agent',
+    default: HOME_TITLE,
     template: '%s · noah',
   },
   description: DESCRIPTION,
-  applicationName: 'noah',
+  applicationName: SITE_NAME,
   keywords: [
     'free ai code editor',
     'ai code editor',
+    'ai ide',
     'ai coding agent',
-    'cursor alternative',
-    'free cursor alternative',
-    'zed fork',
+    'bring your own key',
+    'byok ai editor',
+    'deepseek code editor',
+    'qwen code editor',
     'local llm code editor',
     'ollama code editor',
-    'venice ai',
-    'code editor without account',
+    'cursor alternative',
+    'zed fork',
     'private ai ide',
-    'shepherd ai',
-    'houseofasher',
+    'shepherd agent',
+    'house of asher',
   ],
-  authors: [{ name: '#houseofasher', url: LINKS.asherin }],
-  creator: '#houseofasher',
-  publisher: '#houseofasher',
+  authors: [{ name: ORGANIZATION_NAME, url: LINKS.asherin }],
+  creator: ORGANIZATION_NAME,
+  publisher: ORGANIZATION_NAME,
   category: 'technology',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: '/',
-    siteName: 'noah',
-    title: 'noah — free AI code editor',
-    description: SHARE_DESCRIPTION,
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1302,
-        height: 366,
-        alt: 'noah, an unfiltered code editor by #houseofasher, over misty green hills',
-      },
-    ],
+    siteName: SITE_NAME,
+    title: HOME_TITLE,
+    description: LONG_DESCRIPTION,
+    images: [OG_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'noah — free AI code editor',
-    description: SHARE_DESCRIPTION,
-    images: ['/og-image.jpg'],
+    site: TWITTER_HANDLE,
+    creator: TWITTER_HANDLE,
+    title: HOME_TITLE,
+    description: DESCRIPTION,
+    images: [{ url: OG_IMAGE.url, alt: OG_IMAGE.alt }],
   },
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
+  formatDetection: { telephone: false, email: false, address: false },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },
@@ -77,51 +79,12 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
 }
 
-// Describes who makes noah, the site, and the app itself, so search engines
-// can connect the brand, the download and the organisation behind it.
-const STRUCTURED_DATA = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Organization',
-      '@id': `${SITE_URL}/#organization`,
-      name: '#houseofasher',
-      url: LINKS.asherin,
-      logo: `${SITE_URL}/icon.png`,
-      sameAs: [LINKS.asherin, LINKS.discord, LINKS.source],
-    },
-    {
-      '@type': 'WebSite',
-      '@id': `${SITE_URL}/#website`,
-      url: SITE_URL,
-      name: 'noah',
-      publisher: { '@id': `${SITE_URL}/#organization` },
-      inLanguage: 'en',
-    },
-    {
-      '@type': 'SoftwareApplication',
-      '@id': `${SITE_URL}/#software`,
-      name: 'noah',
-      description: DESCRIPTION,
-      applicationCategory: 'DeveloperApplication',
-      applicationSubCategory: 'Code editor',
-      operatingSystem: 'Windows 10, Windows 11, Linux',
-      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      downloadUrl: `${SITE_URL}/download`,
-      image: `${SITE_URL}/og-image.jpg`,
-      license: 'https://www.gnu.org/licenses/gpl-3.0.html',
-      isAccessibleForFree: true,
-      publisher: { '@id': `${SITE_URL}/#organization` },
-    },
-  ],
-}
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
         <link rel="preload" href="/wallpaper.jpg" as="image" fetchPriority="high" />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }} />
+        <JsonLd data={siteGraph()} />
       </head>
       <body>{children}</body>
     </html>

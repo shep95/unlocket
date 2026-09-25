@@ -1,17 +1,20 @@
 import type { MetadataRoute } from 'next'
-import { SITE_URL } from '@/lib/site'
+import { RELEASE_DATE, SITE_URL } from '@/lib/site'
+
+// Dates are when each page's content last changed, not the build time, so a
+// redeploy does not tell crawlers that every page is new.
+const PAGES: MetadataRoute.Sitemap = [
+  { url: '/', lastModified: RELEASE_DATE, changeFrequency: 'weekly', priority: 1 },
+  { url: '/download', lastModified: RELEASE_DATE, changeFrequency: 'weekly', priority: 0.9 },
+  { url: '/faq', lastModified: new Date(Date.UTC(2026, 8, 25)), changeFrequency: 'monthly', priority: 0.7 },
+  { url: '/founder', lastModified: new Date(Date.UTC(2026, 8, 25)), changeFrequency: 'yearly', priority: 0.5 },
+  { url: '/security', lastModified: new Date(Date.UTC(2026, 8, 25)), changeFrequency: 'yearly', priority: 0.4 },
+  { url: '/terms', lastModified: new Date(Date.UTC(2026, 8, 24)), changeFrequency: 'yearly', priority: 0.3 },
+]
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages: { path: string; priority: number; changeFrequency: 'weekly' | 'monthly' | 'yearly' }[] = [
-    { path: '', priority: 1, changeFrequency: 'weekly' },
-    { path: '/download', priority: 0.9, changeFrequency: 'weekly' },
-    { path: '/faq', priority: 0.7, changeFrequency: 'monthly' },
-    { path: '/terms', priority: 0.3, changeFrequency: 'yearly' },
-  ]
-  return pages.map(({ path, priority, changeFrequency }) => ({
-    url: `${SITE_URL}${path}`,
-    lastModified: new Date(),
-    changeFrequency,
-    priority,
+  return PAGES.map((page) => ({
+    ...page,
+    url: page.url === '/' ? `${SITE_URL}/` : `${SITE_URL}${page.url}`,
   }))
 }

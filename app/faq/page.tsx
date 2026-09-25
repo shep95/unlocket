@@ -1,13 +1,16 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import JsonLd from '@/components/JsonLd'
 import Shell from '@/components/landing/Shell'
+import { LINKS } from '@/lib/site'
+import { breadcrumbs, faqPage, pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Questions about noah and shepherd',
+export const metadata: Metadata = pageMetadata({
+  path: '/faq',
+  title: 'questions about noah and shepherd',
   description:
-    'Is noah free? Does it need an account? Which AI models does it use, can they run locally, and where does your code go? Straight answers about the noah code editor.',
-  alternates: { canonical: '/faq' },
-}
+    'is noah free? which ai providers does it work with, can models run locally, where do your code and keys go, and how are updates verified? straight answers.',
+})
 
 // Each answer is written once and used both on the page and in the FAQPage
 // structured data, so the two can never disagree.
@@ -30,7 +33,12 @@ const QUESTIONS: { question: string; answer: string }[] = [
   {
     question: 'Which AI models can I use?',
     answer:
-      'noah comes set up for Venice AI (Qwen3 235B, DeepSeek R1, Llama and more) with your own Venice key. It also works with OpenAI-compatible providers and with local models through Ollama, LM Studio or llama.cpp.',
+      'Nearly fifty providers, each under your own key: Western ones such as OpenAI, Anthropic, Google, Mistral and xAI; Chinese ones such as DeepSeek, Alibaba Qwen, Moonshot Kimi, Zhipu GLM and MiniMax; Venice, OpenRouter and any OpenAI-compatible service. Local models run through Ollama, LM Studio or llama.cpp. You choose how hard shepherd reasons on each request.',
+  },
+  {
+    question: 'Where are my API keys kept?',
+    answer:
+      "In your system's keychain. They never reach our servers; each key goes only to the provider it belongs to, when you use that provider.",
   },
   {
     question: 'Can I run models locally, offline?',
@@ -48,9 +56,19 @@ const QUESTIONS: { question: string; answer: string }[] = [
       'Yes, without an account or key. Searches go to DuckDuckGo, noah asks you before each one, and the sources are listed under the answer.',
   },
   {
+    question: 'What else is in noah besides the editor?',
+    answer:
+      'asherin.chat, for thinking with shepherd outside any project; asherin.pages, where shepherd makes PDFs, digital books and slideshows; asherin.eye, a live 3D globe intelligence console you can extend; a device room with security checks, system health, a system-wide ad blocker and a duplicate-file cleaner; and a browser room you share with shepherd. Your chats are kept in a history you can pin.',
+  },
+  {
+    question: 'How does noah keep shepherd in check?',
+    answer:
+      'Through a trust layer. Finished work comes with evidence: the checks that actually ran and what was not verified. Every change is recorded in a tamper-evident provenance log. Secrets are redacted before the model sees them, text read from the web and from files is screened for prompt injection, and commands can run in a sandbox. Anything irreversible always asks first.',
+  },
+  {
     question: 'How is noah related to Zed?',
     answer:
-      'noah is built on Zed, the open-source editor, under its GPL-3.0 license. It keeps Zed’s speed and native rendering, removes the account and cloud features, and adds shepherd, Venice and the wallpaper-driven interface.',
+      'noah is built on Zed, the open-source editor, under its GPL-3.0 license. It keeps Zed’s speed and native rendering, removes the account and cloud features, and adds shepherd, bring-your-own-key providers and the wallpaper-driven interface.',
   },
   {
     question: 'Which systems does it run on?',
@@ -62,28 +80,24 @@ const QUESTIONS: { question: string; answer: string }[] = [
     answer:
       'The installer is not code-signed yet, so SmartScreen does not recognise it. Choose More info, then Run anyway. You can check the file against the SHA-256 on the download page first.',
   },
+  {
+    question: 'How do updates work, and how do I know they are genuine?',
+    answer:
+      "noah installs new releases itself. Each release manifest is signed with noah's ed25519 release key and lists a SHA-256 for every installer; noah refuses an update whose signature or checksum does not match. The security page explains how to check a download by hand.",
+  },
 ]
 
 export default function FaqPage() {
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: QUESTIONS.map(({ question, answer }) => ({
-      '@type': 'Question',
-      name: question,
-      acceptedAnswer: { '@type': 'Answer', text: answer },
-    })),
-  }
-
   return (
     <Shell>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      <JsonLd data={faqPage(QUESTIONS)} />
+      <JsonLd data={breadcrumbs([{ name: 'faq', path: '/faq' }])} />
       <main className="l-doc">
         <div className="l-doc-card">
           <p className="l-doc-meta">questions</p>
           <h1>Straight answers</h1>
           <p className="l-doc-lede">
-            Anything else, ask in the <a href="https://discord.gg/M9hnebRwvk">discord</a>. Ready to try it?{' '}
+            Anything else, ask in the <a href={LINKS.discord}>discord</a>. Ready to try it?{' '}
             <Link href="/download">Download noah</Link>.
           </p>
           {QUESTIONS.map(({ question, answer }) => (

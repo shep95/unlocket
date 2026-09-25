@@ -1,10 +1,15 @@
 import type { Metadata } from 'next'
 import Download from '@/components/landing/Download'
 import Shell from '@/components/landing/Shell'
+import { DESCRIPTION } from '@/lib/site'
+import { HOME_TITLE, pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  alternates: { canonical: '/' },
-}
+export const metadata: Metadata = pageMetadata({
+  path: '/',
+  title: HOME_TITLE,
+  description: DESCRIPTION,
+  absoluteTitle: true,
+})
 
 const MODELS = [
   { name: 'venice · qwen3 235b', source: 'your key' },
@@ -24,16 +29,18 @@ export default function Home() {
     <Shell>
         <main>
           <section className="l-hero">
-            <span className="l-hero-eyebrow">#houseofasher</span>
-            <h1 className="l-hero-title">noah</h1>
-            <p className="l-hero-sub">
-              a shepherd for your code. it reads your whole project — the architecture, the
-              patterns, the aesthetic — and writes like it already lived there.
-            </p>
+            <div className="l-hero-identity">
+              <h1 className="l-hero-title">noah</h1>
+              <p className="l-hero-sub">
+                <span className="l-hero-claim">a shepherd for your code.</span>{' '}
+                <span className="l-hero-proof">
+                  it reads your whole project and writes like it already lived there.
+                </span>
+              </p>
+            </div>
             <div className="l-hero-cta">
               <Download />
             </div>
-            <p className="l-scroll-hint">scroll</p>
           </section>
 
           <div className="l-glass" id="features">

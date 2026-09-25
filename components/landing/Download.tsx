@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { INSTALLERS, type Installer } from '@/lib/site'
+import { INSTALLERS, RELEASE_VERSION, type Installer } from '@/lib/site'
 
 // Installers are hosted on this site (public/downloads), so the button pulls
 // the file straight from here. The button offers the visitor's own platform
@@ -49,12 +49,19 @@ export default function Download() {
           <DownloadIcon />
           download for {PLATFORM_NAMES[primary.platform]}
         </a>
-        <Link href="/download" className="l-btn-ghost">
-          {soon.length > 0
-            ? `${soon.map((platform) => PLATFORM_NAMES[platform]).join(' & ')} coming soon →`
-            : 'all downloads →'}
-        </Link>
+        {soon.length > 0 ? (
+          <span className="l-btn-ghost">
+            {soon.map((platform) => PLATFORM_NAMES[platform]).join(' & ')} coming soon
+          </span>
+        ) : (
+          <Link href="/download" className="l-btn-ghost">
+            all downloads →
+          </Link>
+        )}
       </div>
+      <p className="l-trust">
+        v{RELEASE_VERSION} · {primary.size.toLowerCase()} · {primary.requirement}
+      </p>
     </div>
   )
 }

@@ -1,16 +1,19 @@
 import type { Metadata } from 'next'
+import JsonLd from '@/components/JsonLd'
 import Shell from '@/components/landing/Shell'
+import { breadcrumbs, pageMetadata } from '@/lib/seo'
 
-export const metadata: Metadata = {
-  title: 'Terms of Service',
+export const metadata: Metadata = pageMetadata({
+  path: '/terms',
+  title: 'terms of service',
   description:
-    'What noah owns and what it does not: your projects stay yours, nothing is stored, API models answer to your own key, and web searches go to DuckDuckGo.',
-  alternates: { canonical: '/terms' },
-}
+    'what noah owns and what it does not: your projects stay yours, nothing is stored, models answer to your own key, and web searches go to duckduckgo.',
+})
 
 export default function TermsPage() {
   return (
     <Shell>
+      <JsonLd data={breadcrumbs([{ name: 'terms', path: '/terms' }])} />
       <main className="l-doc">
         <div className="l-doc-card">
           <p className="l-doc-meta">last updated september 2026 · #houseofasher</p>
