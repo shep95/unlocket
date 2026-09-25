@@ -71,8 +71,8 @@ export default function DownloadPage() {
           <p className="l-doc-meta">free · no account · no telemetry</p>
           <h1>Download noah</h1>
           <p className="l-doc-lede">
-            The editor and shepherd, its agent, in one install. After it opens, add a Venice API key or
-            point it at a local model and start.
+            The editor and shepherd, its agent, in one install. After it opens, add an API key from any
+            provider you use, or point it at a local model, and start.
           </p>
 
           {INSTALLERS.map((installer) => (

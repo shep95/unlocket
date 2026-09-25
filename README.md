@@ -4,7 +4,8 @@ The marketing and download site for **noah**, a free native AI code editor by
 **#houseofasher** ([asherin.com](https://asherin.com)). The editor itself lives
 in [shep95/noah](https://github.com/shep95/noah); this repo is only the website.
 
-Built with Next.js (App Router), fully static.
+Built with Next.js (App Router). Pages render per request so each one gets a
+fresh CSP nonce; everything in `public/` is served as static files.
 
 ## Develop
 
@@ -23,7 +24,10 @@ This is a standard Next.js app and deploys unchanged to either host:
   (Nixpacks build, `npm run start`). The start script binds `0.0.0.0` and
   Next.js reads Railway's `$PORT` automatically.
 
-Set `NEXT_PUBLIC_APP_URL` to the deployed origin so canonical/OG URLs are correct.
+The canonical origin is `https://noah.asherin.com` (`lib/site.ts`). Production
+builds on Vercel permanently redirect every `*.vercel.app` host there; preview
+builds are not redirected and are served `noindex`. `NEXT_PUBLIC_APP_URL` only
+affects `next dev`.
 
 > Note: only this website is web-hosted. **noah the editor is a native desktop
 > app** (Rust/GPUI) and is distributed as a downloadable binary — it is not, and
@@ -31,7 +35,11 @@ Set `NEXT_PUBLIC_APP_URL` to the deployed origin so canonical/OG URLs are correc
 
 ## Security
 
-- No backend, no user accounts, no data collection — the site is static.
-- Strict CSP and security headers in `next.config.mjs`.
+- No API routes, no user accounts, no data collection.
+- Nonce-based CSP (no `unsafe-inline` or `unsafe-eval` for scripts) in
+  `middleware.ts`; the other security headers, download headers and redirects
+  in `next.config.mjs`.
+- `/.well-known/security.txt` and `/security` say how to report a vulnerability.
+  Renew the `Expires` date in security.txt before 2027-09-25.
 - Next.js pinned to the latest patched 14.2.x. Remaining `npm audit` findings are
   in dev-only tooling (eslint / typescript-eslint) that is not shipped.

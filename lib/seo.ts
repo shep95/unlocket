@@ -17,9 +17,9 @@ export const HOME_TITLE = 'noah — free ai code editor with shepherd, its agent
 
 export const OG_IMAGE = {
   url: '/og-image.jpg',
-  width: 1302,
-  height: 366,
-  alt: 'noah, a free ai code editor by house of asher, over misty green hills',
+  width: 1200,
+  height: 630,
+  alt: "noah, a shepherd for your code: a cabin under misty green hills",
 }
 
 const ROBOTS: Metadata['robots'] = {

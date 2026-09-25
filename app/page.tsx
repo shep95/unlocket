@@ -12,8 +12,8 @@ export const metadata: Metadata = pageMetadata({
 })
 
 const MODELS = [
-  { name: 'venice · qwen3 235b', source: 'your key' },
-  { name: 'venice · deepseek r1 671b', source: 'your key' },
+  { name: 'anthropic · claude', source: 'your key' },
+  { name: 'deepseek · r1', source: 'your key' },
   { name: 'llama 3.3 70b', source: 'local' },
   { name: 'qwen 2.5 coder 32b · q4', source: 'local' },
 ]
@@ -92,9 +92,9 @@ export default function Home() {
                 <p className="l-feat-num">02 / 05</p>
                 <h2 className="l-feat-title">your models.<br />your keys.</h2>
                 <p className="l-feat-body">
-                  bring a venice key for frontier models, or point shepherd at a model running on
-                  your own machine. local models are limited only by your hardware — 7b or 405b,
-                  whatever your memory can hold.
+                  bring a key from any of nearly fifty providers, western or chinese, or point
+                  shepherd at a model running on your own machine. local models are limited only
+                  by your hardware — 7b or 405b, whatever your memory can hold.
                 </p>
               </div>
             </div>
