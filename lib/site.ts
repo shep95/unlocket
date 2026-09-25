@@ -35,8 +35,8 @@ export const INSTALLERS: Installer[] = [
     label: 'Windows 10 and 11 (64-bit)',
     file: 'noah-windows-x86_64.exe',
     format: 'installer (.exe)',
-    size: '88 MB',
-    sha256: 'cc0ec55f19375aa4c2d58ffa280097dad8a6d2e2ef787ff3bf2bc13b8788e35a',
+    size: '72 MB',
+    sha256: 'b83d355291b79405307557441f41ec166fc2ac99e64e2f52c679952536734c74',
   },
   {
     platform: 'linux',
@@ -44,7 +44,7 @@ export const INSTALLERS: Installer[] = [
     file: 'noah-linux-amd64.deb',
     format: 'package (.deb)',
     size: '83 MB',
-    sha256: 'bacccc7d83d9ba7002fb9cb1a96d15e308fb21b85ab2bad41a0bb7d28c60cf33',
+    sha256: '7277bb1c5819787089c30a3d003025f456faff7ee917ac1ce48cc9a843b70504',
   },
   {
     platform: 'linux',
@@ -52,7 +52,7 @@ export const INSTALLERS: Installer[] = [
     file: 'noah-linux-x86_64.tar.xz',
     format: 'archive (.tar.xz)',
     size: '83 MB',
-    sha256: '0a2360bf14db4d0fde57d6883a54108be7d8c4469c4230504bfe43126dbc3131',
+    sha256: '9b458ade85ffb48804b856153c03a9b1ef020aaa18b760fe234d83c341af73c1',
   },
 ]
 
