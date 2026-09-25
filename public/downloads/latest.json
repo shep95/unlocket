@@ -1,0 +1,8 @@
+{
+  "build": 1790342454,
+  "version": "2026.9.25",
+  "assets": {
+    "windows-x86_64": { "url": "https://unlocket.vercel.app/downloads/noah-windows-x86_64.exe", "sha256": "cc0ec55f19375aa4c2d58ffa280097dad8a6d2e2ef787ff3bf2bc13b8788e35a" },
+    "linux-x86_64": { "url": "https://unlocket.vercel.app/downloads/noah-linux-x86_64.tar.xz", "sha256": "0a2360bf14db4d0fde57d6883a54108be7d8c4469c4230504bfe43126dbc3131" }
+  }
+}
