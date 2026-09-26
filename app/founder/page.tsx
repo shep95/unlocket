@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import type { Metadata } from 'next'
 import JsonLd from '@/components/JsonLd'
+import EnglishNote from '@/components/landing/EnglishNote'
 import Shell from '@/components/landing/Shell'
 import { LINKS } from '@/lib/site'
 import { FOUNDER_NAME, breadcrumbs, founderProfile, pageMetadata } from '@/lib/seo'
@@ -48,6 +49,7 @@ export default function Founder() {
             )}
             <div className="l-founder-text">
               <h1 className="l-founder-name">{NAME}</h1>
+          <EnglishNote />
               <p className="l-founder-role">prompt engineer</p>
               <p className="l-founder-title">
                 emperor of #houseofasher, the digital empire, and #asherin, the physical empire.

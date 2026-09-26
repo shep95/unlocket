@@ -1,21 +1,27 @@
 import type { Metadata } from 'next'
 import Download from '@/components/landing/Download'
 import Shell from '@/components/landing/Shell'
-import { DESCRIPTION } from '@/lib/site'
 import { HOME_TITLE, pageMetadata } from '@/lib/seo'
+import { dictionary } from '@/lib/i18n'
+import { currentLanguage } from '@/lib/language'
 
-export const metadata: Metadata = pageMetadata({
-  path: '/',
-  title: HOME_TITLE,
-  description: DESCRIPTION,
-  absoluteTitle: true,
-})
+export function generateMetadata(): Metadata {
+  const language = currentLanguage()
+  return pageMetadata({
+    path: '/',
+    title: HOME_TITLE,
+    description: dictionary(language).home.description,
+    absoluteTitle: true,
+    language,
+    translated: true,
+  })
+}
 
 const MODELS = [
-  { name: 'anthropic · claude', source: 'your key' },
-  { name: 'deepseek · r1', source: 'your key' },
-  { name: 'llama 3.3 70b', source: 'local' },
-  { name: 'qwen 2.5 coder 32b · q4', source: 'local' },
+  { name: 'anthropic · claude', local: false },
+  { name: 'deepseek · r1', local: false },
+  { name: 'llama 3.3 70b', local: true },
+  { name: 'qwen 2.5 coder 32b · q4', local: true },
 ]
 
 const RESULTS = [
@@ -24,7 +30,25 @@ const RESULTS = [
   { title: 'When should you use spawn_blocking?', url: 'users.rust-lang.org' },
 ]
 
+/** Feature titles break where the translator broke them. */
+function Lines({ text }: { text: string }) {
+  const lines = text.split('\n')
+  return (
+    <>
+      {lines.map((line, index) => (
+        <span key={index}>
+          {line}
+          {index < lines.length - 1 && <br />}
+        </span>
+      ))}
+    </>
+  )
+}
+
 export default function Home() {
+  const language = currentLanguage()
+  const t = dictionary(language)
+  const [readsFirst, yourModels, yourImage, looksOutward] = t.features
   return (
     <Shell>
         <main>
@@ -32,14 +56,12 @@ export default function Home() {
             <div className="l-hero-identity">
               <h1 className="l-hero-title">noah</h1>
               <p className="l-hero-sub">
-                <span className="l-hero-claim">a shepherd for your code.</span>{' '}
-                <span className="l-hero-proof">
-                  it reads your whole project and writes like it already lived there.
-                </span>
+                <span className="l-hero-claim">{t.hero.claim}</span>{' '}
+                <span className="l-hero-proof">{t.hero.proof}</span>
               </p>
             </div>
             <div className="l-hero-cta">
-              <Download />
+              <Download language={language} t={t.download} />
             </div>
           </section>
 
@@ -47,12 +69,8 @@ export default function Home() {
             <div className="l-feature-row l-reveal">
               <div className="l-feature-copy">
                 <p className="l-feat-num">01 / 05</p>
-                <h2 className="l-feat-title">it reads the whole<br />project first</h2>
-                <p className="l-feat-body">
-                  import a repo or open a folder and shepherd studies it before it writes a
-                  line — the architecture, the naming, the patterns you already chose. then it
-                  matches them, so its code reads like the hand that started the project.
-                </p>
+                <h2 className="l-feat-title"><Lines text={readsFirst.title} /></h2>
+                <p className="l-feat-body">{readsFirst.body}</p>
               </div>
               <div className="l-feature-visual" aria-hidden>
                 <div className="l-code-block">
@@ -76,37 +94,30 @@ export default function Home() {
             <div className="l-feature-row l-reverse l-reveal" id="models">
               <div className="l-feature-visual" aria-hidden>
                 <div className="l-stack">
-                  <div className="l-panel-label">connected models</div>
+                  <div className="l-panel-label">{t.panels.connected}</div>
                   {MODELS.map((model) => (
                     <div key={model.name} className="l-row l-model-row">
                       <span className="l-model-name">{model.name}</span>
-                      <span className={`l-badge ${model.source === 'local' ? 'l-badge-local' : 'l-badge-key'}`}>
-                        {model.source}
+                      <span className={`l-badge ${model.local ? 'l-badge-local' : 'l-badge-key'}`}>
+                        {model.local ? t.panels.local : t.panels.yourKey}
                       </span>
                     </div>
                   ))}
-                  <p className="l-panel-note">nothing metered. nothing phoned home.</p>
+                  <p className="l-panel-note">{t.panels.nothingMetered}</p>
                 </div>
               </div>
               <div className="l-feature-copy">
                 <p className="l-feat-num">02 / 05</p>
-                <h2 className="l-feat-title">your models.<br />your keys.</h2>
-                <p className="l-feat-body">
-                  bring a key from any of nearly fifty providers, western or chinese, or point
-                  shepherd at a model running on your own machine. local models are limited only
-                  by your hardware — 7b or 405b, whatever your memory can hold.
-                </p>
+                <h2 className="l-feat-title"><Lines text={yourModels.title} /></h2>
+                <p className="l-feat-body">{yourModels.body}</p>
               </div>
             </div>
 
             <div className="l-feature-row l-reveal">
               <div className="l-feature-copy">
                 <p className="l-feat-num">03 / 05</p>
-                <h2 className="l-feat-title">the editor takes<br />on your image</h2>
-                <p className="l-feat-body">
-                  set any wallpaper and the interface reads its palette. the code stays legible,
-                  calm — always sitting cleanly on top. the environment becomes yours.
-                </p>
+                <h2 className="l-feat-title"><Lines text={yourImage.title} /></h2>
+                <p className="l-feat-body">{yourImage.body}</p>
               </div>
               <div className="l-feature-visual" aria-hidden>
                 <div className="l-editor-mock">
@@ -133,7 +144,7 @@ export default function Home() {
             <div className="l-feature-row l-reverse l-reveal">
               <div className="l-feature-visual" aria-hidden>
                 <div className="l-stack">
-                  <div className="l-panel-label">web search · asks first</div>
+                  <div className="l-panel-label">{t.panels.webSearch}</div>
                   <div className="l-search-query">tokio spawn_blocking vs spawn</div>
                   {RESULTS.map((result) => (
                     <div key={result.url} className="l-row">
@@ -145,37 +156,31 @@ export default function Home() {
               </div>
               <div className="l-feature-copy">
                 <p className="l-feat-num">04 / 05</p>
-                <h2 className="l-feat-title">it looks outward<br />when it has to</h2>
-                <p className="l-feat-body">
-                  when the answer is not in your project, shepherd searches the web. no account,
-                  no key. every search asks you first, and the sources sit right under the answer.
-                </p>
+                <h2 className="l-feat-title"><Lines text={looksOutward.title} /></h2>
+                <p className="l-feat-body">{looksOutward.body}</p>
               </div>
             </div>
           </div>
 
           <section className="l-privacy l-reveal" id="privacy">
             <p className="l-feat-num">05 / 05</p>
-            <h2 className="l-priv-title">free. private. yours.</h2>
-            <p className="l-priv-body">
-              no account, no paywall, no telemetry. we do not own your projects or keep records
-              of them. the models you connect answer to you, under your key — not to us.
-            </p>
+            <h2 className="l-priv-title">{t.privacy.title}</h2>
+            <p className="l-priv-body">{t.privacy.body}</p>
             <div className="l-stats">
-              <div className="l-stat"><div className="l-stat-num">0</div><div className="l-stat-label">accounts</div></div>
+              <div className="l-stat"><div className="l-stat-num">0</div><div className="l-stat-label">{t.privacy.accounts}</div></div>
               <div className="l-stat-divider" />
-              <div className="l-stat"><div className="l-stat-num">0</div><div className="l-stat-label">telemetry</div></div>
+              <div className="l-stat"><div className="l-stat-num">0</div><div className="l-stat-label">{t.privacy.telemetry}</div></div>
               <div className="l-stat-divider" />
-              <div className="l-stat"><div className="l-stat-num">∞</div><div className="l-stat-label">local models</div></div>
+              <div className="l-stat"><div className="l-stat-num">∞</div><div className="l-stat-label">{t.privacy.localModels}</div></div>
               <div className="l-stat-divider" />
-              <div className="l-stat"><div className="l-stat-num">0</div><div className="l-stat-label">paywalls</div></div>
+              <div className="l-stat"><div className="l-stat-num">0</div><div className="l-stat-label">{t.privacy.paywalls}</div></div>
             </div>
           </section>
 
           <section className="l-cta" id="download">
-            <p className="l-cta-eyebrow">when you are ready</p>
-            <h2 className="l-cta-title"><span>come to the quiet</span><span>and start.</span></h2>
-            <Download />
+            <p className="l-cta-eyebrow">{t.cta.eyebrow}</p>
+            <h2 className="l-cta-title"><span>{t.cta.lineOne}</span><span>{t.cta.lineTwo}</span></h2>
+            <Download language={language} t={t.download} />
           </section>
         </main>
     </Shell>

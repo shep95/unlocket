@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { INSTALLERS, RELEASE_VERSION, type Installer } from '@/lib/site'
+import { type Dictionary, type Language, fill, localized } from '@/lib/i18n'
 
 // Installers are hosted on this site (public/downloads), so the button pulls
 // the file straight from here. The button offers the visitor's own platform
@@ -31,7 +32,7 @@ function DownloadIcon() {
   )
 }
 
-export default function Download() {
+export default function Download({ language, t }: { language: Language; t: Dictionary['download'] }) {
   const [visitor, setVisitor] = useState<Platform | null>(null)
   useEffect(() => setVisitor(detectPlatform()), [])
 
@@ -41,15 +42,15 @@ export default function Download() {
   return (
     <div>
       {visitor && !forVisitor && (
-        <p className="l-download-note">there is no {PLATFORM_NAMES[visitor]} build of noah yet.</p>
+        <p className="l-download-note">{fill(t.none, { platform: PLATFORM_NAMES[visitor] })}</p>
       )}
       <div className="l-cta-row">
         <a href={`/downloads/${primary.file}`} download className="l-btn-primary">
           <DownloadIcon />
-          download for {PLATFORM_NAMES[primary.platform]}
+          {fill(t.forPlatform, { platform: PLATFORM_NAMES[primary.platform] })}
         </a>
-        <Link href="/download" className="l-btn-ghost">
-          all downloads →
+        <Link href={localized('/download', language)} className="l-btn-ghost">
+          {t.all}
         </Link>
       </div>
       <p className="l-trust">

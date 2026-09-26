@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { isBlockedAgent, isProbePath } from '@/lib/bots'
+import { DEFAULT_LANGUAGE, LANGUAGE_HEADER, splitLanguage } from '@/lib/i18n'
 
 // Each page response gets a fresh nonce, and only scripts carrying it (Next.js
 // reads it from the request's CSP header and stamps its own tags) may run.
@@ -50,23 +51,30 @@ export function middleware(request: NextRequest) {
   requestHeaders.set('x-nonce', nonce)
   requestHeaders.set('Content-Security-Policy', policy)
 
-  const response = NextResponse.next({ request: { headers: requestHeaders } })
+  // /ja/download is the download page in Japanese: the language travels in a
+  // header and the page is served from its one file.
+  const { language, path } = splitLanguage(pathname)
+  requestHeaders.set(LANGUAGE_HEADER, language)
+
+  let response: NextResponse
+  if (language === DEFAULT_LANGUAGE) {
+    response = NextResponse.next({ request: { headers: requestHeaders } })
+  } else {
+    const target = request.nextUrl.clone()
+    target.pathname = path
+    response = NextResponse.rewrite(target, { request: { headers: requestHeaders } })
+  }
   response.headers.set('Content-Security-Policy', policy)
   return response
 }
 
-// Pages and the site's own images. Other static files, including the
-// installers the updater fetches, get their fixed headers from
-// next.config.mjs and never pay for a middleware call.
+// Pages and the site's own images, including the router's prefetches: a
+// prefetch of /es/faq must be rewritten like the page itself or it 404s.
+// Other static files, including the installers the updater fetches, get
+// their fixed headers from next.config.mjs and never pay for a middleware
+// call.
 export const config = {
   matcher: [
-    {
-      source:
-        '/((?!_next/static|_next/image|downloads/|\\.well-known/|favicon\\.ico|icon|apple-touch-icon\\.png|og-image\\.jpg|wallpaper\\.jpg|robots\\.txt|sitemap\\.xml|manifest\\.webmanifest).*)',
-      missing: [
-        { type: 'header', key: 'next-router-prefetch' },
-        { type: 'header', key: 'purpose', value: 'prefetch' },
-      ],
-    },
+    '/((?!_next/static|_next/image|downloads/|\\.well-known/|favicon\\.ico|icon|apple-touch-icon\\.png|og-image\\.jpg|wallpaper\\.jpg|robots\\.txt|sitemap\\.xml|manifest\\.webmanifest).*)',
   ],
 }

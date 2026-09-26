@@ -8,6 +8,7 @@ import {
   RELEASE_VERSION,
   SITE_URL,
 } from './site'
+import { DEFAULT_LANGUAGE, type Language, languageAlternates, localized, openGraphLocale } from './i18n'
 
 export const SITE_NAME = 'noah'
 export const ORGANIZATION_NAME = 'house of asher'
@@ -35,6 +36,14 @@ type PageSeo = {
   /** Use `title` as the whole document title instead of filling the template. */
   absoluteTitle?: boolean
   openGraphType?: 'website' | 'profile'
+  /**
+   * The language this page is served in. A page translated whole names its
+   * own localized url as canonical and lists every language as an alternate;
+   * a page whose body is still English stays canonical to the English url,
+   * whatever frame it is shown in.
+   */
+  language?: Language
+  translated?: boolean
 }
 
 // A page's openGraph and twitter objects replace the layout's rather than
@@ -45,17 +54,20 @@ export function pageMetadata({
   description,
   absoluteTitle = false,
   openGraphType = 'website',
+  language = DEFAULT_LANGUAGE,
+  translated = false,
 }: PageSeo): Metadata {
   const shareTitle = absoluteTitle ? title : `${title} · ${SITE_NAME}`
+  const canonical = translated ? localized(path, language) : path
   return {
     title: absoluteTitle ? { absolute: title } : title,
     description,
-    alternates: { canonical: path },
+    alternates: translated ? { canonical, languages: languageAlternates(path) } : { canonical },
     robots: ROBOTS,
     openGraph: {
       type: openGraphType,
-      locale: 'en_US',
-      url: path,
+      locale: openGraphLocale(language),
+      url: canonical,
       siteName: SITE_NAME,
       title: shareTitle,
       description,

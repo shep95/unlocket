@@ -3,12 +3,20 @@ import JsonLd from '@/components/JsonLd'
 import Shell from '@/components/landing/Shell'
 import { INSTALLERS, RELEASE_VERSION, type Installer } from '@/lib/site'
 import { breadcrumbs, pageMetadata } from '@/lib/seo'
+import { DEFAULT_LANGUAGE, dictionary, fill } from '@/lib/i18n'
+import { currentLanguage } from '@/lib/language'
 
-export const metadata: Metadata = pageMetadata({
-  path: '/download',
-  title: 'download noah for windows and linux',
-  description: `download noah ${RELEASE_VERSION}, the free ai code editor with shepherd. an installer for windows 10 and 11, a .deb and a .tar.xz for linux.`,
-})
+export function generateMetadata(): Metadata {
+  const language = currentLanguage()
+  const t = dictionary(language).downloadPage
+  return pageMetadata({
+    path: '/download',
+    title: t.metaTitle,
+    description: fill(t.description, { version: RELEASE_VERSION }),
+    language,
+    translated: true,
+  })
+}
 
 function Steps({ installer }: { installer: Installer }) {
   switch (installer.platform) {
@@ -62,18 +70,18 @@ function Steps({ installer }: { installer: Installer }) {
 
 export default function DownloadPage() {
   const hasLinux = INSTALLERS.some((installer) => installer.platform === 'linux')
+  const language = currentLanguage()
+  const t = dictionary(language)
 
   return (
     <Shell>
       <JsonLd data={breadcrumbs([{ name: 'download', path: '/download' }])} />
       <main className="l-doc">
         <div className="l-doc-card">
-          <p className="l-doc-meta">free · no account · no telemetry</p>
-          <h1>Download noah</h1>
-          <p className="l-doc-lede">
-            The editor and shepherd, its agent, in one install. After it opens, add an API key from any
-            provider you use, or point it at a local model, and start.
-          </p>
+          <p className="l-doc-meta">{t.downloadPage.meta}</p>
+          <h1>{t.downloadPage.heading}</h1>
+          <p className="l-doc-lede">{t.downloadPage.lede}</p>
+          {language !== DEFAULT_LANGUAGE && <p className="l-english-note">{t.english}</p>}
 
           {INSTALLERS.map((installer) => (
             <section key={installer.file} className="l-installer">
@@ -85,7 +93,7 @@ export default function DownloadPage() {
                   </div>
                 </div>
                 <a className="l-btn-primary" href={`/downloads/${installer.file}`} download>
-                  download
+                  {t.download.button}
                 </a>
               </div>
               <Steps installer={installer} />
@@ -100,13 +108,13 @@ export default function DownloadPage() {
             There is no {hasLinux ? 'macOS build' : 'macOS or Linux build'} yet. When there is, it is listed here with its checksum.
           </p>
 
-          <h2>Check your download</h2>
+          <h2>{t.downloadPage.check}</h2>
           <p>
             Compare the file&apos;s SHA-256 with the value above. On Windows, in PowerShell:{' '}
             <code>Get-FileHash .\noah-windows-x86_64.exe</code>. On Linux: <code>sha256sum &lt;file&gt;</code>.
           </p>
 
-          <h2>What it needs</h2>
+          <h2>{t.downloadPage.needs}</h2>
           <ul>
             <li>Windows 10 (version 1607 or later) or Windows 11, 64-bit, with a DirectX 11 graphics driver.</li>
             <li>Linux on x86-64 with a Vulkan graphics driver.</li>

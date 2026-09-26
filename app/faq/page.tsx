@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import JsonLd from '@/components/JsonLd'
+import EnglishNote from '@/components/landing/EnglishNote'
 import Shell from '@/components/landing/Shell'
 import { LINKS } from '@/lib/site'
 import { breadcrumbs, faqPage, pageMetadata } from '@/lib/seo'
@@ -61,6 +62,21 @@ const QUESTIONS: { question: string; answer: string }[] = [
       'asherin.chat, for thinking with shepherd outside any project; asherin.pages, where shepherd makes PDFs, digital books and slideshows; asherin.eye, a live 3D globe intelligence console you can extend; a device room with security checks, system health, a system-wide ad blocker and a duplicate-file cleaner; and a browser room you share with shepherd. Your chats are kept in a history you can pin.',
   },
   {
+    question: 'What is asherin.search?',
+    answer:
+      'A research engine you talk to. You type what you want to know; shepherd turns it into searches, page reads, API calls and small python programs, runs them, and brings back what it found the way a browser would: the answer, the links with previews, and a map of how the sources connect to your question and to each other. Every program it wrote and every finding stays in a folder you can read and rerun.',
+  },
+  {
+    question: 'Can I replace shepherd’s brain?',
+    answer:
+      'Yes, whole. Pick any text file with "noah: replace shepherd brain", or write or paste one of any length with "noah: write shepherd brain". From the next conversation on, that file is the brain; the built-in one is not mixed in. "noah: use built-in shepherd brain" puts it back. The built-in brain stays inside the program and is never written out.',
+  },
+  {
+    question: 'Is there a way to make it all go quiet?',
+    answer:
+      'ctrl-alt-q. Every panel closes and every sound, pop-up and badge stops. shepherd keeps working and holds what it needs to tell you; when you press it again, the panels come back and you hear how many things waited.',
+  },
+  {
     question: 'How does noah keep shepherd in check?',
     answer:
       'Through a trust layer. Finished work comes with evidence: the checks that actually ran and what was not verified. Every change is recorded in a tamper-evident provenance log. Secrets are redacted before the model sees them, text read from the web and from files is screened for prompt injection, and commands can run in a sandbox. Anything irreversible always asks first.',
@@ -96,6 +112,7 @@ export default function FaqPage() {
         <div className="l-doc-card">
           <p className="l-doc-meta">questions</p>
           <h1>Straight answers</h1>
+          <EnglishNote />
           <p className="l-doc-lede">
             Anything else, ask in the <a href={LINKS.discord}>discord</a>. Ready to try it?{' '}
             <Link href="/download">Download noah</Link>.

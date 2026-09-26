@@ -3,8 +3,12 @@ import path from 'node:path'
 import Link from 'next/link'
 import Effects from './Effects'
 import ConsoleNotice from '@/components/ConsoleNotice'
+import Analytics from '@/components/Analytics'
+import LanguageMenu from './LanguageMenu'
 import WallpaperPicker, { type Wallpaper } from './WallpaperPicker'
 import { LINKS } from '@/lib/site'
+import { dictionary, localized } from '@/lib/i18n'
+import { currentLanguage } from '@/lib/language'
 import '@/app/landing.css'
 
 // Every page sits in the same room: the fixed wallpaper, the fog, a quiet nav
@@ -26,10 +30,14 @@ function wallpapers(): Wallpaper[] {
 }
 
 export default function Shell({ children }: { children: React.ReactNode }) {
+  const language = currentLanguage()
+  const t = dictionary(language)
+  const to = (path: string) => localized(path, language)
   return (
     <div className="landing">
       <Effects />
       <ConsoleNotice />
+      <Analytics language={language} />
       <div className="l-wallpaper" aria-hidden />
       <div className="l-wallpaper-overlay" aria-hidden />
       <div className="l-mist" aria-hidden />
@@ -37,15 +45,16 @@ export default function Shell({ children }: { children: React.ReactNode }) {
 
       <div className="l-site">
         <nav className="l-nav" aria-label="primary">
-          <Link href="/" className="l-nav-logo">
+          <Link href={to('/')} className="l-nav-logo">
             noah
           </Link>
           <ul className="l-nav-links">
-            <li><Link href="/#features">features</Link></li>
-            <li><Link href="/shepherd">shepherd</Link></li>
-            <li><Link href="/faq">faq</Link></li>
-            <li><Link href="/founder">founder</Link></li>
-            <li><Link href="/download" className="l-nav-download">download</Link></li>
+            <li><Link href={`${to('/')}#features`}>{t.nav.features}</Link></li>
+            <li><Link href={to('/shepherd')}>{t.nav.shepherd}</Link></li>
+            <li><Link href={to('/faq')}>{t.nav.faq}</Link></li>
+            <li><Link href={to('/founder')}>{t.nav.founder}</Link></li>
+            <li><Link href={to('/download')} className="l-nav-download">{t.nav.download}</Link></li>
+            <LanguageMenu language={language} label={t.nav.language} />
           </ul>
         </nav>
 
@@ -54,16 +63,17 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         <footer className="l-footer">
           <div className="l-footer-brand">
             <span className="l-footer-logo">noah</span>
-            <span className="l-footer-tags">by house of asher</span>
+            <span className="l-footer-tags">{t.footer.by}</span>
           </div>
           <ul className="l-footer-links">
-            <li><Link href="/download">download</Link></li>
-            <li><Link href="/shepherd">shepherd</Link></li>
-            <li><Link href="/faq">faq</Link></li>
-            <li><Link href="/founder">founder</Link></li>
-            <li><Link href="/security">security</Link></li>
-            <li><Link href="/terms">terms</Link></li>
-            <li><a href={LINKS.source} target="_blank" rel="noopener noreferrer">source</a></li>
+            <li><Link href={to('/download')}>{t.nav.download}</Link></li>
+            <li><Link href={to('/shepherd')}>{t.nav.shepherd}</Link></li>
+            <li><Link href={to('/faq')}>{t.nav.faq}</Link></li>
+            <li><Link href={to('/founder')}>{t.nav.founder}</Link></li>
+            <li><Link href={to('/security')}>{t.footer.security}</Link></li>
+            <li><Link href={to('/terms')}>{t.footer.terms}</Link></li>
+            <li><Link href={to('/stats')}>{t.footer.stats}</Link></li>
+            <li><a href={LINKS.source} target="_blank" rel="noopener noreferrer">{t.footer.source}</a></li>
             <li><a href={LINKS.discord} target="_blank" rel="noopener noreferrer">discord</a></li>
             <li><a href={LINKS.asherin} target="_blank" rel="noopener noreferrer">asherin.com</a></li>
           </ul>

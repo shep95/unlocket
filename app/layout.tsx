@@ -5,6 +5,8 @@ import { lookFontVariables } from './fonts'
 import JsonLd from '@/components/JsonLd'
 import { DESCRIPTION, LINKS, LONG_DESCRIPTION, SITE_URL, THEMED_LOOKS, WALLPAPER_STORAGE_KEY } from '@/lib/site'
 import { HOME_TITLE, OG_IMAGE, ORGANIZATION_NAME, SITE_NAME, TWITTER_HANDLE, siteGraph } from '@/lib/seo'
+import { LANGUAGE_CODES, LANGUAGE_STORAGE_KEY, RIGHT_TO_LEFT } from '@/lib/i18n'
+import { currentLanguage } from '@/lib/language'
 
 // Every page is rendered per request so middleware can give its scripts a
 // fresh CSP nonce; a prerendered page would carry no nonce and could only run
@@ -87,12 +89,25 @@ export const viewport: Viewport = {
 // default one goes unused under every other look, and the browser warns.
 const LOOK_SCRIPT = `var l=null;try{l=localStorage.getItem(${JSON.stringify(WALLPAPER_STORAGE_KEY)})}catch(e){}if(!l)l='fog';if(${JSON.stringify(THEMED_LOOKS)}.indexOf(l)>-1){if(l!=='fog')document.documentElement.setAttribute('data-look',l);var p=document.createElement('link');p.rel='preload';p.as='image';p.href=l==='fog'?'/wallpaper.jpg':'/wallpapers/'+l+'.jpg';p.setAttribute('fetchpriority','high');document.head.appendChild(p)}`
 
+// A visitor on an English url who has chosen another language, or whose
+// browser speaks one the site speaks, is taken to that language before the
+// page paints. A remembered "en" is a choice too and stays. Crawlers run no
+// script and keep the url they asked for.
+const LANGUAGE_SCRIPT = `(function(){var L=${JSON.stringify(LANGUAGE_CODES)};var p=location.pathname;if(L.indexOf(p.split('/')[1])>-1)return;var s=null;try{s=localStorage.getItem(${JSON.stringify(LANGUAGE_STORAGE_KEY)})}catch(e){}var w=s||(navigator.language||'').split('-')[0].toLowerCase();if(w&&w!=='en'&&L.indexOf(w)>-1){location.replace('/'+w+(p==='/'?'':p)+location.search+location.hash)}})()`
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const nonce = headers().get('x-nonce') ?? undefined
+  const language = currentLanguage()
   return (
     // The look script sets data-look on this element before React hydrates.
-    <html lang="en" className={lookFontVariables} suppressHydrationWarning>
+    <html
+      lang={language}
+      dir={RIGHT_TO_LEFT.includes(language) ? 'rtl' : 'ltr'}
+      className={lookFontVariables}
+      suppressHydrationWarning
+    >
       <head>
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: LANGUAGE_SCRIPT }} />
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: LOOK_SCRIPT }} />
         <JsonLd data={siteGraph()} />
       </head>

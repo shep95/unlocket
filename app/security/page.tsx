@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import JsonLd from '@/components/JsonLd'
+import EnglishNote from '@/components/landing/EnglishNote'
 import Shell from '@/components/landing/Shell'
 import { LINKS } from '@/lib/site'
 import { breadcrumbs, pageMetadata } from '@/lib/seo'
@@ -23,6 +24,7 @@ export default function SecurityPage() {
         <div className="l-doc-card">
           <p className="l-doc-meta">security · #houseofasher</p>
           <h1>Security</h1>
+          <EnglishNote />
           <p className="l-doc-lede">
             How to tell us about a weakness, and how to know the noah you run is the one we published.
           </p>

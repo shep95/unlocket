@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import JsonLd from '@/components/JsonLd'
+import EnglishNote from '@/components/landing/EnglishNote'
 import Shell from '@/components/landing/Shell'
 import { breadcrumbs, pageMetadata } from '@/lib/seo'
 
@@ -18,6 +19,7 @@ export default function TermsPage() {
         <div className="l-doc-card">
           <p className="l-doc-meta">last updated september 2026 · #houseofasher</p>
           <h1>Terms of Service</h1>
+          <EnglishNote />
           <p className="l-doc-lede">Plain terms for a free editor. No account, no records, no middleman.</p>
 
           <section>
