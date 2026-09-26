@@ -72,6 +72,31 @@ const QUESTIONS: { question: string; answer: string }[] = [
       'Yes, whole. Pick any text file with "noah: replace shepherd brain", or write or paste one of any length with "noah: write shepherd brain". From the next conversation on, that file is the brain; the built-in one is not mixed in. "noah: use built-in shepherd brain" puts it back. The built-in brain stays inside the program and is never written out.',
   },
   {
+    question: 'I have an idea but no project. Where do I start?',
+    answer:
+      'On the welcome page, press "talk to shepherd". noah makes a folder for you under noah-projects, opens it, and shepherd waits for your words. Say what you want built; it asks at most one question and starts.',
+  },
+  {
+    question: 'Can something I build become a tab in noah?',
+    answer:
+      'Yes. Any page or app that runs in a browser can sit on the rail as a tab of its own: pin it from the browser room, or run "noah: pin project as tab" in a project that has an index.html or a .noah/app.json naming its address. It is kept on your device only.',
+  },
+  {
+    question: 'What is asherin.board?',
+    answer:
+      'A whiteboard you and shepherd share, over your wallpaper. Draw with a pen, lines, boxes, circles and text, drop in photos with rounded corners or paste them, and ask shepherd in the conversation to draw; it edits the same board file and the board follows within a second.',
+  },
+  {
+    question: 'Can I record the screen with my camera in the corner?',
+    answer:
+      'Yes. The rail records the noah window; turn on "your camera in recordings" and the next recording carries your camera as a small rounded rectangle in the lower right. It reads the camera through ffmpeg, so ffmpeg has to be installed.',
+  },
+  {
+    question: 'Can shepherd audit my code for security flaws?',
+    answer:
+      'Yes. Ask for a security audit and shepherd follows its built-in audit skill: it maps the attack surface, searches for each weakness class with the terminal, proves every finding before reporting it, patches with a test that failed before and passes after, and lists what it checked and what it did not.',
+  },
+  {
     question: 'Is there a way to make it all go quiet?',
     answer:
       'ctrl-alt-q. Every panel closes and every sound, pop-up and badge stops. shepherd keeps working and holds what it needs to tell you; when you press it again, the panels come back and you hear how many things waited.',
