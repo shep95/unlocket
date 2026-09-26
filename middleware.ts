@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
+import { isBlockedAgent, isProbePath } from '@/lib/bots'
 
 // Each page response gets a fresh nonce, and only scripts carrying it (Next.js
 // reads it from the request's CSP header and stamps its own tags) may run.
@@ -26,7 +27,22 @@ function contentSecurityPolicy(nonce: string): string {
   ].join('; ')
 }
 
+// Answers carry no body and no hints about what the site runs on.
+function refuse(status: 403 | 404) {
+  return new NextResponse(null, {
+    status,
+    headers: { 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow' },
+  })
+}
+
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
+  if (isProbePath(pathname)) return refuse(404)
+  if (isBlockedAgent(request.headers.get('user-agent'))) return refuse(403)
+
+  // Images get the same gate as pages, but no page CSP.
+  if (pathname.startsWith('/wallpapers/') || pathname === '/founder.jpg') return NextResponse.next()
+
   const nonce = btoa(crypto.randomUUID())
   const policy = contentSecurityPolicy(nonce)
 
@@ -39,13 +55,14 @@ export function middleware(request: NextRequest) {
   return response
 }
 
-// Pages only. Static files, including the installers, get their fixed
-// headers from next.config.mjs and never pay for a middleware call.
+// Pages and the site's own images. Other static files, including the
+// installers the updater fetches, get their fixed headers from
+// next.config.mjs and never pay for a middleware call.
 export const config = {
   matcher: [
     {
       source:
-        '/((?!_next/static|_next/image|downloads/|wallpapers/|\\.well-known/|favicon\\.ico|icon|apple-touch-icon\\.png|og-image\\.jpg|wallpaper\\.jpg|founder\\.jpg|robots\\.txt|sitemap\\.xml|manifest\\.webmanifest).*)',
+        '/((?!_next/static|_next/image|downloads/|\\.well-known/|favicon\\.ico|icon|apple-touch-icon\\.png|og-image\\.jpg|wallpaper\\.jpg|robots\\.txt|sitemap\\.xml|manifest\\.webmanifest).*)',
       missing: [
         { type: 'header', key: 'next-router-prefetch' },
         { type: 'header', key: 'purpose', value: 'prefetch' },

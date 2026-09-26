@@ -19,7 +19,7 @@ const LOOKS: Record<string, Look> = {
   fog: { accent: '#5f8a58', fog: '5, 8, 6', filter: 'none' },
   rings: { accent: '#8e949c', fog: '4, 4, 5', filter: 'grayscale(1) contrast(1.08) brightness(0.9)' },
   sea: { accent: '#9a8f80', fog: '10, 9, 8', filter: 'sepia(0.15) contrast(0.95) brightness(0.82)' },
-  halo: { accent: '#a8834a', fog: '6, 5, 3', filter: 'contrast(1.1) saturate(1.1) brightness(0.95)' },
+  halo: { accent: '#a8834a', fog: '6, 5, 3', filter: 'contrast(1.15) saturate(1.25) brightness(1.45)' },
   glitch: { accent: '#7d8a90', fog: '6, 7, 8', filter: 'grayscale(0.9) contrast(1.05) brightness(0.85)' },
   lights: { accent: '#b39a6b', fog: '6, 5, 4', filter: 'contrast(1.05) brightness(0.85) saturate(0.9)' },
 }

@@ -83,6 +83,13 @@ const nextConfig = {
         headers: [{ key: 'Cross-Origin-Resource-Policy', value: 'cross-origin' }],
       },
 
+      // Wallpapers and the founder photo stay out of image search, and the
+      // site-wide same-origin CORP stops other sites hotlinking them.
+      {
+        source: '/:file(wallpapers/.+|wallpaper\\.jpg|founder\\.jpg)',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, noimageindex, noarchive' }],
+      },
+
       // Installers are opened by top-level navigation, which CORP does not
       // govern; same-site still stops other origins embedding them as
       // subresources. The updater is not a browser and is unaffected.

@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import Link from 'next/link'
 import Effects from './Effects'
+import ConsoleNotice from '@/components/ConsoleNotice'
 import WallpaperPicker, { type Wallpaper } from './WallpaperPicker'
 import { LINKS } from '@/lib/site'
 import '@/app/landing.css'
@@ -28,6 +29,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="landing">
       <Effects />
+      <ConsoleNotice />
       <div className="l-wallpaper" aria-hidden />
       <div className="l-wallpaper-overlay" aria-hidden />
       <div className="l-mist" aria-hidden />
