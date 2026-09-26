@@ -33,7 +33,7 @@ export type Installer = {
 }
 
 /** The published release, matching `version` in public/downloads/latest.json. */
-export const RELEASE_VERSION = '2026.9.25'
+export const RELEASE_VERSION = '2026.9.26'
 
 // Only installers that exist in public/downloads are listed.
 export const INSTALLERS: Installer[] = [
@@ -42,27 +42,27 @@ export const INSTALLERS: Installer[] = [
     label: 'Windows 10 and 11 (64-bit)',
     file: 'noah-windows-x86_64.exe',
     format: 'installer (.exe)',
-    size: '72 MB',
+    size: '79 MB',
     requirement: 'windows 10+',
-    sha256: 'b83d355291b79405307557441f41ec166fc2ac99e64e2f52c679952536734c74',
+    sha256: '3d341433e1100cc1718a1bc224290f1374cbf5bf5e1d92b7bee42082cbcb8896',
   },
   {
     platform: 'linux',
     label: 'Debian, Ubuntu, Mint, Pop!_OS (64-bit)',
     file: 'noah-linux-amd64.deb',
     format: 'package (.deb)',
-    size: '83 MB',
+    size: '90 MB',
     requirement: 'ubuntu 22.04+ / debian 12+',
-    sha256: '7277bb1c5819787089c30a3d003025f456faff7ee917ac1ce48cc9a843b70504',
+    sha256: '40b7c8f55bf35efd5df56486c4722954d25c6016d6dedaa265afe38b16e1650f',
   },
   {
     platform: 'linux',
     label: 'Any other Linux (x86_64)',
     file: 'noah-linux-x86_64.tar.xz',
     format: 'archive (.tar.xz)',
-    size: '83 MB',
+    size: '90 MB',
     requirement: 'x86_64 linux',
-    sha256: '9b458ade85ffb48804b856153c03a9b1ef020aaa18b760fe234d83c341af73c1',
+    sha256: 'ffc282487418c1834b9e18ca953eab9fae1d83837965a2bdf01b850794c02621',
   },
 ]
 
