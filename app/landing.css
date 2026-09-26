@@ -832,3 +832,4 @@
   .landing .l-proto-stats li + li { border-left: 0; border-top: 1px solid var(--l-border); }
   .landing .l-proto-readout { grid-template-columns: 1fr; }
 }
+.landing .l-sd-missing { fill: none; stroke: var(--l-accent, #5f8a58); stroke-dasharray: 3 3; }

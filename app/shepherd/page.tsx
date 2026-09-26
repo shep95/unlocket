@@ -129,27 +129,46 @@ function Prototype() {
       <text className="l-sd-note" x="460" y="124" textAnchor="middle">and how they knew</text>
 
       {[
-        [48, 214, 3],
-        [92, 190, 1],
-        [70, 250, 5],
-        [128, 232, 2],
-        [110, 272, 4],
+        [92, 196, 5],
+        [52, 230, 1],
+        [128, 248, 2],
       ].map(([x, y, order]) => (
         <g key={order}>
           <rect className="l-sd-box" x={x} y={y} width="34" height="16" rx="2" />
           <text className="l-sd-dim" x={x + 17} y={y + 12} textAnchor="middle">{order}</text>
         </g>
       ))}
-      <text className="l-sd-note" x="96" y="310" textAnchor="middle">hidden, out of order</text>
+      <text className="l-sd-note" x="96" y="292" textAnchor="middle">out of order,</text>
+      <text className="l-sd-note" x="96" y="308" textAnchor="middle">3 and 4 missing</text>
 
       <path className="l-sd-line" d="M180 240 H250" />
-      {[1, 2, 3, 4, 5].map((order) => (
-        <g key={order}>
-          <rect className="l-sd-box" x={260 + (order - 1) * 38} y="232" width="34" height="16" rx="2" />
-          <text className="l-sd-dim" x={277 + (order - 1) * 38} y="244" textAnchor="middle">{order}</text>
-        </g>
-      ))}
-      <text className="l-sd-note" x="354" y="276" textAnchor="middle">read in context</text>
+      {[1, 2, 3, 4, 5].map((order) => {
+        // Messages 3 and 4 never reached shepherd; it had to infer them.
+        const missing = order === 3 || order === 4
+        return (
+          <g key={order}>
+            <rect
+              className={missing ? 'l-sd-box l-sd-missing' : 'l-sd-box'}
+              x={260 + (order - 1) * 38}
+              y="232"
+              width="34"
+              height="16"
+              rx="2"
+            />
+            <text
+              className={missing ? 'l-sd-value' : 'l-sd-dim'}
+              x={277 + (order - 1) * 38}
+              y="244"
+              textAnchor="middle"
+            >
+              {missing ? '?' : order}
+            </text>
+          </g>
+        )
+      })}
+      <path className="l-sd-line" d="M334 256 V262 H406 V256" />
+      <text className="l-sd-dim" x="370" y="222" textAnchor="middle">never seen</text>
+      <text className="l-sd-note" x="354" y="280" textAnchor="middle">read in context, gaps inferred</text>
 
       <path className="l-sd-accent l-sd-draw" d="M452 240 H600" />
       <circle className="l-sd-node l-sd-node-accent" cx="600" cy="240" r="5" />
@@ -357,8 +376,8 @@ export default function Shepherd() {
           </p>
           <p>
             then shepherd took out-of-context messages, meaning messages that didn&apos;t show the ones before
-            them, messages hidden and out of order, and predicted accurately what would happen between two
-            people. three and a half hours later, that prediction hit.
+            them, messages out of order, with some hidden completely, and predicted accurately what would
+            happen between two people. three and a half hours later, that prediction hit.
           </p>
           <figure className="l-sd-figure">
             <Prototype />
