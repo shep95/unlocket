@@ -19,7 +19,7 @@ export const OG_IMAGE = {
   url: '/og-image.jpg',
   width: 1200,
   height: 630,
-  alt: "noah, a shepherd for your code: a cabin under misty green hills",
+  alt: "noah — a shepherd for your code. download for windows, over a cabin in misty green hills",
 }
 
 const ROBOTS: Metadata['robots'] = {

@@ -40,6 +40,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           </Link>
           <ul className="l-nav-links">
             <li><Link href="/#features">features</Link></li>
+            <li><Link href="/shepherd">shepherd</Link></li>
             <li><Link href="/faq">faq</Link></li>
             <li><Link href="/founder">founder</Link></li>
             <li><Link href="/download" className="l-nav-download">download</Link></li>
@@ -55,6 +56,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           </div>
           <ul className="l-footer-links">
             <li><Link href="/download">download</Link></li>
+            <li><Link href="/shepherd">shepherd</Link></li>
             <li><Link href="/faq">faq</Link></li>
             <li><Link href="/founder">founder</Link></li>
             <li><Link href="/security">security</Link></li>
