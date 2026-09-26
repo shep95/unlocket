@@ -1,32 +1,56 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { THEMED_LOOKS, WALLPAPER_STORAGE_KEY } from '@/lib/site'
 
 export type Wallpaper = { name: string; src: string }
 
-type Look = {
-  /** the one warm light: the download button and verified accents */
-  accent: string
-  /** rgb of the fog laid over the photo */
-  fog: string
-  /** how the photo itself is graded so it sits well under the text */
-  filter: string
+type Rgb = [number, number, number]
+
+// Every token a sampled palette writes inline on .landing, so a hand-made
+// look can clear them again.
+const SAMPLED_PROPERTIES = [
+  '--l-wall-image',
+  '--l-wall-filter',
+  '--l-bg',
+  '--l-shade',
+  '--l-fog',
+  '--l-surface-rgb',
+  '--l-surface2-rgb',
+  '--l-raise',
+  '--l-raise-hover',
+  '--l-line',
+  '--l-mist',
+  '--l-accent',
+  '--l-accent-rgb',
+  '--l-accent-bright',
+  '--l-glow',
+  '--l-accent-soft',
+  '--l-badge',
+  '--l-code-kw',
+]
+
+// The font variables each hand-made look uses (see app/fonts.ts), loaded
+// before a switch so the new look does not arrive in fallback type.
+const LOOK_FONTS: Record<string, string[]> = {
+  glitch: ['--font-glitch-display', '--font-glitch-mono'],
+  halo: ['--font-halo-display', '--font-halo-body'],
+  lights: ['--font-lights-display', '--font-lights-body'],
+  meteor: ['--font-meteor-display', '--font-meteor-body'],
+  rings: ['--font-rings-display', '--font-rings-body'],
+  sea: ['--font-sea-display', '--font-sea-body'],
 }
 
-// Hand-tuned grades for the wallpapers noah ships with. Anything else gets a
-// look sampled from the image itself.
-const LOOKS: Record<string, Look> = {
-  fog: { accent: '#5f8a58', fog: '5, 8, 6', filter: 'none' },
-  rings: { accent: '#8e949c', fog: '4, 4, 5', filter: 'grayscale(1) contrast(1.08) brightness(0.9)' },
-  sea: { accent: '#9a8f80', fog: '10, 9, 8', filter: 'sepia(0.15) contrast(0.95) brightness(0.82)' },
-  halo: { accent: '#a8834a', fog: '6, 5, 3', filter: 'contrast(1.15) saturate(1.25) brightness(1.45)' },
-  glitch: { accent: '#7d8a90', fog: '6, 7, 8', filter: 'grayscale(0.9) contrast(1.05) brightness(0.85)' },
-  lights: { accent: '#b39a6b', fog: '6, 5, 4', filter: 'contrast(1.05) brightness(0.85) saturate(0.9)' },
+function isThemed(name: string): boolean {
+  return (THEMED_LOOKS as readonly string[]).includes(name)
 }
 
-const STORAGE_KEY = 'noah-wallpaper'
+const triplet = ([red, green, blue]: Rgb) => `${red}, ${green}, ${blue}`
+const rgb = ([red, green, blue]: Rgb) => `rgb(${red}, ${green}, ${blue})`
+const mix = (from: Rgb, to: Rgb, amount: number): Rgb =>
+  from.map((value, index) => Math.round(value + (to[index] - value) * amount)) as Rgb
 
-function sampleLook(src: string): Promise<Look> {
+function averageColor(src: string): Promise<Rgb | null> {
   return new Promise((resolve) => {
     const image = new Image()
     image.crossOrigin = 'anonymous'
@@ -35,7 +59,7 @@ function sampleLook(src: string): Promise<Look> {
       canvas.width = 32
       canvas.height = 20
       const context = canvas.getContext('2d')
-      if (!context) return resolve(LOOKS.fog)
+      if (!context) return resolve(null)
       context.drawImage(image, 0, 0, 32, 20)
       const pixels = context.getImageData(0, 0, 32, 20).data
       let red = 0
@@ -47,30 +71,122 @@ function sampleLook(src: string): Promise<Look> {
         blue += pixels[index + 2]
       }
       const count = pixels.length / 4
-      const [r, g, b] = [red / count, green / count, blue / count]
-      // Lift the image's own hue to a muted mid tone for the accent, and
-      // sink it almost to black for the fog.
-      const lift = (value: number) => Math.round(90 + (value / 255) * 80)
-      const sink = (value: number) => Math.round((value / 255) * 14)
-      resolve({
-        accent: `rgb(${lift(r)}, ${lift(g)}, ${lift(b)})`,
-        fog: `${sink(r)}, ${sink(g)}, ${sink(b)}`,
-        filter: 'contrast(1.05) brightness(0.88)',
-      })
+      resolve([red / count, green / count, blue / count])
     }
-    image.onerror = () => resolve(LOOKS.fog)
+    image.onerror = () => resolve(null)
     image.src = src
   })
 }
 
-async function apply(wallpaper: Wallpaper) {
-  const root = document.querySelector<HTMLElement>('.landing')
-  if (!root) return
-  const look = LOOKS[wallpaper.name] ?? (await sampleLook(wallpaper.src))
-  root.style.setProperty('--l-wall-image', `url('${wallpaper.src}')`)
-  root.style.setProperty('--l-wall-filter', look.filter)
-  root.style.setProperty('--l-fog', look.fog)
-  root.style.setProperty('--l-accent', look.accent)
+/** A dark palette in the image's own hue, for wallpapers without a hand-made look. */
+async function sampledPalette(src: string): Promise<Record<string, string> | null> {
+  const average = await averageColor(src)
+  if (!average) return null
+  const white: Rgb = [255, 255, 255]
+  const black: Rgb = [0, 0, 0]
+  // Sink the image's hue almost to black for the fog and surfaces, and lift
+  // it to a muted mid tone for the accent.
+  const sink = (depth: number) => average.map((value) => Math.round((value / 255) * depth)) as Rgb
+  const accent = average.map((value) => Math.round(90 + (value / 255) * 80)) as Rgb
+  const bright = mix(accent, white, 0.2)
+  return {
+    '--l-wall-filter': 'contrast(1.05) brightness(0.88)',
+    '--l-bg': rgb(sink(10)),
+    '--l-shade': triplet(sink(14)),
+    '--l-fog': triplet(sink(14)),
+    '--l-surface-rgb': triplet(sink(20)),
+    '--l-surface2-rgb': triplet(sink(24)),
+    '--l-raise': triplet(sink(28)),
+    '--l-raise-hover': triplet(sink(40)),
+    '--l-line': triplet(mix(average.map(Math.round) as Rgb, white, 0.6)),
+    '--l-mist': triplet(mix(average.map(Math.round) as Rgb, white, 0.7)),
+    '--l-accent': rgb(accent),
+    '--l-accent-rgb': triplet(accent),
+    '--l-accent-bright': rgb(bright),
+    '--l-glow': triplet(bright),
+    '--l-accent-soft': rgb(mix(accent, white, 0.45)),
+    '--l-badge': triplet(mix(accent, black, 0.7)),
+    '--l-code-kw': rgb(mix(accent, black, 0.2)),
+  }
+}
+
+function preloadImage(src: string): Promise<void> {
+  const image = new Image()
+  image.src = src
+  return image.decode().catch(() => undefined)
+}
+
+function preloadFonts(look: string): Promise<unknown> {
+  const style = getComputedStyle(document.documentElement)
+  const loads = (LOOK_FONTS[look] ?? []).flatMap((variable) => {
+    const family = style.getPropertyValue(variable).trim()
+    if (!family) return []
+    return ['400', '300', '500', 'italic 400'].map((variant) =>
+      document.fonts.load(`${variant} 1em ${family}`).catch(() => []),
+    )
+  })
+  return Promise.all(loads)
+}
+
+// Waits at most this long for the new image and type, then switches anyway.
+const PRELOAD_LIMIT_MS = 1200
+
+function withinLimit(work: Promise<unknown>): Promise<unknown> {
+  return Promise.race([work, new Promise((resolve) => window.setTimeout(resolve, PRELOAD_LIMIT_MS))])
+}
+
+type ViewTransitionDocument = Document & { startViewTransition?: (update: () => void) => unknown }
+
+/** Cross-fades the page into the new look, or fades only its colors where view transitions are missing. */
+function transition(update: () => void) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    update()
+    return
+  }
+  const viewTransitionDocument = document as ViewTransitionDocument
+  if (typeof viewTransitionDocument.startViewTransition === 'function') {
+    viewTransitionDocument.startViewTransition(update)
+    return
+  }
+  const root = document.documentElement
+  root.classList.add('l-theming')
+  update()
+  window.setTimeout(() => root.classList.remove('l-theming'), 400)
+}
+
+async function apply(wallpaper: Wallpaper, animate: boolean) {
+  const landing = document.querySelector<HTMLElement>('.landing')
+  if (!landing) return
+  const root = document.documentElement
+  const clearSampled = () => {
+    for (const property of SAMPLED_PROPERTIES) landing.style.removeProperty(property)
+  }
+
+  let update: () => void
+  if (isThemed(wallpaper.name)) {
+    if (animate) await withinLimit(Promise.all([preloadImage(wallpaper.src), preloadFonts(wallpaper.name)]))
+    update = () => {
+      clearSampled()
+      if (wallpaper.name === 'fog') root.removeAttribute('data-look')
+      else root.setAttribute('data-look', wallpaper.name)
+    }
+  } else {
+    const [palette] = await Promise.all([
+      sampledPalette(wallpaper.src),
+      animate ? withinLimit(preloadImage(wallpaper.src)) : Promise.resolve(),
+    ])
+    update = () => {
+      // An image of the visitor's own keeps the fog look's type and layout.
+      root.removeAttribute('data-look')
+      clearSampled()
+      landing.style.setProperty('--l-wall-image', `url('${wallpaper.src}')`)
+      if (!palette) return
+      for (const [property, value] of Object.entries(palette)) landing.style.setProperty(property, value)
+    }
+  }
+
+  if (animate) transition(update)
+  else update()
 }
 
 function SettingsIcon() {
@@ -87,17 +203,20 @@ export default function WallpaperPicker({ wallpapers }: { wallpapers: Wallpaper[
   const [current, setCurrent] = useState('fog')
   const panel = useRef<HTMLDivElement>(null)
 
+  // The inline script in the layout has already put a hand-made look on
+  // <html> before the first paint; this marks it chosen, or samples an image
+  // of the visitor's own.
   useEffect(() => {
     let saved: string | null = null
     try {
-      saved = window.localStorage.getItem(STORAGE_KEY)
+      saved = window.localStorage.getItem(WALLPAPER_STORAGE_KEY)
     } catch {
       saved = null
     }
     const chosen = wallpapers.find((wallpaper) => wallpaper.name === saved)
     if (chosen) {
       setCurrent(chosen.name)
-      void apply(chosen)
+      void apply(chosen, false)
     }
   }, [wallpapers])
 
@@ -119,10 +238,11 @@ export default function WallpaperPicker({ wallpapers }: { wallpapers: Wallpaper[
   }, [open])
 
   const choose = (wallpaper: Wallpaper) => {
+    if (wallpaper.name === current) return
     setCurrent(wallpaper.name)
-    void apply(wallpaper)
+    void apply(wallpaper, true)
     try {
-      window.localStorage.setItem(STORAGE_KEY, wallpaper.name)
+      window.localStorage.setItem(WALLPAPER_STORAGE_KEY, wallpaper.name)
     } catch {
       // Private windows can refuse storage; the choice still applies now.
     }

@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from 'next'
+import { headers } from 'next/headers'
 import './globals.css'
+import { lookFontVariables } from './fonts'
 import JsonLd from '@/components/JsonLd'
-import { DESCRIPTION, LINKS, LONG_DESCRIPTION, SITE_URL } from '@/lib/site'
+import { DESCRIPTION, LINKS, LONG_DESCRIPTION, SITE_URL, THEMED_LOOKS, WALLPAPER_STORAGE_KEY } from '@/lib/site'
 import { HOME_TITLE, OG_IMAGE, ORGANIZATION_NAME, SITE_NAME, TWITTER_HANDLE, siteGraph } from '@/lib/seo'
 
 // Every page is rendered per request so middleware can give its scripts a
@@ -79,10 +81,17 @@ export const viewport: Viewport = {
   colorScheme: 'dark',
 }
 
+// Runs before the first paint so a visitor who chose a look never sees the
+// default one flash first. The picker keeps the attribute in step afterwards.
+const LOOK_SCRIPT = `try{var l=localStorage.getItem(${JSON.stringify(WALLPAPER_STORAGE_KEY)});if(${JSON.stringify(THEMED_LOOKS)}.indexOf(l)>-1)document.documentElement.setAttribute('data-look',l)}catch(e){}`
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const nonce = headers().get('x-nonce') ?? undefined
   return (
-    <html lang="en">
+    // The look script sets data-look on this element before React hydrates.
+    <html lang="en" className={lookFontVariables} suppressHydrationWarning>
       <head>
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: LOOK_SCRIPT }} />
         <link rel="preload" href="/wallpaper.jpg" as="image" fetchPriority="high" />
         <JsonLd data={siteGraph()} />
       </head>

@@ -99,3 +99,11 @@ export const FEATURES = [
   'a sandbox for the commands shepherd runs',
   'wallpapers the interface takes its palette from',
 ]
+
+/** Where the wallpaper picker remembers the visitor's choice. */
+export const WALLPAPER_STORAGE_KEY = 'noah-wallpaper'
+
+// Wallpapers with a hand-made look in app/landing.css: its own palette, type
+// and layout. Any other image in public/wallpapers gets a palette sampled
+// from the image and keeps the fog look's type and layout.
+export const THEMED_LOOKS = ['fog', 'glitch', 'halo', 'lights', 'meteor', 'rings', 'sea'] as const
