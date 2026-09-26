@@ -7,7 +7,7 @@ import { breadcrumbs, pageMetadata } from '@/lib/seo'
 export const metadata: Metadata = pageMetadata({
   path: '/download',
   title: 'download noah for windows and linux',
-  description: `download noah ${RELEASE_VERSION}, the free ai code editor with shepherd. an installer for windows 10 and 11, a .deb and a .tar.xz for linux. mac is coming soon.`,
+  description: `download noah ${RELEASE_VERSION}, the free ai code editor with shepherd. an installer for windows 10 and 11, a .deb and a .tar.xz for linux.`,
 })
 
 function Steps({ installer }: { installer: Installer }) {
@@ -97,7 +97,7 @@ export default function DownloadPage() {
 
           <h2>macOS{hasLinux ? '' : ' and Linux'}</h2>
           <p>
-            Coming soon. {hasLinux ? 'The macOS build' : 'These builds'} will appear here the moment {hasLinux ? 'it is' : 'they are'} ready.
+            There is no {hasLinux ? 'macOS build' : 'macOS or Linux build'} yet. When there is, it is listed here with its checksum.
           </p>
 
           <h2>Check your download</h2>

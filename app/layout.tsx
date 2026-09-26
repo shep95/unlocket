@@ -83,7 +83,9 @@ export const viewport: Viewport = {
 
 // Runs before the first paint so a visitor who chose a look never sees the
 // default one flash first. The picker keeps the attribute in step afterwards.
-const LOOK_SCRIPT = `try{var l=localStorage.getItem(${JSON.stringify(WALLPAPER_STORAGE_KEY)});if(${JSON.stringify(THEMED_LOOKS)}.indexOf(l)>-1)document.documentElement.setAttribute('data-look',l)}catch(e){}`
+// It also preloads only the chosen look's wallpaper: a fixed preload of the
+// default one goes unused under every other look, and the browser warns.
+const LOOK_SCRIPT = `var l=null;try{l=localStorage.getItem(${JSON.stringify(WALLPAPER_STORAGE_KEY)})}catch(e){}if(!l)l='fog';if(${JSON.stringify(THEMED_LOOKS)}.indexOf(l)>-1){if(l!=='fog')document.documentElement.setAttribute('data-look',l);var p=document.createElement('link');p.rel='preload';p.as='image';p.href=l==='fog'?'/wallpaper.jpg':'/wallpapers/'+l+'.jpg';p.setAttribute('fetchpriority','high');document.head.appendChild(p)}`
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const nonce = headers().get('x-nonce') ?? undefined
@@ -92,7 +94,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={lookFontVariables} suppressHydrationWarning>
       <head>
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: LOOK_SCRIPT }} />
-        <link rel="preload" href="/wallpaper.jpg" as="image" fetchPriority="high" />
         <JsonLd data={siteGraph()} />
       </head>
       <body>{children}</body>

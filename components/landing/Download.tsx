@@ -6,7 +6,8 @@ import { INSTALLERS, RELEASE_VERSION, type Installer } from '@/lib/site'
 
 // Installers are hosted on this site (public/downloads), so the button pulls
 // the file straight from here. The button offers the visitor's own platform
-// when there is a build for it; platforms without one say so plainly.
+// when there is a build for it; a platform without one is told so plainly,
+// never shown a "coming soon" placeholder.
 type Platform = Installer['platform']
 
 const PLATFORM_NAMES: Record<Platform, string> = { windows: 'windows', linux: 'linux', mac: 'mac' }
@@ -36,28 +37,20 @@ export default function Download() {
 
   const forVisitor = INSTALLERS.find((installer) => installer.platform === visitor)
   const primary = forVisitor ?? INSTALLERS[0]
-  const available = new Set(INSTALLERS.map((installer) => installer.platform))
-  const soon = (Object.keys(PLATFORM_NAMES) as Platform[]).filter((platform) => !available.has(platform))
 
   return (
     <div>
       {visitor && !forVisitor && (
-        <p className="l-download-note">noah for {PLATFORM_NAMES[visitor]} is coming soon.</p>
+        <p className="l-download-note">there is no {PLATFORM_NAMES[visitor]} build of noah yet.</p>
       )}
       <div className="l-cta-row">
         <a href={`/downloads/${primary.file}`} download className="l-btn-primary">
           <DownloadIcon />
           download for {PLATFORM_NAMES[primary.platform]}
         </a>
-        {soon.length > 0 ? (
-          <span className="l-btn-ghost">
-            {soon.map((platform) => PLATFORM_NAMES[platform]).join(' & ')} coming soon
-          </span>
-        ) : (
-          <Link href="/download" className="l-btn-ghost">
-            all downloads →
-          </Link>
-        )}
+        <Link href="/download" className="l-btn-ghost">
+          all downloads →
+        </Link>
       </div>
       <p className="l-trust">
         v{RELEASE_VERSION} · {primary.size.toLowerCase()} · {primary.requirement}

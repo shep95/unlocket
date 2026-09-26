@@ -1,27 +1,30 @@
 import {
-  Bebas_Neue,
   Barlow,
-  Cinzel,
   Cormorant_Garamond,
   Instrument_Serif,
+  Italiana,
   JetBrains_Mono,
   Jost,
+  Lexend_Exa,
   Libre_Baskerville,
   Lora,
   Manrope,
+  Oswald,
   Space_Grotesk,
-  Syncopate,
 } from 'next/font/google'
 
 // The typefaces of the wallpaper looks. The default fog look keeps the
 // system's Georgia, so nothing here is preloaded: every face is self-hosted
 // under font-src 'self' and the browser only fetches the ones the chosen look
 // actually uses.
+//
+// shepherd's interface rule is thin, lowercase type, so every display face
+// here has a real lowercase and a light cut; capitals-only faces are out.
 
 const glitchDisplay = Space_Grotesk({ subsets: ['latin'], variable: '--font-glitch-display', preload: false })
 const glitchMono = JetBrains_Mono({ subsets: ['latin'], style: ['normal'], variable: '--font-glitch-mono', preload: false })
 
-const haloDisplay = Cinzel({ subsets: ['latin'], variable: '--font-halo-display', preload: false })
+const haloDisplay = Italiana({ subsets: ['latin'], weight: '400', variable: '--font-halo-display', preload: false })
 const haloBody = Libre_Baskerville({
   subsets: ['latin'],
   weight: ['400'],
@@ -30,8 +33,8 @@ const haloBody = Libre_Baskerville({
   preload: false,
 })
 
-const lightsDisplay = Bebas_Neue({ subsets: ['latin'], weight: '400', variable: '--font-lights-display', preload: false })
-const lightsBody = Barlow({ subsets: ['latin'], weight: ['400', '500'], variable: '--font-lights-body', preload: false })
+const lightsDisplay = Oswald({ subsets: ['latin'], weight: ['200', '300'], variable: '--font-lights-display', preload: false })
+const lightsBody = Barlow({ subsets: ['latin'], weight: ['300', '400'], variable: '--font-lights-body', preload: false })
 
 const meteorDisplay = Instrument_Serif({
   subsets: ['latin'],
@@ -42,7 +45,7 @@ const meteorDisplay = Instrument_Serif({
 })
 const meteorBody = Jost({ subsets: ['latin'], style: ['normal'], variable: '--font-meteor-body', preload: false })
 
-const ringsDisplay = Syncopate({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-rings-display', preload: false })
+const ringsDisplay = Lexend_Exa({ subsets: ['latin'], weight: ['200', '300'], variable: '--font-rings-display', preload: false })
 const ringsBody = Manrope({ subsets: ['latin'], variable: '--font-rings-body', preload: false })
 
 const seaDisplay = Cormorant_Garamond({
