@@ -629,6 +629,11 @@
 .landing .l-stat-table td { font-family: var(--l-body); font-size: 13px; color: var(--l-fg-muted); padding: 7px 8px 7px 0; border-bottom: 1px solid var(--l-border); vertical-align: top; word-break: break-all; }
 .landing .l-stat-table .l-num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; padding-right: 0; }
 .landing .l-stat-regions { font-size: 12px; color: var(--l-fg-dim); }
+.landing .l-table-scroll { overflow-x: auto; margin: 8px -8px 0; padding: 0 8px; }
+.landing .l-compare { min-width: 720px; }
+.landing .l-compare th[scope='row'] { text-align: left; font-family: var(--l-body); font-size: 12px; font-weight: 400; color: var(--l-fg-dim); padding: 7px 8px 7px 0; border-bottom: 1px solid var(--l-border); vertical-align: top; white-space: nowrap; }
+.landing .l-compare td { word-break: normal; font-size: 12.5px; }
+.landing .l-compare .l-compare-noah { color: var(--l-fg); }
 .landing .l-faq-item { border-top: 1px solid var(--l-border); padding: 22px 0; }
 .landing .l-faq-item:last-child { border-bottom: 1px solid var(--l-border); }
 .landing .l-faq-item h2 { margin: 0 0 10px; font-size: 20px; }
@@ -653,6 +658,64 @@
 /* scroll reveal */
 .landing .l-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
 .landing .l-reveal.l-visible { opacity: 1; transform: translateY(0); }
+
+/* motion, quiet and one idea at a time: once a section is in view its mock
+   code, model rows and figures arrive one after another; a caret rests at
+   the end of the code; the wallpaper breathes over a minute. */
+@keyframes l-line-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes l-breathe {
+  from { transform: scale(1); }
+  to { transform: scale(1.035); }
+}
+@keyframes l-caret {
+  0%, 45% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.landing .l-wallpaper { background: none; overflow: hidden; }
+.landing .l-wallpaper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--l-wall-image) var(--l-wall-position) / cover no-repeat;
+  transform-origin: 50% 40%;
+  animation: l-breathe 70s ease-in-out infinite alternate;
+}
+.landing .l-code-block > div,
+.landing .l-editor-body > div,
+.landing .l-stack > .l-row,
+.landing .l-stack > .l-search-query,
+.landing .l-stats > .l-stat { opacity: 0; }
+.landing .l-visible .l-code-block > div,
+.landing .l-visible .l-editor-body > div,
+.landing .l-visible .l-stack > .l-row,
+.landing .l-visible .l-stack > .l-search-query,
+.landing .l-visible .l-stats > .l-stat {
+  animation: l-line-in 0.55s ease both;
+  animation-delay: calc(var(--i, 0) * 70ms + 250ms);
+}
+.landing .l-editor-body > div:last-child::after {
+  content: '';
+  display: inline-block;
+  width: 1px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--l-fg-soft);
+  animation: l-caret 1.1s steps(1) infinite;
+}
+.landing .l-btn-ghost { transition: letter-spacing 0.3s ease, color 0.2s ease; }
+.landing .l-btn-ghost:hover { letter-spacing: 0.09em; color: var(--l-fg); }
+@media (prefers-reduced-motion: reduce) {
+  .landing .l-code-block > div,
+  .landing .l-editor-body > div,
+  .landing .l-stack > .l-row,
+  .landing .l-stack > .l-search-query,
+  .landing .l-stats > .l-stat { opacity: 1; }
+  .landing .l-editor-body > div:last-child::after { display: none; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .landing *, .landing *::before { animation: none !important; transition: none !important; }

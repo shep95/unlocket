@@ -27,6 +27,16 @@ export default function Effects() {
     }
     window.addEventListener('scroll', onScroll, { passive: true })
 
+    // Each line in a mock and each figure knows its place in the queue, so
+    // the stylesheet can let them arrive one after another.
+    document
+      .querySelectorAll('.l-code-block, .l-editor-body, .l-stack, .l-stats')
+      .forEach((group) => {
+        Array.from(group.children).forEach((child, index) => {
+          ;(child as HTMLElement).style.setProperty('--i', String(index))
+        })
+      })
+
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {

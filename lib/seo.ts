@@ -8,7 +8,31 @@ import {
   RELEASE_VERSION,
   SITE_URL,
 } from './site'
-import { DEFAULT_LANGUAGE, type Language, languageAlternates, localized, openGraphLocale } from './i18n'
+import {
+  DEFAULT_LANGUAGE,
+  LANGUAGE_CODES,
+  type Language,
+  languageAlternates,
+  localized,
+  openGraphLocale,
+} from './i18n'
+
+/** HowTo structured data for a guide page. */
+export function howTo(guide: { path: string; name: string; description: string; steps: { name: string; text: string }[] }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: guide.name,
+    description: guide.description,
+    url: absolute(guide.path),
+    step: guide.steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.name,
+      text: step.text,
+    })),
+  }
+}
 
 export const SITE_NAME = 'noah'
 export const ORGANIZATION_NAME = 'house of asher'
@@ -67,6 +91,9 @@ export function pageMetadata({
     openGraph: {
       type: openGraphType,
       locale: openGraphLocale(language),
+      alternateLocale: translated
+        ? LANGUAGE_CODES.filter((other) => other !== language).map(openGraphLocale)
+        : undefined,
       url: canonical,
       siteName: SITE_NAME,
       title: shareTitle,

@@ -139,7 +139,9 @@ export default function FaqPage() {
           <h1>Straight answers</h1>
           <EnglishNote />
           <p className="l-doc-lede">
-            Anything else, ask in the <a href={LINKS.discord}>discord</a>. Ready to try it?{' '}
+            Anything else, ask in the <a href={LINKS.discord}>discord</a>. Choosing an editor? See{' '}
+            <Link href="/compare">how noah compares</Link>. Running models on your own machine? Read the{' '}
+            <Link href="/local-models">local models guide</Link>. Ready to try it?{' '}
             <Link href="/download">Download noah</Link>.
           </p>
           {QUESTIONS.map(({ question, answer }) => (
