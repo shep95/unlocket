@@ -7,7 +7,7 @@ export const metadata: Metadata = pageMetadata({
   path: '/shepherd',
   title: 'shepherd, quantum artificial intelligence',
   description:
-    'shepherd is the ai system powering noah: quantum artificial intelligence from house of asher, built by shaping how a model thinks rather than what it was trained to do.',
+    'shepherd is the ai system powering noah: quantum artificial intelligence from house of asher, built by shaping how a model thinks rather than what it was trained to do. see its prototype-stage results.',
 })
 
 function Theory() {
@@ -159,6 +159,145 @@ function Prototype() {
   )
 }
 
+
+// Prototype-stage scores as house of asher reported them.
+const MODELS = [
+  { key: 'astra', name: 'gpt.6 astra' },
+  { key: 'fable', name: 'fable models' },
+  { key: 'shepherd', name: 'qwen 3.6 (shepherd)' },
+] as const
+
+type ModelKey = (typeof MODELS)[number]['key']
+
+const SCORES: { metric: string; values: Record<ModelKey, number> }[] = [
+  { metric: 'reasoning accuracy', values: { astra: 92.4, fable: 90.7, shepherd: 94.8 } },
+  { metric: 'code generation', values: { astra: 91.2, fable: 88.9, shepherd: 96.3 } },
+  { metric: 'problem solving', values: { astra: 89.7, fable: 87.1, shepherd: 95.6 } },
+  { metric: 'agentic autonomy', values: { astra: 88.3, fable: 84.7, shepherd: 93.9 } },
+  { metric: 'overall frontier score', values: { astra: 89.2, fable: 86.5, shepherd: 95.7 } },
+]
+
+const HALLUCINATION: Record<ModelKey, number> = { astra: 6.8, fable: 8.9, shepherd: 2.7 }
+
+const BAR_CLASS: Record<ModelKey, string> = {
+  astra: 'l-sd-bar-astra',
+  fable: 'l-sd-bar-fable',
+  shepherd: 'l-sd-bar-shepherd',
+}
+
+function Legend({ y }: { y: number }) {
+  return (
+    <g>
+      {MODELS.map((model, index) => (
+        <g key={model.key} transform={`translate(${60 + index * 170} ${y})`}>
+          <rect className={BAR_CLASS[model.key]} x="0" y="-8" width="10" height="10" rx="1" />
+          <text className={model.key === 'shepherd' ? 'l-sd-note l-sd-strong' : 'l-sd-note'} x="16" y="1">
+            {model.name}
+          </text>
+        </g>
+      ))}
+    </g>
+  )
+}
+
+function ScoreChart() {
+  const top = 40
+  const bottom = 250
+  const floor = 60
+  const ceiling = 100
+  const height = (value: number) => ((value - floor) / (ceiling - floor)) * (bottom - top)
+  const groupWidth = 112
+  const barWidth = 22
+  return (
+    <svg className="l-sd" viewBox="0 0 640 320" role="img" aria-labelledby="sd-scores-title">
+      <title id="sd-scores-title">
+        prototype-stage scores: qwen 3.6 as shepherd leads gpt.6 astra and fable models on all five metrics
+      </title>
+      {[60, 70, 80, 90, 100].map((tick) => {
+        const y = bottom - height(tick)
+        return (
+          <g key={tick}>
+            <path className="l-sd-grid" d={`M44 ${y} H628`} />
+            <text className="l-sd-dim" x="36" y={y + 3} textAnchor="end">{tick}</text>
+          </g>
+        )
+      })}
+      {SCORES.map((row, groupIndex) => {
+        const groupX = 60 + groupIndex * groupWidth
+        return (
+          <g key={row.metric}>
+            {MODELS.map((model, modelIndex) => {
+              const value = row.values[model.key]
+              const barHeight = height(value)
+              const x = groupX + modelIndex * (barWidth + 4)
+              return (
+                <g key={model.key}>
+                  <rect
+                    className={`${BAR_CLASS[model.key]} l-sd-rise`}
+                    x={x}
+                    y={bottom - barHeight}
+                    width={barWidth}
+                    height={barHeight}
+                    rx="1"
+                  />
+                  {model.key === 'shepherd' && (
+                    <text className="l-sd-value" x={x + barWidth / 2} y={bottom - barHeight - 6} textAnchor="middle">
+                      {value}
+                    </text>
+                  )}
+                </g>
+              )
+            })}
+            <text className="l-sd-note" x={groupX + 37} y={bottom + 18} textAnchor="middle">
+              {row.metric.split(' ')[0]}
+            </text>
+            <text className="l-sd-note" x={groupX + 37} y={bottom + 32} textAnchor="middle">
+              {row.metric.split(' ').slice(1).join(' ')}
+            </text>
+          </g>
+        )
+      })}
+      <Legend y={16} />
+    </svg>
+  )
+}
+
+function HallucinationChart() {
+  const scale = 40
+  return (
+    <svg className="l-sd" viewBox="0 0 640 170" role="img" aria-labelledby="sd-halluc-title">
+      <title id="sd-halluc-title">
+        hallucination rate, lower is better: shepherd 2.7%, gpt.6 astra 6.8%, fable models 8.9%
+      </title>
+      <text className="l-sd-dim" x="20" y="24">hallucination rate · lower is better</text>
+      {MODELS.map((model, index) => {
+        const value = HALLUCINATION[model.key]
+        const y = 48 + index * 38
+        return (
+          <g key={model.key}>
+            <text className={model.key === 'shepherd' ? 'l-sd-note l-sd-strong' : 'l-sd-note'} x="170" y={y + 13} textAnchor="end">
+              {model.name}
+            </text>
+            <rect className="l-sd-track" x="184" y={y} width={10 * scale} height="18" rx="1" />
+            <rect className={`${BAR_CLASS[model.key]} l-sd-grow`} x="184" y={y} width={value * scale} height="18" rx="1" />
+            <text className={model.key === 'shepherd' ? 'l-sd-value' : 'l-sd-note'} x={190 + value * scale} y={y + 13}>
+              {value}%
+            </text>
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+const PROTOTYPE_STATS = [
+  { value: '3', label: 'frontier models compared' },
+  { value: '15s', label: 'to solve the investigation' },
+  { value: '1', label: 'person identified exactly' },
+]
+
+const SIGNALS = ['location data', 'device logs', 'behavior patterns', 'social graph', 'timeline correlation']
+
 export default function Shepherd() {
   return (
     <Shell>
@@ -225,6 +364,112 @@ export default function Shepherd() {
             <Prototype />
             <figcaption>from the prototype, as it happened.</figcaption>
           </figure>
+        </div>
+
+        <div className="l-doc-card l-proto">
+          <p className="l-doc-meta">prototype stage</p>
+          <h2 className="l-proto-title">shepherd, quantum artificial intelligence</h2>
+          <p>
+            we took a qwen 3.6 model and made it a frontier competitor against gpt.6 astra and fable models.
+          </p>
+
+          <figure className="l-sd-figure">
+            <ScoreChart />
+            <figcaption>performance across key metrics, prototype stage.</figcaption>
+          </figure>
+
+          <figure className="l-sd-figure">
+            <HallucinationChart />
+            <figcaption>how often each model stated something false.</figcaption>
+          </figure>
+
+          <div className="l-proto-table-wrap">
+            <table className="l-proto-table">
+              <caption>prototype-stage scores</caption>
+              <thead>
+                <tr>
+                  <th scope="col">metric</th>
+                  {MODELS.map((model) => (
+                    <th key={model.key} scope="col" className={model.key === 'shepherd' ? 'is-shepherd' : undefined}>
+                      {model.name}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {SCORES.slice(0, 4).map((row) => (
+                  <tr key={row.metric}>
+                    <th scope="row">{row.metric}</th>
+                    {MODELS.map((model) => (
+                      <td key={model.key} className={model.key === 'shepherd' ? 'is-shepherd' : undefined}>
+                        {row.values[model.key].toFixed(1)}%
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+                <tr>
+                  <th scope="row">hallucination rate (lower is better)</th>
+                  {MODELS.map((model) => (
+                    <td key={model.key} className={model.key === 'shepherd' ? 'is-shepherd' : undefined}>
+                      {HALLUCINATION[model.key].toFixed(1)}%
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  <th scope="row">overall frontier score</th>
+                  {MODELS.map((model) => (
+                    <td key={model.key} className={model.key === 'shepherd' ? 'is-shepherd' : undefined}>
+                      {SCORES[4].values[model.key].toFixed(1)}%
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>v.6</h3>
+          <p>
+            the frontier models can&apos;t even tell that v.6 was vibe-coded. it&apos;s competitive in the frontier ai
+            model industry, and even the frontier models think a human wrote the code.
+          </p>
+          <blockquote className="l-proto-quote">
+            it thought and coded like advanced quantum thinking to solve an issue.
+          </blockquote>
+
+          <h3>the investigation</h3>
+          <p>
+            shepherd solved an investigation into a personal threat in less than 15 seconds, pointing to
+            exactly who did it.
+          </p>
+          <ul className="l-proto-stats">
+            {PROTOTYPE_STATS.map((stat) => (
+              <li key={stat.label}>
+                <span className="l-proto-stat-value">{stat.value}</span>
+                <span className="l-proto-stat-label">{stat.label}</span>
+              </li>
+            ))}
+          </ul>
+          <div className="l-proto-readout" aria-label="investigation result">
+            <pre>{`> analysis complete
+> threat source: identified
+> confidence: 99.7%
+> identity: [redacted]
+> method: digital + physical correlation
+> result: threat neutralized`}</pre>
+            <div className="l-proto-signals">
+              <p className="l-doc-meta">matched</p>
+              <ul>
+                {SIGNALS.map((signal) => (
+                  <li key={signal}>{signal}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <p className="l-proto-note">
+            results from #houseofasher&apos;s own tests during the prototype stage. they have not been
+            independently verified.
+          </p>
         </div>
       </main>
     </Shell>
