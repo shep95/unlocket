@@ -44,7 +44,7 @@ export const INSTALLERS: Installer[] = [
     format: 'installer (.exe)',
     size: '79 MB',
     requirement: 'windows 10+',
-    sha256: '3d341433e1100cc1718a1bc224290f1374cbf5bf5e1d92b7bee42082cbcb8896',
+    sha256: 'b40fe31958374869cb38c15b555130f5fc8cb98aa91c3ec362336f0ad2582a4f',
   },
   {
     platform: 'linux',
@@ -53,7 +53,7 @@ export const INSTALLERS: Installer[] = [
     format: 'package (.deb)',
     size: '90 MB',
     requirement: 'ubuntu 22.04+ / debian 12+',
-    sha256: '40b7c8f55bf35efd5df56486c4722954d25c6016d6dedaa265afe38b16e1650f',
+    sha256: 'd9e07a0fbb6bc3b258d68611ceaae769b44c22f4065dc58a8e4bbbc3c6879705',
   },
   {
     platform: 'linux',
@@ -62,7 +62,7 @@ export const INSTALLERS: Installer[] = [
     format: 'archive (.tar.xz)',
     size: '90 MB',
     requirement: 'x86_64 linux',
-    sha256: 'ffc282487418c1834b9e18ca953eab9fae1d83837965a2bdf01b850794c02621',
+    sha256: '57cfbdbdc5bfcdd1d5689bcaf96d5a86a2a3a1b428554794a6aa486b82896ecd',
   },
 ]
 
