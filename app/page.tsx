@@ -4,6 +4,7 @@ import Shell from '@/components/landing/Shell'
 import { HOME_TITLE, pageMetadata } from '@/lib/seo'
 import { dictionary } from '@/lib/i18n'
 import { currentLanguage } from '@/lib/language'
+import { availableInstallers } from '@/lib/installers'
 
 export function generateMetadata(): Metadata {
   const language = currentLanguage()
@@ -49,6 +50,7 @@ export default function Home() {
   const language = currentLanguage()
   const t = dictionary(language)
   const [readsFirst, yourModels, yourImage, looksOutward] = t.features
+  const installers = availableInstallers()
   return (
     <Shell>
         <main>
@@ -61,7 +63,7 @@ export default function Home() {
               </p>
             </div>
             <div className="l-hero-cta">
-              <Download language={language} t={t.download} />
+              <Download language={language} t={t.download} installers={installers} />
             </div>
           </section>
 
@@ -180,7 +182,7 @@ export default function Home() {
           <section className="l-cta" id="download">
             <p className="l-cta-eyebrow">{t.cta.eyebrow}</p>
             <h2 className="l-cta-title"><span>{t.cta.lineOne}</span><span>{t.cta.lineTwo}</span></h2>
-            <Download language={language} t={t.download} />
+            <Download language={language} t={t.download} installers={installers} />
           </section>
         </main>
     </Shell>

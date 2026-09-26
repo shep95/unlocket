@@ -35,7 +35,8 @@ export type Installer = {
 /** The published release, matching `version` in public/downloads/latest.json. */
 export const RELEASE_VERSION = '2026.9.26'
 
-// Only installers that exist in public/downloads are listed.
+// Every installer the release pipeline can produce; lib/installers.ts keeps
+// the pages to the ones published so far.
 export const INSTALLERS: Installer[] = [
   {
     platform: 'windows',
@@ -63,6 +64,27 @@ export const INSTALLERS: Installer[] = [
     size: '90 MB',
     requirement: 'x86_64 linux',
     sha256: '57cfbdbdc5bfcdd1d5689bcaf96d5a86a2a3a1b428554794a6aa486b82896ecd',
+  },
+  // The macOS disk images are built by the release workflow on GitHub's Mac
+  // runners. Until the first one is published they are absent from
+  // latest.json and lib/installers.ts leaves them off the pages.
+  {
+    platform: 'mac',
+    label: 'Mac with Apple Silicon (M1 and later)',
+    file: 'noah-mac-aarch64.dmg',
+    format: 'disk image (.dmg)',
+    size: '0 MB',
+    requirement: 'macos 10.15+',
+    sha256: '0000000000000000000000000000000000000000000000000000000000000000',
+  },
+  {
+    platform: 'mac',
+    label: 'Mac with an Intel processor',
+    file: 'noah-mac-x86_64.dmg',
+    format: 'disk image (.dmg)',
+    size: '0 MB',
+    requirement: 'macos 10.15+',
+    sha256: '0000000000000000000000000000000000000000000000000000000000000000',
   },
 ]
 

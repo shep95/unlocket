@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { INSTALLERS, RELEASE_VERSION, type Installer } from '@/lib/site'
+import { RELEASE_VERSION, type Installer } from '@/lib/site'
 import { type Dictionary, type Language, fill, localized } from '@/lib/i18n'
 
 // Installers are hosted on this site (public/downloads), so the button pulls
@@ -32,12 +32,20 @@ function DownloadIcon() {
   )
 }
 
-export default function Download({ language, t }: { language: Language; t: Dictionary['download'] }) {
+export default function Download({
+  language,
+  t,
+  installers,
+}: {
+  language: Language
+  t: Dictionary['download']
+  installers: Installer[]
+}) {
   const [visitor, setVisitor] = useState<Platform | null>(null)
   useEffect(() => setVisitor(detectPlatform()), [])
 
-  const forVisitor = INSTALLERS.find((installer) => installer.platform === visitor)
-  const primary = forVisitor ?? INSTALLERS[0]
+  const forVisitor = installers.find((installer) => installer.platform === visitor)
+  const primary = forVisitor ?? installers[0]
 
   return (
     <div>

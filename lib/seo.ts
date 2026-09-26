@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
 import {
   FEATURES,
-  INSTALLERS,
   LINKS,
   LONG_DESCRIPTION,
   RELEASE_DATE,
   RELEASE_VERSION,
   SITE_URL,
 } from './site'
+import { availableInstallers } from './installers'
 import {
   DEFAULT_LANGUAGE,
   LANGUAGE_CODES,
@@ -160,7 +160,7 @@ export function siteGraph() {
         operatingSystem: 'Windows 10, Windows 11, Linux',
         softwareVersion: RELEASE_VERSION,
         dateModified: RELEASE_DATE.toISOString().slice(0, 10),
-        downloadUrl: INSTALLERS.map((installer) => `${SITE_URL}/downloads/${installer.file}`),
+        downloadUrl: availableInstallers().map((installer) => `${SITE_URL}/downloads/${installer.file}`),
         installUrl: absolute('/download'),
         featureList: FEATURES,
         image: `${SITE_URL}${OG_IMAGE.url}`,

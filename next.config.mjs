@@ -69,7 +69,7 @@ const nextConfig = {
     // page and the wallpaper picker look for at render time must ship with
     // the server functions, not only with the CDN copy of public/.
     outputFileTracingIncludes: {
-      '/**': ['./public/wallpapers/**/*', './public/founder.jpg'],
+      '/**': ['./public/wallpapers/**/*', './public/founder.jpg', './public/downloads/latest.json'],
     },
   },
 
