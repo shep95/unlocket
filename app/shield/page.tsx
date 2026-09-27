@@ -55,7 +55,8 @@ const GROUPS: { title: string; items: string[] }[] = [
     title: 'search and the log',
     items: [
       'clean results on Google, Bing, DuckDuckGo, Brave, Yahoo, Startpage and Ecosia: paid results gone, known content farms and scraper sites gone, pages written for the engine rather than for you shown faded; a count on the page and three switches',
-      'search pages wear the look you chose',
+      'search pages wear the look you chose outright: its picture behind the results, its palette for every word whatever mode the engine was in, the shield’s type and spacing (serif titles, cards with the same radius and rhythm)',
+      'a “peek” under each result reads the page right there: fetched once, without cookies or your address in a referrer, its words and picture shown in place, so you open only what earned it',
       'the log: everything the shield stopped, warned about or did, in plain words with the site and the moment; “what happened here” in the popup lists the requests stopped on this page and who was on the other end; every notification opens the log',
     ],
   },
