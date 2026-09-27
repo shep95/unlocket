@@ -11,7 +11,7 @@ export const metadata: Metadata = pageMetadata({
   path: '/shield',
   title: 'noah shield, a browser extension',
   description:
-    'ads and trackers stopped on every site, a vpn that fails closed, phishing and scam pages broken, screenshots with your private details blurred, screen recording with your camera in a corner, cheaper prices and working coupons, and a hundred smaller mercies. for chrome, edge, brave, firefox, safari and every other browser.',
+    'ads and trackers stopped on every site, clean search results, a one-press vpn through noah that fails closed, a log of everything it did, phishing and scam pages broken, screenshots with your private details blurred, screen recording with your camera in a corner, cheaper prices and working coupons, and a hundred smaller mercies. for chrome, edge, brave, firefox, safari and every other browser.',
 })
 
 const DOWNLOADS = [
@@ -24,7 +24,8 @@ const GROUPS: { title: string; items: string[] }[] = [
   {
     title: 'vpn',
     items: [
-      'one connect button and a list of locations by country; “fastest location” picks for you; everything the browser does goes out through the place you chose',
+      'one press: with noah on your computer the shield fetches Tor from the Tor Project once, starts it, and takes you out through the country you pick from the list (or the fastest exit); you watch it connect, percent by percent',
+      'a list of locations by country; everything the browser does goes out through the place you chose',
       'an encrypted tunnel (HTTPS or SOCKS5) that fails closed: when the location is down, nothing goes out on the plain connection',
       'names resolved by the server, never on your machine; WebRTC held to proxied routes',
       'a server per site, so one site goes out through the US and another through the UK, or straight past the tunnel',
@@ -38,21 +39,30 @@ const GROUPS: { title: string; items: string[] }[] = [
     items: [
       'EasyList’s ad rules in the browser’s own blocking engine, on every site: ad servers, ad scripts, pop-ups, third-party ad frames',
       'the boxes ads leave behind hidden too, with EasyList’s element rules: 13,600 generic ones on every page and the site’s own on top',
+      'a second set of 30,000 more rules when your browser has room for it; Google’s ad networks and Google Analytics blocked by the shield’s own rules',
       'a trusted site keeps its layout; the switch turns ads and trackers off together',
     ],
   },
   {
     title: 'light, frequency, the look',
     items: [
-      'light by scene: bright and sunny, in a dark room, restaurant, night; or dim and warm by hand; a veil over every page',
+      'light by scene: bright and sunny, daytime, restaurant, in a dark room, night; the screen’s real brightness, turned through noah on your computer; nothing laid over pages except a warm tint you ask for',
       'a frequency under whatever plays: a tone from 20 to 963 Hz, or a binaural beat below that (2 Hz, 4 Hz, 7.83 Hz, 10 Hz), with a volume',
       'the look: one of noah’s pictures or your own becomes the palette of the shield’s pages and the new tab page, and on Firefox the browser’s own frame and toolbars; blacks that carry the picture’s temperature, words that always read, one accent from the picture',
     ],
   },
   {
+    title: 'search and the log',
+    items: [
+      'clean results on Google, Bing, DuckDuckGo, Brave, Yahoo, Startpage and Ecosia: paid results gone, known content farms and scraper sites gone, pages written for the engine rather than for you shown faded; a count on the page and three switches',
+      'search pages wear the look you chose',
+      'the log: everything the shield stopped, warned about or did, in plain words with the site and the moment; “what happened here” in the popup lists the requests stopped on this page and who was on the other end; every notification opens the log',
+    ],
+  },
+  {
     title: 'capture',
     items: [
-      'a screenshot of what is on screen, the whole page stitched top to bottom, or an area you drag out; saved straight to Downloads/noah-shield as PNG',
+      'a screenshot of what is on screen, the whole page stitched top to bottom, or an area you drag out; saved straight to Downloads/noah-shield as PNG, on any tab, even one open since before the shield was installed',
       'private details blurred in the page before the shot: emails, phone and card numbers, IBANs, keys, wallet addresses, street addresses, filled-in personal fields',
       'screen, window or tab recording with your camera in a rounded rectangle in the corner you choose, microphone and system sound mixed; written to your downloads as WebM with no name, date or program tag inside',
     ],
@@ -122,6 +132,8 @@ const GROUPS: { title: string; items: string[] }[] = [
 
 const NOT_POSSIBLE: [string, string][] = [
   ['A real VPN for the whole computer', 'An extension can only proxy the browser. The tunnel says so; noah’s device room covers the machine.'],
+  ['The screen’s brightness and a Tor of its own', 'Not from an extension. With noah installed, the shield asks noah to do both; without it, the light card and the VPN card say so.'],
+  ['Chrome’s bar under the new tab page', '“noah shield · Customize Chrome” is Chrome’s own footer for any extension that provides the new tab page. Customize Chrome, then the footer switch, turns it off; no extension can remove it.'],
   ['Free servers we have not checked', 'A stranger’s free proxy sees every site you visit. The vetted list is signed and starts empty; Tor and your own servers are there from day one.'],
   ['Wi-Fi security, auto-connect on public Wi-Fi, session hijack from another IP', 'No browser API sees the network or the server side. The device room reports Wi-Fi; the tunnel can connect at startup instead.'],
   ['Programs outside the browser recording the screen', 'Invisible to an extension; the device room lists them.'],
