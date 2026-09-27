@@ -5,7 +5,7 @@
         {
           "version": "2026.9.27",
           "update_link": "https://noah.asherin.com/shield/noah-shield-firefox.xpi",
-          "update_hash": "sha256:a1b71fd5d2379dae25c2aebf5bda2c749962cbce50440a09e2b15caa1155a85c",
+          "update_hash": "sha256:ad83c86d96cd1a22eb3aad65789e1d60d1ed6bae99d36acf5d2639484af48c70",
           "applications": {
             "gecko": {
               "strict_min_version": "128.0"

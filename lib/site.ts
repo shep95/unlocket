@@ -45,7 +45,7 @@ export const INSTALLERS: Installer[] = [
     format: 'installer (.exe)',
     size: '94 MB',
     requirement: 'windows 10+',
-    sha256: '7af37570e6f5c3d6c9cb463635c5d63d6426cb80a90ebc8dbfa3d56b9d341109',
+    sha256: '3f75e216d544ea6f01b504d18d735933d27cb3efc9d817efa202d57ee66fa91c',
   },
   {
     platform: 'linux',
@@ -54,7 +54,7 @@ export const INSTALLERS: Installer[] = [
     format: 'package (.deb)',
     size: '105 MB',
     requirement: 'ubuntu 22.04+ / debian 12+',
-    sha256: '77357cffe0fa3a6fe6f2da9c1fd2fd3297dbbba298027456c10ec20fa0f5dac5',
+    sha256: '364d2575af37c470b2b8b6ab2bcd7db95f574751adbb9fde5fdd6d348c388a17',
   },
   {
     platform: 'linux',
@@ -63,7 +63,7 @@ export const INSTALLERS: Installer[] = [
     format: 'archive (.tar.xz)',
     size: '104 MB',
     requirement: 'x86_64 linux',
-    sha256: '3dc2a14c1ce73c3928351f24cb2fa8cb7320b98a73c9c7b8226c1445d5faa887',
+    sha256: 'bb6525919778142a5a24c11536364cef9eff3ab05b9c2d30314b81e21fe1471c',
   },
   // The macOS disk images are built by the release workflow on GitHub's Mac
   // runners. Until the first one is published they are absent from
