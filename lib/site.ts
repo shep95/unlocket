@@ -45,7 +45,7 @@ export const INSTALLERS: Installer[] = [
     format: 'installer (.exe)',
     size: '94 MB',
     requirement: 'windows 10+',
-    sha256: '3f75e216d544ea6f01b504d18d735933d27cb3efc9d817efa202d57ee66fa91c',
+    sha256: '0b2bc1895757c9b2e96087f787eb577ccc83b4856a66ed8d513ee28795319989',
   },
   {
     platform: 'linux',
@@ -54,16 +54,16 @@ export const INSTALLERS: Installer[] = [
     format: 'package (.deb)',
     size: '105 MB',
     requirement: 'ubuntu 22.04+ / debian 12+',
-    sha256: '364d2575af37c470b2b8b6ab2bcd7db95f574751adbb9fde5fdd6d348c388a17',
+    sha256: '0faad0b8f6c76a75be2602a9d5c16aaf9cefb1d3c59a012e8de537292d71eba9',
   },
   {
     platform: 'linux',
     label: 'Any other Linux (x86_64)',
     file: 'noah-linux-x86_64.tar.xz',
     format: 'archive (.tar.xz)',
-    size: '104 MB',
+    size: '105 MB',
     requirement: 'x86_64 linux',
-    sha256: 'bb6525919778142a5a24c11536364cef9eff3ab05b9c2d30314b81e21fe1471c',
+    sha256: 'd188cb45bc1450c7e6e019e1237e67851e96a178773edc4b7aad7634dc0f3aef',
   },
   // The macOS disk images are built by the release workflow on GitHub's Mac
   // runners. Until the first one is published they are absent from

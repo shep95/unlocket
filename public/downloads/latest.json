@@ -1,10 +1,10 @@
 {
-  "build": 1790482013,
+  "build": 1790507827,
   "version": "2026.9.27",
   "assets": {
-    "windows-x86_64": { "url": "https://noah.asherin.com/downloads/noah-windows-x86_64.exe", "sha256": "3f75e216d544ea6f01b504d18d735933d27cb3efc9d817efa202d57ee66fa91c" },
-    "linux-x86_64": { "url": "https://noah.asherin.com/downloads/noah-linux-x86_64.tar.xz", "sha256": "bb6525919778142a5a24c11536364cef9eff3ab05b9c2d30314b81e21fe1471c" },
+    "windows-x86_64": { "url": "https://noah.asherin.com/downloads/noah-windows-x86_64.exe", "sha256": "0b2bc1895757c9b2e96087f787eb577ccc83b4856a66ed8d513ee28795319989" },
+    "linux-x86_64": { "url": "https://noah.asherin.com/downloads/noah-linux-x86_64.tar.xz", "sha256": "d188cb45bc1450c7e6e019e1237e67851e96a178773edc4b7aad7634dc0f3aef" },
     "asherin-eye": { "url": "https://noah.asherin.com/downloads/asherin-eye.tar.gz", "sha256": "d88a2c8a3459c09058696c5ec9ee944de00e87771afc8fc98fc0f3fcea724672" }
   },
-  "signature": "wk0SWVMrhLUAJKZN7pWA5QodqdWQKwMPyGqUH1SqGaqLZhEibeLg376jepr3Xi5yHBGjeVcKRs6R5elpDX8OAA=="
+  "signature": "7PxA+6OXylvPbORjEsafjD0EZeGK9ysb2fN45yEix2+f62o/8YrnDkSrKh6BmTBkiFuwqb6tvQxF2VjRHCPTBQ=="
 }
