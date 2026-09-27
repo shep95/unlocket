@@ -11,7 +11,7 @@ export const metadata: Metadata = pageMetadata({
   path: '/shield',
   title: 'noah shield, a browser extension',
   description:
-    'a tunnel that fails closed, trackers and data grabs stopped, phishing and scam pages broken, cheaper prices and working coupons, a watch on anything that records your screen, and a hundred smaller mercies. for chrome, edge, brave, firefox, safari and every other browser.',
+    'ads and trackers stopped on every site, a vpn that fails closed, phishing and scam pages broken, screenshots with your private details blurred, screen recording with your camera in a corner, cheaper prices and working coupons, and a hundred smaller mercies. for chrome, edge, brave, firefox, safari and every other browser.',
 })
 
 const DOWNLOADS = [
@@ -22,26 +22,53 @@ const DOWNLOADS = [
 
 const GROUPS: { title: string; items: string[] }[] = [
   {
-    title: 'tunnel',
+    title: 'vpn',
     items: [
-      'an encrypted proxy tunnel (HTTPS or SOCKS5) that fails closed: when the server is down, nothing goes out on the plain connection',
+      'one connect button and a list of locations by country; “fastest location” picks for you; everything the browser does goes out through the place you chose',
+      'an encrypted tunnel (HTTPS or SOCKS5) that fails closed: when the location is down, nothing goes out on the plain connection',
       'names resolved by the server, never on your machine; WebRTC held to proxied routes',
       'a server per site, so one site goes out through the US and another through the UK, or straight past the tunnel',
       'speed test across your servers and a one-press pick of the fastest',
       'exit check after connecting, a leak test page (exit address, WebRTC candidates, language and time zone), connect at startup',
-      'Tor on your computer built in; your own servers; a signed list of vetted servers that starts empty on purpose',
+      'Tor on your computer built in as the anonymous route; your own servers; a signed list of vetted locations that starts empty on purpose',
+    ],
+  },
+  {
+    title: 'ads',
+    items: [
+      'EasyList’s ad rules in the browser’s own blocking engine, on every site: ad servers, ad scripts, pop-ups, third-party ad frames',
+      'the boxes ads leave behind hidden too, with EasyList’s element rules: 13,600 generic ones on every page and the site’s own on top',
+      'a trusted site keeps its layout; the switch turns ads and trackers off together',
+    ],
+  },
+  {
+    title: 'light, frequency, the look',
+    items: [
+      'light by scene: bright and sunny, in a dark room, restaurant, night; or dim and warm by hand; a veil over every page',
+      'a frequency under whatever plays: a tone from 20 to 963 Hz, or a binaural beat below that (2 Hz, 4 Hz, 7.83 Hz, 10 Hz), with a volume',
+      'the look: one of noah’s pictures or your own becomes the palette of the shield’s pages and the new tab page, and on Firefox the browser’s own frame and toolbars; blacks that carry the picture’s temperature, words that always read, one accent from the picture',
+    ],
+  },
+  {
+    title: 'capture',
+    items: [
+      'a screenshot of what is on screen, the whole page stitched top to bottom, or an area you drag out; saved straight to Downloads/noah-shield as PNG',
+      'private details blurred in the page before the shot: emails, phone and card numbers, IBANs, keys, wallet addresses, street addresses, filled-in personal fields',
+      'screen, window or tab recording with your camera in a rounded rectangle in the corner you choose, microphone and system sound mixed; written to your downloads as WebM with no name, date or program tag inside',
     ],
   },
   {
     title: 'data protection',
     items: [
-      'EasyPrivacy’s 9,500 tracker rules in the browser’s own blocking engine, plus session replay, crypto mining, malvertising and social pixel rules',
+      'EasyPrivacy’s 9,500 tracker rules next to EasyList’s 20,000 ad rules in the browser’s own blocking engine, plus session replay, crypto mining, malvertising and social pixel rules',
       'third-party cookies off, tracker cookies deleted twice a day, a site’s cookies burned when its last tab closes (with a keep list), one-press burn of a site’s cookies, cache and storage',
       'location, notifications, camera and microphone denied or asked per site; hidden autofill fields disarmed; hidden third-party frames removed',
       'tracking parameters stripped from links, redirect wrappers unwrapped (google, facebook, youtube, outlook safelinks, proofpoint), the Referer hidden from other sites, Global Privacy Control sent',
       'tracking pixels blocked in Gmail, Outlook, Yahoo, Proton and Fastmail; sign-in-with-Google/Facebook widgets optional',
       'a privacy score and letter grade for every site, a toolbar meter, and a who’s-watching list with each company, what it does and where it is based',
-      'form data leak guard: what you type cannot leave for a third party before you submit',
+      'form data leak guard: what you type cannot leave for a third party before you submit; what you typed and deleted neither',
+      'typing guard: scripts from other sites that listen to every key you press are named, keystroke streams are stopped, and strict mode refuses them the listener',
+      'site trust under the grade: lookalike, plain http, and whether the site has leaked its users’ data before (Have I Been Pwned’s public breach list by domain)',
     ],
   },
   {
