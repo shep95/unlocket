@@ -117,6 +117,27 @@ const nextConfig = {
         headers: [{ key: 'Cache-Control', value: 'public, max-age=60, must-revalidate' }],
       },
 
+      // noah shield's packages and signed feeds. The extension fetches the
+      // feeds with its host permission, so no CORS is needed; caches must
+      // check back often because the file names never change.
+      {
+        source: '/shield/:file(.+\\.(?:zip|xpi|json|sig|sha256))',
+        headers: [
+          { key: 'Cross-Origin-Resource-Policy', value: 'cross-origin' },
+          { key: 'Content-Security-Policy', value: LOCKED_DOWN_CSP },
+          { key: 'X-Robots-Tag', value: 'noindex' },
+          { key: 'Cache-Control', value: 'public, max-age=300, must-revalidate' },
+        ],
+      },
+      {
+        source: '/shield/:file(.+\\.(?:zip|xpi))',
+        headers: [{ key: 'Content-Disposition', value: 'attachment' }],
+      },
+      {
+        source: '/shield/:file(.+\\.(?:sig|sha256))',
+        headers: [{ key: 'Content-Type', value: 'text/plain; charset=utf-8' }],
+      },
+
       {
         source: '/.well-known/:path*',
         headers: [

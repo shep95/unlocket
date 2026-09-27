@@ -70,6 +70,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             <li><Link href={to('/shepherd')}>{t.nav.shepherd}</Link></li>
             <li><Link href={to('/faq')}>{t.nav.faq}</Link></li>
             <li><Link href={to('/founder')}>{t.nav.founder}</Link></li>
+            <li><Link href={to('/shield')}>shield</Link></li>
             <li><Link href={to('/compare')}>compare</Link></li>
             <li><Link href={to('/local-models')}>local models</Link></li>
             <li><Link href={to('/security')}>{t.footer.security}</Link></li>

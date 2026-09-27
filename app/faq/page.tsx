@@ -126,6 +126,11 @@ const QUESTIONS: { question: string; answer: string }[] = [
     answer:
       "noah installs new releases itself. Each release manifest is signed with noah's ed25519 release key and lists a SHA-256 for every installer; noah refuses an update whose signature or checksum does not match. The security page explains how to check a download by hand.",
   },
+  {
+    question: 'What is noah shield?',
+    answer:
+      'A free, open-source browser extension for Chrome, Edge, Brave, Firefox, Safari and every other browser: a fail-closed proxy tunnel, tracker and data-grab blocking, phishing and scam page breakers, cheaper prices and working coupons while you shop, a fingerprint that changes per site, and a watch on anything that records your screen. Its data feeds are signed with the same release key as noah. The shield page lists every feature and what an extension honestly cannot do.',
+  },
 ]
 
 export default function FaqPage() {
