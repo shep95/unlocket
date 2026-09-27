@@ -3,6 +3,7 @@ import Link from 'next/link'
 import JsonLd from '@/components/JsonLd'
 import EnglishNote from '@/components/landing/EnglishNote'
 import Shell from '@/components/landing/Shell'
+import AddShield from '@/components/landing/AddShield'
 import { LINKS } from '@/lib/site'
 import { breadcrumbs, pageMetadata } from '@/lib/seo'
 
@@ -118,8 +119,10 @@ export default function ShieldPage() {
             source, no account, no telemetry; nothing about you goes anywhere.
           </p>
 
-          <section>
-            <h2>Get it</h2>
+          <AddShield />
+
+          <section id="every-browser">
+            <h2>Every browser</h2>
             <ul>
               {DOWNLOADS.map((download) => (
                 <li key={download.file}>
@@ -132,8 +135,9 @@ export default function ShieldPage() {
               <strong>Chromium browsers</strong> (Chrome, Edge, Brave, Opera, Vivaldi, Arc): unzip the file, open{' '}
               <code>chrome://extensions</code> (or <code>edge://extensions</code>, <code>brave://extensions</code>), turn on{' '}
               <em>Developer mode</em>, choose <em>Load unpacked</em> and pick the unzipped folder. The shield opens this
-              page and starts working. Store listings are on their way; a copy loaded this way tells you inside the
-              extension when a newer version is out.
+              page and starts working. Browsers allow a one-click install only from their own stores; the listings are
+              submitted, and the button above becomes that one click the day each is approved. A copy loaded by hand
+              tells you inside the extension when a newer version is out.
             </p>
             <p>
               <strong>Firefox</strong>: open <code>about:debugging#/runtime/this-firefox</code>, choose{' '}

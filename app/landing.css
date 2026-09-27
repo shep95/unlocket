@@ -1762,3 +1762,20 @@
   :root[data-look='sea'] .landing .l-feat-title { font-size: 34px; }
   :root[data-look='sea'] .landing .l-priv-title { font-size: 46px; }
 }
+
+/* /shield: the one-button install */
+.landing .l-shield-add { margin: 8px 0 28px; }
+.landing .l-shield-steps {
+  margin: 22px 0 0;
+  padding: 18px 22px 18px 40px;
+  background: var(--l-surface2);
+  border: 1px solid var(--l-border);
+  border-radius: var(--l-radius-card);
+  font-family: var(--l-body);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--l-fg-sub);
+}
+.landing .l-shield-steps li + li { margin-top: 8px; }
+.landing .l-shield-steps code { font-size: 12px; }
+.landing .l-shield-steps button { cursor: pointer; background: none; border: 0; padding: 0; text-decoration: underline; }

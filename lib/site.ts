@@ -129,3 +129,16 @@ export const WALLPAPER_STORAGE_KEY = 'noah-wallpaper'
 // and layout. Any other image in public/wallpapers gets a palette sampled
 // from the image and keeps the fog look's type and layout.
 export const THEMED_LOOKS = ['fog', 'glitch', 'halo', 'lights', 'meteor', 'rings', 'sea'] as const
+
+// noah shield's store listings. A non-empty address turns the "Add to …"
+// button on /shield into a one-click install from that store; empty means
+// the listing is not live yet and the page offers the package instead.
+// firefoxSigned: true once public/shield/noah-shield-firefox.xpi carries an
+// addons.mozilla.org signature, which lets Firefox install it from here.
+export const SHIELD_STORES = {
+  chrome: '',
+  edge: '',
+  firefox: '',
+  safari: '',
+  firefoxSigned: false,
+}

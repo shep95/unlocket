@@ -137,6 +137,12 @@ const nextConfig = {
         source: '/shield/:file(.+\\.(?:sig|sha256))',
         headers: [{ key: 'Content-Type', value: 'text/plain; charset=utf-8' }],
       },
+      // Firefox installs an add-on straight from a page only when the file
+      // arrives as application/x-xpinstall.
+      {
+        source: '/shield/:file(.+\\.xpi)',
+        headers: [{ key: 'Content-Type', value: 'application/x-xpinstall' }],
+      },
 
       {
         source: '/.well-known/:path*',
