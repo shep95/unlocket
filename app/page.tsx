@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Download from '@/components/landing/Download'
 import Shell from '@/components/landing/Shell'
 import { HOME_TITLE, pageMetadata } from '@/lib/seo'
-import { dictionary } from '@/lib/i18n'
+import { DEFAULT_LANGUAGE, dictionary } from '@/lib/i18n'
 import { currentLanguage } from '@/lib/language'
 import { availableInstallers } from '@/lib/installers'
 
@@ -51,6 +51,7 @@ export default function Home() {
   const t = dictionary(language)
   const [readsFirst, yourModels, yourImage, looksOutward] = t.features
   const installers = availableInstallers()
+  const inside = t.inside ?? dictionary(DEFAULT_LANGUAGE).inside
   return (
     <Shell>
         <main>
@@ -178,6 +179,23 @@ export default function Home() {
               <div className="l-stat"><div className="l-stat-num">0</div><div className="l-stat-label">{t.privacy.paywalls}</div></div>
             </div>
           </section>
+
+          {inside && (
+            <section className="l-inside l-reveal" id="inside">
+              <p className="l-feat-num">{inside.eyebrow}</p>
+              <h2 className="l-inside-title">{inside.title}</h2>
+              <p className="l-inside-lede">{inside.lede}</p>
+              <details className="l-inside-details">
+                <summary>{inside.summary}</summary>
+                <ul className="l-inside-list">
+                  {inside.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                <p className="l-inside-note">{inside.note}</p>
+              </details>
+            </section>
+          )}
 
           <section className="l-cta" id="download">
             <p className="l-cta-eyebrow">{t.cta.eyebrow}</p>

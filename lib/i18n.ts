@@ -89,6 +89,8 @@ export type Dictionary = {
   panels: { connected: string; yourKey: string; local: string; nothingMetered: string; webSearch: string }
   privacy: { title: string; body: string; accounts: string; telemetry: string; localModels: string; paywalls: string }
   cta: { eyebrow: string; lineOne: string; lineTwo: string }
+  /** Untranslated languages fall back to the english list. */
+  inside?: { eyebrow: string; title: string; lede: string; summary: string; items: string[]; note: string }
   download: { forPlatform: string; all: string; none: string; button: string }
   downloadPage: {
     title: string
@@ -145,6 +147,31 @@ const en: Dictionary = {
     paywalls: 'paywalls',
   },
   cta: { eyebrow: 'when you are ready', lineOne: 'come to the quiet', lineTwo: 'and start.' },
+  inside: {
+    eyebrow: 'what is inside',
+    title: 'a few things it can do.',
+    lede: 'it is still learning, and so are we. none of this is finished, and some of it will not suit you. here is the plain list, for whoever wants it.',
+    summary: 'show the list',
+    items: [
+      'reads a project before writing to it, and keeps notes about it in .noah/',
+      'works with nearly fifty model providers on your own key, or models on your own machine',
+      'an offline mode where nothing leaves the machine',
+      'searches the web when the answer is not in your project, with sources underneath',
+      'runs your project’s own checks after it edits, and tries again when they fail',
+      'runs terminal commands in a sandbox, and asks before reaching further',
+      'a full automation switch, for when you would rather it did not stop to ask',
+      'a teaching mode that leaves the important part for you to write',
+      'small tested add-ons it writes once and reuses, so a calculation comes out the same each time',
+      'a browser room to see interface code as it is built',
+      'a brain file: standing instructions you write once and it keeps',
+      'spending limits per month and per thread for paid models',
+      'a whiteboard, a notepad, and a place to write documents and slides',
+      'starts a new project from a single prompt',
+      'a settings search that understands a misspelled word',
+      'takes its colors from any wallpaper you give it',
+    ],
+    note: 'there may be more in there than this. it is easier to find out by using it.',
+  },
   download: {
     forPlatform: 'download for {platform}',
     all: 'all downloads →',
