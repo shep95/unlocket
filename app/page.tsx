@@ -52,6 +52,7 @@ export default function Home() {
   const [readsFirst, yourModels, yourImage, looksOutward] = t.features
   const installers = availableInstallers()
   const inside = t.inside ?? dictionary(DEFAULT_LANGUAGE).inside
+  const against = t.against ?? dictionary(DEFAULT_LANGUAGE).against
   return (
     <Shell>
         <main>
@@ -193,6 +194,23 @@ export default function Home() {
                   ))}
                 </ul>
                 <p className="l-inside-note">{inside.note}</p>
+              </details>
+            </section>
+          )}
+
+          {against && (
+            <section className="l-inside l-inside--against l-reveal" id="against">
+              <p className="l-feat-num">{against.eyebrow}</p>
+              <h2 className="l-inside-title">{against.title}</h2>
+              <p className="l-inside-lede">{against.lede}</p>
+              <details className="l-inside-details">
+                <summary>{against.summary}</summary>
+                <ul className="l-inside-list">
+                  {against.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                <p className="l-inside-note">{against.note}</p>
               </details>
             </section>
           )}

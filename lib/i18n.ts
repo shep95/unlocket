@@ -91,6 +91,8 @@ export type Dictionary = {
   cta: { eyebrow: string; lineOne: string; lineTwo: string }
   /** Untranslated languages fall back to the english list. */
   inside?: { eyebrow: string; title: string; lede: string; summary: string; items: string[]; note: string }
+  /** Untranslated languages fall back to the english list. */
+  against?: { eyebrow: string; title: string; lede: string; summary: string; items: string[]; note: string }
   download: { forPlatform: string; all: string; none: string; button: string }
   downloadPage: {
     title: string
@@ -171,6 +173,23 @@ const en: Dictionary = {
       'takes its colors from any wallpaper you give it',
     ],
     note: 'there may be more in there than this. it is easier to find out by using it.',
+  },
+  against: {
+    eyebrow: 'why you should not use us',
+    title: 'reasons to go elsewhere.',
+    lede: 'we would rather you knew before you downloaded than found out after. here are the honest ones, and where you might be better off.',
+    summary: 'show the reasons',
+    items: [
+      'there is no mac version. if you are on a mac, zed or cursor will serve you well today.',
+      'you bring your own api key. if you want to pay one bill and never think about models, cursor and windsurf bundle that for you.',
+      'noah is a fork of zed. if you want the original, kept by a larger team and updated sooner, it is free at zed.dev.',
+      'it is young, and a small team keeps it. things break. if you need something that does not, vs code with copilot or a jetbrains editor is the safer bet.',
+      'there is no account, so there is no sync between your computers. if you want your settings to follow you, most others do that and we do not.',
+      'if you live in the terminal, claude code or codex may suit you better than an editor with an agent inside it.',
+      'the free model keys we point you to are rate limited, and some of those companies learn from what you send. a paid key, or a local model, is the private path.',
+      'you will do more setup than with the paid tools. a key, a model choice, maybe ollama. some people like that. some do not.',
+    ],
+    note: 'if none of that puts you off, we are glad. if some of it does, the tools above are good, and we mean that.',
   },
   download: {
     forPlatform: 'download for {platform}',

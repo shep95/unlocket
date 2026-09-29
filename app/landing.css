@@ -529,8 +529,11 @@
   margin-top: 24px;
   text-align: center;
 }
+/* the reasons against sit right under the list, so less air above them */
+.landing .l-inside--against { padding-top: 0; }
 @media (max-width: 560px) {
   .landing .l-inside { padding: 72px 16px; }
+  .landing .l-inside--against { padding-top: 0; }
   .landing .l-inside-title { font-size: 28px; }
 }
 
