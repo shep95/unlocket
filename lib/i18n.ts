@@ -93,6 +93,8 @@ export type Dictionary = {
   inside?: { eyebrow: string; title: string; lede: string; summary: string; items: string[]; note: string }
   /** Untranslated languages fall back to the english list. */
   against?: { eyebrow: string; title: string; lede: string; summary: string; items: string[]; note: string }
+  /** Untranslated languages fall back to the english text. */
+  warning?: { eyebrow: string; title: string; lede: string; summary: string; layers: { who: string; what: string }[]; root: string; note: string }
   download: { forPlatform: string; all: string; none: string; button: string }
   downloadPage: {
     title: string
@@ -190,6 +192,32 @@ const en: Dictionary = {
       'you will do more setup than with the paid tools. a key, a model choice, maybe ollama. some people like that. some do not.',
     ],
     note: 'if none of that puts you off, we are glad. if some of it does, the tools above are good, and we mean that.',
+  },
+  warning: {
+    eyebrow: 'before you download',
+    title: 'it will be called a security risk.',
+    lede: 'your browser, and then windows, will warn you about the file. it is not harmful. nobody has paid to vouch for it, and that is the whole of it. here is who is saying it, from the surface down to the root.',
+    summary: 'show who says so, and why',
+    layers: [
+      {
+        who: 'your browser',
+        what: 'chrome, edge or firefox says the file "isn\'t commonly downloaded" or "may be dangerous". it has not looked inside. it asked a reputation service (google safe browsing, or microsoft smartscreen) whether it has seen this exact file downloaded many times before. a new release of a small program has no history, so the answer is no.',
+      },
+      {
+        who: 'windows smartscreen',
+        what: '"windows protected your pc. unknown publisher." windows looks for a digital signature on the file. ours has none, so it cannot name a publisher, and it treats a program it cannot name as suspect. more info, then run anyway.',
+      },
+      {
+        who: 'the certificate sellers',
+        what: 'a signature needs a code-signing certificate, sold only by a few authorities: digicert, sectigo, globalsign, ssl.com, certum. a few hundred dollars a year, and smartscreen still warns until the certificate earns reputation. the "extended" kind skips the warning at once, costs more, ships on a hardware key, and needs a registered company first.',
+      },
+      {
+        who: 'the root',
+        what: 'microsoft\'s trusted root program decides which of those authorities windows believes. apple does the same on the mac, and charges its own fee to notarise each build. those two, and the sellers they admit, are the end of the chain.',
+      },
+    ],
+    root: 'nowhere in that chain does anyone read what the program does. signed malware exists, and honest unsigned software is warned about every day. the warning means nobody paid. that is all it means.',
+    note: 'if you would rather check than click through: compare the sha-256 on the download page with the file you got, or read the source and build it yourself. that is the only real proof, and it is why noah is open. we will sign releases once the certificate is paid for.',
   },
   download: {
     forPlatform: 'download for {platform}',

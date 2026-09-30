@@ -53,6 +53,7 @@ export default function Home() {
   const installers = availableInstallers()
   const inside = t.inside ?? dictionary(DEFAULT_LANGUAGE).inside
   const against = t.against ?? dictionary(DEFAULT_LANGUAGE).against
+  const warning = t.warning ?? dictionary(DEFAULT_LANGUAGE).warning
   return (
     <Shell>
         <main>
@@ -211,6 +212,27 @@ export default function Home() {
                   ))}
                 </ul>
                 <p className="l-inside-note">{against.note}</p>
+              </details>
+            </section>
+          )}
+
+          {warning && (
+            <section className="l-inside l-inside--against l-reveal" id="warning">
+              <p className="l-feat-num">{warning.eyebrow}</p>
+              <h2 className="l-inside-title">{warning.title}</h2>
+              <p className="l-inside-lede">{warning.lede}</p>
+              <details className="l-inside-details">
+                <summary>{warning.summary}</summary>
+                <ol className="l-inside-list l-inside-layers">
+                  {warning.layers.map((layer) => (
+                    <li key={layer.who}>
+                      <span className="l-inside-layer-who">{layer.who}</span>
+                      {layer.what}
+                    </li>
+                  ))}
+                </ol>
+                <p className="l-inside-root">{warning.root}</p>
+                <p className="l-inside-note">{warning.note}</p>
               </details>
             </section>
           )}

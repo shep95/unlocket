@@ -529,6 +529,26 @@
   margin-top: 24px;
   text-align: center;
 }
+/* the layers of the download warning, counted from the surface down */
+.landing .l-inside-layers { counter-reset: layer; }
+.landing .l-inside-layers li { counter-increment: layer; padding-left: 28px; position: relative; }
+.landing .l-inside-layers li::before {
+  content: counter(layer);
+  position: absolute;
+  left: 0;
+  top: 11px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--l-fg-dim);
+}
+.landing .l-inside-layer-who { display: block; color: var(--l-fg); margin-bottom: 2px; }
+.landing .l-inside-root {
+  font-family: var(--l-body);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--l-fg-muted);
+  margin-top: 24px;
+}
 /* the reasons against sit right under the list, so less air above them */
 .landing .l-inside--against { padding-top: 0; }
 @media (max-width: 560px) {
