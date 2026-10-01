@@ -134,7 +134,9 @@ export default async function StatsPage() {
     try {
       summary = await readStats(30)
     } catch (error) {
-      failure = error instanceof Error ? error.message : 'the store did not answer'
+      // The reason goes to the log; visitors get the fact.
+      console.error('stats: could not read the store', error)
+      failure = 'the store did not answer'
     }
   }
 

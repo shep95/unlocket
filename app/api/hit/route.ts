@@ -5,9 +5,15 @@ import { recordHit } from '@/lib/stats'
 // but a status; failures in the store are logged, never shown to visitors.
 const NO_BODY = { 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex' }
 
+const MAX_BODY_BYTES = 2000
+
 export async function POST(request: NextRequest) {
+  // The declared size is checked before the body is read, so a large body
+  // never has to be buffered to be refused.
+  const declared = Number(request.headers.get('content-length') || '0')
+  if (declared > MAX_BODY_BYTES) return new NextResponse(null, { status: 413, headers: NO_BODY })
   const text = await request.text()
-  if (text.length > 2000) return new NextResponse(null, { status: 413, headers: NO_BODY })
+  if (text.length > MAX_BODY_BYTES) return new NextResponse(null, { status: 413, headers: NO_BODY })
   let payload: unknown
   try {
     payload = JSON.parse(text)
@@ -20,6 +26,7 @@ export async function POST(request: NextRequest) {
       region: request.headers.get('x-vercel-ip-country-region'),
       userAgent: request.headers.get('user-agent'),
       host: request.headers.get('host'),
+      address: request.headers.get('x-real-ip') || (request.headers.get('x-forwarded-for') || '').split(',')[0].trim(),
     })
   } catch (error) {
     console.error('stats: could not record a hit', error)

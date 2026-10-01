@@ -10,6 +10,15 @@ const HEADERS = {
   'X-Robots-Tag': 'noindex',
 }
 
+// A header is not guaranteed to be well-formed percent-encoding.
+function safeDecode(value: string): string {
+  try {
+    return decodeURIComponent(value)
+  } catch {
+    return value
+  }
+}
+
 export function GET(request: NextRequest) {
   const forwarded = request.headers.get('x-forwarded-for') || ''
   const ip = request.headers.get('x-real-ip') || forwarded.split(',')[0].trim()
@@ -18,7 +27,7 @@ export function GET(request: NextRequest) {
       ip,
       country: request.headers.get('x-vercel-ip-country') || '',
       region: request.headers.get('x-vercel-ip-country-region') || '',
-      city: decodeURIComponent(request.headers.get('x-vercel-ip-city') || ''),
+      city: safeDecode(request.headers.get('x-vercel-ip-city') || ''),
     },
     { headers: HEADERS },
   )

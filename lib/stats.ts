@@ -23,11 +23,14 @@ export function statsConfigured(): boolean {
 async function pipeline(commands: (string | number)[][]): Promise<unknown[]> {
   const access = credentials()
   if (!access || commands.length === 0) return []
+  // A slow store must not hold a page request open for the platform's whole
+  // limit; four seconds is longer than any healthy answer.
   const response = await fetch(`${access.url}/pipeline`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${access.token}`, 'content-type': 'application/json' },
     body: JSON.stringify(commands),
     cache: 'no-store',
+    signal: AbortSignal.timeout(4000),
   })
   if (!response.ok) throw new Error(`stats store answered ${response.status}`)
   const results = (await response.json()) as { result?: unknown; error?: string }[]
@@ -116,12 +119,43 @@ export type HitContext = {
   region: string | null
   userAgent: string | null
   host: string | null
+  address: string | null
+}
+
+// One browser sends a handful of hits a minute; a script sends thousands.
+// The count lives in the same store as the stats, keyed by address and
+// minute, so it holds across serverless instances.
+const HITS_PER_MINUTE = 30
+
+async function overLimit(address: string | null): Promise<boolean> {
+  if (!address) return false
+  const key = `rl:${address}:${Math.floor(Date.now() / 60000)}`
+  const [count] = await pipeline([
+    ['INCR', key],
+    ['EXPIRE', key, 120],
+  ])
+  return Number(count) > HITS_PER_MINUTE
+}
+
+// Click targets that are this site's own links; anything else would be
+// text a visitor planted for the stats page to show everyone.
+function isOwnTarget(target: string, ownHost: string): boolean {
+  if (target.startsWith('/')) return /^\/[a-z0-9/._-]*$/i.test(target)
+  try {
+    const url = new URL(target)
+    const host = url.hostname.toLowerCase().replace(/^www\./, '')
+    if (host === ownHost) return true
+    return /^(discord\.gg|github\.com|asherin\.com|x\.com|instagram\.com|noah\.asherin\.com)$/.test(host)
+  } catch {
+    return false
+  }
 }
 
 export async function recordHit(payload: unknown, context: HitContext): Promise<void> {
   if (!statsConfigured() || typeof payload !== 'object' || payload === null) return
   const userAgent = context.userAgent || ''
   if (BOT.test(userAgent)) return
+  if (await overLimit(context.address)) return
   const data = payload as Record<string, unknown>
   const kind = clean(data.kind, 8)
   const { language: pathLanguage, path } = splitLanguage(clean(data.path, 120) || '/')
@@ -150,7 +184,7 @@ export async function recordHit(payload: unknown, context: HitContext): Promise<
     count(`d:${clean(data.device, 8) === 'phone' ? 'phone' : 'desktop'}`)
   } else if (kind === 'click') {
     const target = clean(data.target, 160)
-    if (!target) return
+    if (!target || !isOwnTarget(target, (context.host || '').toLowerCase())) return
     count(`k:${target}`)
   } else {
     return
