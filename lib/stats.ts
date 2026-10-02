@@ -1,3 +1,4 @@
+import { LINKS } from '@/lib/site'
 import { isLanguage, splitLanguage } from '@/lib/i18n'
 
 // Visit counting lives in one Redis hash per day, reached over Upstash's REST
@@ -124,28 +125,46 @@ export type HitContext = {
 
 // One browser sends a handful of hits a minute; a script sends thousands.
 // The count lives in the same store as the stats, keyed by address and
-// minute, so it holds across serverless instances.
+// minute, so it holds across serverless instances. An IPv6 sender is
+// bucketed by its /64, since one person holds the whole block; a sender
+// with no address shares one bucket. A store that answers anything but a
+// number is treated as over the limit: the hit is dropped, never counted
+// unchecked.
 const HITS_PER_MINUTE = 30
 
+function bucketOf(address: string | null): string {
+  if (!address) return 'unknown'
+  if (address.includes(':')) return address.split(':').slice(0, 4).join(':')
+  return address
+}
+
 async function overLimit(address: string | null): Promise<boolean> {
-  if (!address) return false
-  const key = `rl:${address}:${Math.floor(Date.now() / 60000)}`
+  const key = `rl:${bucketOf(address)}:${Math.floor(Date.now() / 60000)}`
   const [count] = await pipeline([
     ['INCR', key],
     ['EXPIRE', key, 120],
   ])
-  return Number(count) > HITS_PER_MINUTE
+  return typeof count !== 'number' || count > HITS_PER_MINUTE
 }
 
-// Click targets that are this site's own links; anything else would be
-// text a visitor planted for the stats page to show everyone.
+// The site's own routes and files, and the exact outside links it carries.
+// Anything else is text a visitor could plant for the stats page to show
+// everyone, so it is not recorded.
+const OWN_ROUTES = new Set(['/', '/compare', '/download', '/faq', '/founder', '/local-models', '/security', '/shepherd', '/shield', '/stats', '/terms'])
+const OWN_FILE = /^\/(downloads|shield)\/[a-z0-9._-]+\.(exe|deb|tar\.xz|dmg|zip|xpi|sha256)$/
+const OWN_LINKS = new Set([LINKS.discord, LINKS.asherin, LINKS.source, LINKS.instagram, LINKS.twitter])
+
 function isOwnTarget(target: string, ownHost: string): boolean {
-  if (target.startsWith('/')) return /^\/[a-z0-9/._-]*$/i.test(target)
+  if (target.startsWith('/')) {
+    const path = target.split(/[?#]/)[0]
+    const { path: bare } = splitLanguage(path)
+    return OWN_ROUTES.has(bare) || OWN_FILE.test(bare)
+  }
   try {
     const url = new URL(target)
     const host = url.hostname.toLowerCase().replace(/^www\./, '')
-    if (host === ownHost) return true
-    return /^(discord\.gg|github\.com|asherin\.com|x\.com|instagram\.com|noah\.asherin\.com)$/.test(host)
+    if (host === ownHost.replace(/^www\./, '')) return isOwnTarget(url.pathname + url.search, ownHost)
+    return OWN_LINKS.has(url.href) || OWN_LINKS.has(url.origin + url.pathname)
   } catch {
     return false
   }
