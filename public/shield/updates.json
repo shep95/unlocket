@@ -3,9 +3,9 @@
     "shield@noah.asherin.com": {
       "updates": [
         {
-          "version": "2026.9.30.1",
+          "version": "2026.10.2.1",
           "update_link": "https://noah.asherin.com/shield/noah-shield-firefox.xpi",
-          "update_hash": "sha256:191c013b0f67af6af1e578e332394e5eca23c06fef656ba754273159f6eb8906",
+          "update_hash": "sha256:0a49ac38462270eb50ca972c24a0f35e48543eec58646599b7d82738d5092ea3",
           "applications": {
             "gecko": {
               "strict_min_version": "128.0"
