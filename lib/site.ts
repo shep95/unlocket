@@ -33,7 +33,7 @@ export type Installer = {
 }
 
 /** The published release, matching `version` in public/downloads/latest.json. */
-export const RELEASE_VERSION = '2026.9.30'
+export const RELEASE_VERSION = '2026.10.2'
 
 // Every installer the release pipeline can produce; lib/installers.ts keeps
 // the pages to the ones published so far.
@@ -43,27 +43,27 @@ export const INSTALLERS: Installer[] = [
     label: 'Windows 10 and 11 (64-bit)',
     file: 'noah-windows-x86_64.exe',
     format: 'installer (.exe)',
-    size: '94 MB',
+    size: '98 MB',
     requirement: 'windows 10+',
-    sha256: '5dc481174cf872ba76531b8c37db8511dcba6938c05e73dfef5b2c83c2c40d83',
+    sha256: '78bfe3f524015fbbc0706b961be2f52991b9fd80f0cb40e81d140f715f511b02',
   },
   {
     platform: 'linux',
     label: 'Debian, Ubuntu, Mint, Pop!_OS (64-bit)',
     file: 'noah-linux-amd64.deb',
     format: 'package (.deb)',
-    size: '105 MB',
+    size: '96 MB',
     requirement: 'ubuntu 22.04+ / debian 12+',
-    sha256: '6238b4827c4a976cdc79d332440d4ab40b5b218bd102724970b20145cca5ecbe',
+    sha256: '0150e9ce80f4851402997b4c31913a9cb57744b89583009c8eb81a72d54ff50c',
   },
   {
     platform: 'linux',
     label: 'Any other Linux (x86_64)',
     file: 'noah-linux-x86_64.tar.xz',
     format: 'archive (.tar.xz)',
-    size: '104 MB',
+    size: '96 MB',
     requirement: 'x86_64 linux',
-    sha256: '2e0f397ec865deacf3e0244f85051beb9215e082941badbc707cc4555cc7cad0',
+    sha256: 'a61ff02e074a0e2600c41021f5afff531807eb82bb6d3e3292fef7a7330aae4a',
   },
   // The macOS disk images are built by the release workflow on GitHub's Mac
   // runners. Until the first one is published they are absent from
