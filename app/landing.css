@@ -1845,3 +1845,24 @@
 .landing .l-shield-steps li + li { margin-top: 8px; }
 .landing .l-shield-steps code { font-size: 12px; }
 .landing .l-shield-steps button { cursor: pointer; background: none; border: 0; padding: 0; text-decoration: underline; }
+
+/* Wide tables scroll sideways; the fading edge says there is more. */
+.landing .l-table-scroll {
+  overflow-x: auto;
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+}
+.landing .l-table-scroll:focus-visible { outline: 2px solid var(--l-fg); outline-offset: 3px; }
+
+/* The shield's install button lines up with the text around it. */
+.landing .l-shield-add .l-cta-row { justify-content: flex-start; }
+.landing #every-browser ul { margin-bottom: 18px; }
+
+/* The floating look button never covers the last lines of a page on a phone. */
+@media (max-width: 640px) {
+  .landing main { padding-bottom: 72px; }
+}
+
+/* The comparison has six columns; its page gets the width to show them. */
+.landing .l-doc.l-doc-wide-page { max-width: 1120px; }
+.landing .l-doc-wide-page .l-doc-lede { max-width: 640px; }

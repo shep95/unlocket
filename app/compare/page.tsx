@@ -86,7 +86,7 @@ export default function ComparePage() {
   return (
     <Shell>
       <JsonLd data={breadcrumbs([{ name: 'compare', path: '/compare' }])} />
-      <main className="l-doc">
+      <main className="l-doc l-doc-wide-page">
         <div className="l-doc-card l-doc-wide">
           <p className="l-doc-meta">compare · last checked september 2026</p>
           <h1>How noah compares</h1>
@@ -98,7 +98,7 @@ export default function ComparePage() {
             so.
           </p>
 
-          <div className="l-table-scroll">
+          <div className="l-table-scroll" tabIndex={0} role="region" aria-label="comparison table, scrolls sideways">
             <table className="l-stat-table l-compare">
               <thead>
                 <tr>
