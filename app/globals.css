@@ -10,7 +10,6 @@
   --color-bg-elevated: #141a16;
   --color-text-primary: #d6e0d2;
   --color-text-secondary: #8ba07f;
-  --color-text-muted: #55665220;
   --color-accent: #6f9d78;
   --color-border: #1b271f;
 
@@ -22,7 +21,7 @@
   --border-subtle: color-mix(in srgb, var(--color-bg-base) 60%, var(--color-border) 40%);
   --text-primary: var(--color-text-primary);
   --text-secondary: var(--color-text-secondary);
-  --text-muted: #5a6b56;
+  --text-muted: #7a8c75;
   --accent: var(--color-accent);
   --accent-hover: color-mix(in srgb, var(--color-accent) 78%, white 22%);
   --accent-glow: color-mix(in srgb, var(--color-accent) 22%, transparent);
@@ -184,4 +183,4 @@ body {
   .rise, .fade, .hero-wallpaper, .reveal { animation: none !important; opacity: 1 !important; transform: none !important; transition: none !important; }
 }
 
-*:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+*:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }

@@ -30,7 +30,7 @@
   --l-fg-soft: #a3a8a1;
   --l-fg-muted: #9aa298;
   --l-fg-faint: #8f958d;
-  --l-fg-dim: #4e5850;
+  --l-fg-dim: #7d877e;
 
   /* the one warm light: the download button and verified accents */
   --l-accent: #5f8a58;
@@ -284,7 +284,7 @@
   transition: background 0.6s ease, filter 0.2s;
 }
 .landing .l-btn-primary:hover { filter: brightness(1.1); }
-.landing .l-btn-primary:focus-visible { outline: 1px solid var(--l-fg); outline-offset: 3px; }
+.landing .l-btn-primary:focus-visible { outline: 2px solid var(--l-fg); outline-offset: 3px; }
 .landing .l-btn-ghost {
   font-family: var(--l-body);
   font-size: 12px;
@@ -305,12 +305,6 @@
   font-size: 12px;
   color: var(--l-fg-muted);
   margin-bottom: 16px;
-}
-@media (prefers-reduced-motion: reduce) {
-  .landing .l-hero::after,
-  .landing .l-hero-title,
-  .landing .l-hero-sub,
-  .landing .l-hero-cta { animation-duration: 0.01s; animation-delay: 0s; }
 }
 
 /* feature rows */
@@ -653,7 +647,7 @@
   transition: color 0.2s;
 }
 .landing .l-lang-toggle:hover { color: var(--l-fg); }
-.landing .l-lang-toggle:focus-visible { outline: 1px solid var(--l-fg); outline-offset: 3px; }
+.landing .l-lang-toggle:focus-visible { outline: 2px solid var(--l-fg); outline-offset: 3px; }
 .landing .l-lang-panel {
   position: absolute;
   top: 22px;
@@ -869,7 +863,7 @@
   transition: color 0.12s ease-out, border-color 0.12s ease-out;
 }
 .landing .l-wall-toggle:hover { color: var(--l-fg); border-color: rgba(var(--l-line), 0.25); }
-.landing .l-wall-toggle:focus-visible { outline: 1px solid var(--l-fg); outline-offset: 3px; }
+.landing .l-wall-toggle:focus-visible { outline: 2px solid var(--l-fg); outline-offset: 3px; }
 @keyframes l-wall-arrive {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -916,7 +910,7 @@
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 .landing .l-wall-option.is-current { border-color: var(--l-accent); box-shadow: 0 0 0 1px var(--l-accent); }
-.landing .l-wall-option:focus-visible { outline: 1px solid var(--l-fg); outline-offset: 2px; }
+.landing .l-wall-option:focus-visible { outline: 2px solid var(--l-fg); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) {
   .landing .l-wall-panel { animation: none; }
 }
